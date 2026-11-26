@@ -9,8 +9,8 @@
 | 阶段 | 名称 | 状态 | 核心交付物 |
 | --- | --- | --- | --- |
 | Phase 0 | 规范确认与项目初始化 | 已完成 | `README.md`、`docs/SPEC.md`、`docs/ROADMAP.md`、需求决策确认 |
-| Phase 1 | 脚手架与自动打包流水线 | 进行中 | PI V2 骨架、`tools/configure.py`、`tools/install.py`、`tools/validate.py`、GitHub Actions（Windows MXU 自动打包） |
-| Phase 2 | 基础框架与每日日常 | 待开始 | 启动游戏、通用异常恢复、每日物资/签到/任务/行会/扫荡 |
+| Phase 1 | 脚手架与自动打包流水线 | 已完成 | PI V2 骨架、`tools/configure.py`、`tools/install.py`、`tools/validate.py`、GitHub Actions（Windows MXU 自动打包已验证通过） |
+| Phase 2 | 基础框架与每日日常 | 进行中 | 启动游戏（官服+B服）、通用异常恢复、每日物资/行会/扫荡/任务/邮件（代码已重构，待实机调优验收） |
 | Phase 3 | 核心战斗与活动周回 | 待开始 | 多人战斗、神眠之地、紧那罗击退战、神狱桃园乡、探索活动 |
 | Phase 4 | 多服适配与交互优化 | 待开始 | B服资源差异覆盖、PI V2 选项细化、异常恢复加固 |
 | Phase 5 | 文档完善与正式发布 | 待开始 | 用户手册、常见问题、完整回归测试、`v1.0.0` Release |
@@ -45,17 +45,17 @@
 - [x] 编写 `tools/validate.py`（JSON 语法、PI V2 协议与无 MirrorChyan 校验、Pipeline 节点引用校验）
 - [x] 编写 `.github/workflows/ci.yml`（PR / Push 自动静态校验）
 - [x] 编写 `.github/workflows/release.yml`（无 MirrorChyan，Windows `x86_64` 自动拉取 MaaFW + MXU + OCR 并打包发布至 GitHub Releases）
-- [ ] **里程碑验收**：推送到 GitHub 后 CI 成功产出 `MET-win-x86_64-*.zip`，解压后双击 `mxu.exe` 可正常打开 MET 界面并识别控制器与任务列表
+- [x] **里程碑验收**：推送到 GitHub 后 CI 成功产出 `MET-win-x86_64-*.zip`（已完成首次打包绿灯与分支保护）
 
 ### Phase 2：核心通用能力与每日日常
-- [ ] 通用基础节点（`common.json`）：主页判定、返回主页、弹窗关闭、掉线重连、卡死重启、跨夜检测、自动补体
-- [ ] 启动游戏（`startup.json`）：官服启动与进入主界面
-- [ ] 每日物资领取
-- [ ] 行会签到与捐赠
-- [ ] 每日素材关卡扫荡一次
-- [ ] 困难与极难主线自动扫荡
-- [ ] 每日任务奖励领取
-- [ ] **里程碑验收**：日常一键串行执行稳定通过，支持异常弹窗与断线恢复
+- [x] 通用基础节点（`common.json`）：主页判定、返回主页、弹窗关闭、掉线重连、卡死重启、跨夜检测、通用扫荡与自动补体
+- [x] 启动游戏（`startup.json` + `bilibili/pipeline/startup.json`）：官服与 B服启动、包名差异覆盖与弹窗清理
+- [x] 每日物资领取（`Daily_ClaimSupply`）
+- [x] 行会签到与捐赠（`Daily_GuildSignIn`）
+- [x] 每日素材关卡扫荡一次（`Daily_MaterialSweep`）
+- [x] 困难与极难主线自动扫荡（`Daily_MainStorySweep` + `MainStoryDifficulty` 选项）
+- [x] 每日任务奖励领取（`Daily_ClaimQuests`）与一键领取邮件（`Daily_ClaimMail`）
+- [ ] **里程碑验收**：连接真实游戏窗口/模拟器（通过 MaaMCP 或 MXU）逐项跑通并微调 720p ROI 与偶发弹窗模板
 
 ### Phase 3：核心战斗与活动周回
 - [ ] 多人战斗自动周回（含自动建房、自动补体、次数/体力控制）

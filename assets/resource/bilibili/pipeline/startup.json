@@ -1,0 +1,18 @@
+{
+    "Common_RestartApp": {
+        "action": {
+            "type": "StopApp",
+            "param": {
+                "package": "com.bilibili.yjzs.bili"
+            }
+        }
+    },
+    "Startup_StartApp": {
+        "action": {
+            "type": "StartApp",
+            "param": {
+                "package": "com.bilibili.yjzs.bili/com.gsc.unityasdemo.PrivacyActivity"
+            }
+        }
+    }
+}

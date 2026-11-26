@@ -1,24 +1,404 @@
 {
+    "Common_Stop": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        }
+    },
     "Common_HomeCheck": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
-        "next": []
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [877, 459, 122, 85],
+                "expected": ["出击"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        }
+    },
+    "Common_EnterDungeon": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [877, 459, 122, 85],
+                "expected": ["出击"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000
+    },
+    "Common_EnterActivity": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1112, 168, 161, 58],
+                "expected": ["活动"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000
     },
     "Common_BackHome": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "timeout": 25000,
         "next": [
-            "Common_HomeCheck"
+            "Common_HomeCheck",
+            "[JumpBack]Common_NetworkDisconnect",
+            "[JumpBack]Common_ClickBlankClose",
+            "[JumpBack]Common_SweepEndConfirm",
+            "[JumpBack]Common_BattleEndReturn",
+            "[JumpBack]Common_ClickCancel",
+            "[JumpBack]Common_TapHomeIcon"
+        ],
+        "on_error": [
+            "Common_RestartApp"
         ]
     },
-    "Common_Reconnect": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
-        "next": []
+    "Common_TapHomeIcon": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [118, 25, 37, 30]
+            }
+        },
+        "post_delay": 1200
+    },
+    "Common_ClickBlankClose": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [350, 460, 580, 250],
+                "expected": ["点击空白处", "空白处", "空白"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800
+    },
+    "Common_ClickConfirm": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [420, 380, 440, 220],
+                "expected": ["确定"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1500
+    },
+    "Common_ClickCancel": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [389, 385, 521, 192],
+                "expected": ["取消"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800
+    },
+    "Common_BattleEndReturn": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [908, 591, 360, 118],
+                "expected": ["返回"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1200
+    },
+    "Common_SweepEndConfirm": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [744, 591, 524, 118],
+                "expected": ["确认"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800
+    },
+    "Common_UpdateConfirm": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [248, 101, 784, 456],
+                "expected": ["更新"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Common_ClickConfirm"
+        ]
+    },
+    "Common_ReconnectRoom": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [248, 101, 784, 456],
+                "expected": ["未完成", "是否继续"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Common_ClickConfirm"
+        ]
+    },
+    "Common_NetworkDisconnect": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [490, 303, 309, 78],
+                "expected": ["连接失败", "网络已断开", "重新登录", "跨日"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Common_RestartApp"
+        ]
+    },
+    "Common_RestartApp": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "StopApp",
+            "param": {
+                "package": "com.orlesh.yjzs"
+            }
+        },
+        "post_delay": 2000,
+        "next": [
+            "Startup_StartApp"
+        ]
+    },
+    "Common_Sweep_Open": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [865, 600, 150, 96],
+                "expected": ["扫荡"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Common_Sweep_SetMin",
+            "Common_Sweep_Confirm",
+            "Common_Sweep_Open"
+        ]
+    },
+    "Common_Sweep_OpenMax": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [865, 600, 150, 96],
+                "expected": ["扫荡"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Common_Sweep_SetMax",
+            "Common_Sweep_Confirm",
+            "Common_Sweep_OpenMax"
+        ]
+    },
+    "Common_Sweep_SetMin": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [415, 306, 115, 64],
+                "expected": ["MIN"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 400,
+        "next": [
+            "Common_Sweep_Confirm"
+        ]
+    },
+    "Common_Sweep_SetMax": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [765, 310, 95, 55],
+                "expected": ["MAX", "M"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 400,
+        "next": [
+            "Common_Sweep_Confirm"
+        ]
+    },
+    "Common_Sweep_Confirm": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [495, 397, 287, 150],
+                "expected": ["确定"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Common_SweepEndConfirm",
+            "[JumpBack]Common_Sweep_SkipAnimation"
+        ]
+    },
+    "Common_Sweep_SkipAnimation": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [560, 15, 160, 45],
+                "expected": ["扫荡结果"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1200
     },
     "Common_RefillStamina": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
-        "next": []
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Common_Stop"
+        ]
+    },
+    "Common_RefillStamina_Open": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [1219, 23, 46, 49]
+            }
+        },
+        "post_delay": 1000,
+        "next": [
+            "Common_RefillStamina_Dialog"
+        ]
+    },
+    "Common_RefillStamina_Dialog": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [540, 565, 200, 60],
+                "expected": ["道具回复"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Common_RefillStamina_Enough",
+            "Common_RefillStamina_TapSmallPotion"
+        ]
+    },
+    "Common_RefillStamina_Enough": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [600, 395, 90, 55],
+                "expected": ["^[4-9]\\d{2}$"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Common_RefillStamina_Close"
+        ]
+    },
+    "Common_RefillStamina_TapSmallPotion": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [656, 263, 31, 62]
+            }
+        },
+        "post_delay": 500,
+        "next": [
+            "Common_RefillStamina_Use"
+        ]
+    },
+    "Common_RefillStamina_Use": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [745, 390, 120, 65],
+                "expected": ["使用"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Common_RefillStamina_Close"
+        ]
+    },
+    "Common_RefillStamina_Close": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [1181, 81, 31, 32]
+            }
+        },
+        "post_delay": 600
     }
 }
