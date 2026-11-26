@@ -1,0 +1,32 @@
+name: CI Validation
+
+on:
+  push:
+    branches:
+      - "**"
+    paths:
+      - "assets/**"
+      - "tools/**"
+      - ".github/workflows/ci.yml"
+  pull_request:
+    branches:
+      - "**"
+    paths:
+      - "assets/**"
+      - "tools/**"
+      - ".github/workflows/ci.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate PI V2 interface & pipelines
+        run: python3 tools/validate.py

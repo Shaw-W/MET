@@ -1,0 +1,37 @@
+{
+    "Daily_ClaimSupply": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "Common_BackHome"
+        ]
+    },
+    "Daily_GuildSignIn": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "Common_BackHome"
+        ]
+    },
+    "Daily_MaterialSweep": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "Common_BackHome"
+        ]
+    },
+    "Daily_MainStorySweep": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "Common_BackHome"
+        ]
+    },
+    "Daily_ClaimQuests": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "Common_BackHome"
+        ]
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "Battle_Multi_Start": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "Common_BackHome"
+        ]
+    },
+    "Battle_GodSleep_Start": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "Common_BackHome"
+        ]
+    },
+    "Battle_Kinnara_Start": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "Common_BackHome"
+        ]
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "Activity_PeachGarden_Claim": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Explore_Claim": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "Common_BackHome"
+        ]
+    }
+}

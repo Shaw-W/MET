@@ -1,0 +1,176 @@
+{
+    "interface_version": 2,
+    "name": "MET",
+    "label": "MET (Maa Eternal Tree)",
+    "title": "MET - 悠久之树助手",
+    "version": "0.0.0-dev",
+    "github": "https://github.com/Shaw-W/MET",
+    "license": "MIT",
+    "description": "基于 MaaFramework 与 MXU 开发的《悠久之树》自动化助手（纯 Pipeline 架构，仅支持 Windows）。",
+    "welcome": [
+        "欢迎使用 MET（Maa Eternal Tree）！",
+        "当前处于脚手架初始化阶段，各任务节点正在按开发计划逐步完善中。"
+    ],
+    "controller": [
+        {
+            "name": "ADB",
+            "label": "ADB 模拟器",
+            "description": "通过 ADB 连接安卓模拟器（推荐 1280×720 分辨率）",
+            "type": "Adb",
+            "display_short_side": 720
+        },
+        {
+            "name": "Win32",
+            "label": "Win32 桌面端",
+            "description": "通过 Win32 API 连接《悠久之树》PC 窗口",
+            "type": "Win32",
+            "display_short_side": 720,
+            "win32": {
+                "class_regex": ".*",
+                "window_regex": "悠久之树"
+            }
+        }
+    ],
+    "resource": [
+        {
+            "name": "Official",
+            "label": "官服",
+            "description": "《悠久之树》官方服务器资源",
+            "path": [
+                "{PROJECT_DIR}/resource/base"
+            ]
+        },
+        {
+            "name": "Bilibili",
+            "label": "B服",
+            "description": "《悠久之树》Bilibili 服务器资源（基于官服差异覆盖）",
+            "path": [
+                "{PROJECT_DIR}/resource/base",
+                "{PROJECT_DIR}/resource/bilibili"
+            ]
+        }
+    ],
+    "task": [
+        {
+            "name": "Startup",
+            "label": "启动游戏",
+            "description": "启动《悠久之树》并自动关闭登录弹窗进入主界面",
+            "entry": "Startup_Launch"
+        },
+        {
+            "name": "DailySupply",
+            "label": "每日物资",
+            "description": "自动领取每日物资奖励",
+            "entry": "Daily_ClaimSupply"
+        },
+        {
+            "name": "DailyGuild",
+            "label": "行会签到与捐赠",
+            "description": "自动完成每日行会签到与捐赠",
+            "entry": "Daily_GuildSignIn"
+        },
+        {
+            "name": "DailyMaterial",
+            "label": "素材关卡扫荡",
+            "description": "自动完成每日扫荡一次素材关卡任务",
+            "entry": "Daily_MaterialSweep"
+        },
+        {
+            "name": "DailyMainStory",
+            "label": "主线困难与极难扫荡",
+            "description": "自动扫荡困难与极难主线关卡",
+            "entry": "Daily_MainStorySweep",
+            "option": [
+                "MainStoryDifficulty"
+            ]
+        },
+        {
+            "name": "DailyQuests",
+            "label": "每日任务领奖",
+            "description": "自动领取每日任务奖励",
+            "entry": "Daily_ClaimQuests"
+        },
+        {
+            "name": "BattleMulti",
+            "label": "多人战斗",
+            "description": "自动重复刷多人战斗关卡（支持自动建房与补体）",
+            "entry": "Battle_Multi_Start",
+            "option": [
+                "StaminaRefill"
+            ]
+        },
+        {
+            "name": "BattleGodSleep",
+            "label": "神眠之地",
+            "description": "自动重复刷神眠之地",
+            "entry": "Battle_GodSleep_Start",
+            "option": [
+                "StaminaRefill"
+            ]
+        },
+        {
+            "name": "BattleKinnara",
+            "label": "紧那罗击退战",
+            "description": "自动重复挑战紧那罗击退战",
+            "entry": "Battle_Kinnara_Start",
+            "option": [
+                "StaminaRefill"
+            ]
+        },
+        {
+            "name": "ActivityPeachGarden",
+            "label": "神狱桃园乡领奖",
+            "description": "自动领取神狱桃园乡奖励",
+            "entry": "Activity_PeachGarden_Claim"
+        },
+        {
+            "name": "ActivityExplore",
+            "label": "探索活动领奖",
+            "description": "自动领取探索活动奖励",
+            "entry": "Activity_Explore_Claim"
+        }
+    ],
+    "option": {
+        "StaminaRefill": {
+            "type": "select",
+            "label": "自动补体",
+            "description": "体力不足时是否自动使用药水补充体力",
+            "default_case": "Disabled",
+            "cases": [
+                {
+                    "name": "Disabled",
+                    "label": "不自动补体",
+                    "pipeline_override": {}
+                },
+                {
+                    "name": "UsePotion",
+                    "label": "使用体力药水补体",
+                    "pipeline_override": {}
+                }
+            ]
+        },
+        "MainStoryDifficulty": {
+            "type": "select",
+            "label": "主线扫荡难度",
+            "description": "选择要扫荡的主线关卡难度",
+            "default_case": "Both",
+            "cases": [
+                {
+                    "name": "Both",
+                    "label": "困难 + 极难",
+                    "pipeline_override": {}
+                },
+                {
+                    "name": "Hard",
+                    "label": "仅困难",
+                    "pipeline_override": {}
+                },
+                {
+                    "name": "VeryHard",
+                    "label": "仅极难",
+                    "pipeline_override": {}
+                }
+            ]
+        }
+    }
+}

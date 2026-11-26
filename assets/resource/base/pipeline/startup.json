@@ -1,0 +1,9 @@
+{
+    "Startup_Launch": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "Common_HomeCheck"
+        ]
+    }
+}

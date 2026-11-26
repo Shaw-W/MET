@@ -1,0 +1,29 @@
+# Build & packaging outputs
+deps/
+install/
+dist/
+*.zip
+*.tar.gz
+
+# Downloaded OCR models & external assets (fetched by tools/configure.py or CI)
+assets/MaaCommonAssets/
+assets/resource/base/model/ocr/
+
+# Runtime logs & debug artifacts
+debug/
+*.log
+maa.log
+maafw/
+mxu.exe
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS & IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

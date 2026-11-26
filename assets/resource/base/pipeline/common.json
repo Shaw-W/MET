@@ -1,0 +1,24 @@
+{
+    "Common_HomeCheck": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": []
+    },
+    "Common_BackHome": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "Common_HomeCheck"
+        ]
+    },
+    "Common_Reconnect": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": []
+    },
+    "Common_RefillStamina": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": []
+    }
+}
