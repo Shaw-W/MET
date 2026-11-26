@@ -446,6 +446,113 @@
             "Common_BackHome"
         ]
     },
+    "Daily_Story_BothSweep": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [20, 620, 260, 55],
+                "expected": ["困难"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Daily_Story_HardSweepOpen",
+            "Daily_Story_SelectVeryHard"
+        ]
+    },
+    "Daily_Story_HardSweepOpen": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [865, 600, 150, 96],
+                "expected": ["扫荡"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_Story_HardSweepMax",
+            "Daily_Story_HardSweepConfirm",
+            "Daily_Story_SelectVeryHard"
+        ],
+        "on_error": [
+            "Daily_Story_SelectVeryHard"
+        ]
+    },
+    "Daily_Story_HardSweepMax": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [765, 310, 95, 55],
+                "expected": ["MAX", "M"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 400,
+        "next": [
+            "Daily_Story_HardSweepConfirm"
+        ]
+    },
+    "Daily_Story_HardSweepConfirm": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [495, 397, 287, 150],
+                "expected": ["确定"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Daily_Story_HardSweepFinish",
+            "[JumpBack]Common_Sweep_SkipAnimation"
+        ],
+        "on_error": [
+            "Daily_Story_SelectVeryHard"
+        ]
+    },
+    "Daily_Story_HardSweepFinish": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [744, 591, 524, 118],
+                "expected": ["确认"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_Story_SelectVeryHard"
+        ]
+    },
+    "Daily_Story_SelectVeryHard": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [20, 620, 260, 55],
+                "expected": ["极难"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Common_Sweep_OpenMax",
+            "Common_BackHome"
+        ]
+    },
     "Daily_ClaimQuests": {
         "recognition": {
             "type": "DirectHit"

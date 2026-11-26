@@ -23,7 +23,7 @@
 
 基于 **[MaaFramework](https://github.com/MaaXYZ/MaaFramework)** 纯 Pipeline JSON 架构与 **[MXU](https://github.com/MaaXYZ/MXU)** 前端构建，零外部运行时依赖，解压即用，解放双手！
 
-[架构规范](docs/SPEC.md) · [开发进度](docs/ROADMAP.md) · [AI 开发约定](AGENTS.md) · [下载发布包](https://github.com/Shaw-W/MET/releases)
+[使用手册](docs/USAGE.md) · [架构规范](docs/SPEC.md) · [开发进度](docs/ROADMAP.md) · [AI 开发约定](AGENTS.md) · [下载发布包](https://github.com/Shaw-W/MET/releases)
 
 </div>
 

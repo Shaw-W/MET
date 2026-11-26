@@ -73,8 +73,11 @@
         {
             "name": "DailyMaterial",
             "label": "素材关卡扫荡",
-            "description": "自动完成每日扫荡一次素材关卡任务",
-            "entry": "Daily_MaterialSweep"
+            "description": "自动扫荡素材关卡（支持扫荡 1 次或最大扫荡）",
+            "entry": "Daily_MaterialSweep",
+            "option": [
+                "MaterialSweepCount"
+            ]
         },
         {
             "name": "DailyMainStory",
@@ -113,6 +116,7 @@
             "description": "自动重复刷神眠之地",
             "entry": "Battle_GodSleep_Start",
             "option": [
+                "GodSleepBoss",
                 "StaminaRefill"
             ]
         },
@@ -177,6 +181,89 @@
                 }
             ]
         },
+        "MaterialSweepCount": {
+            "type": "select",
+            "label": "素材扫荡次数",
+            "description": "选择每日素材关卡扫荡 1 次（完成日常）或最大扫荡",
+            "default_case": "Once",
+            "cases": [
+                {
+                    "name": "Once",
+                    "label": "仅扫荡 1 次",
+                    "pipeline_override": {
+                        "Daily_Material_RunSweep": {
+                            "next": [
+                                "Common_Sweep_Open"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Max",
+                    "label": "最大次数扫荡",
+                    "pipeline_override": {
+                        "Daily_Material_RunSweep": {
+                            "next": [
+                                "Common_Sweep_OpenMax"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "GodSleepBoss": {
+            "type": "select",
+            "label": "神眠之地首领",
+            "description": "选择神眠之地目标首领",
+            "default_case": "Any",
+            "cases": [
+                {
+                    "name": "Any",
+                    "label": "自动匹配（新生 / 罪人）",
+                    "pipeline_override": {
+                        "Battle_GodSleep_SelectBoss": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "roi": [21, 132, 1213, 495],
+                                    "expected": ["新生", "罪人"]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Reborn",
+                    "label": "懊悔的新生",
+                    "pipeline_override": {
+                        "Battle_GodSleep_SelectBoss": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "roi": [21, 132, 1213, 495],
+                                    "expected": ["新生"]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Sinner",
+                    "label": "褪色的罪人",
+                    "pipeline_override": {
+                        "Battle_GodSleep_SelectBoss": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "roi": [21, 132, 1213, 495],
+                                    "expected": ["罪人"]
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        },
         "MainStoryDifficulty": {
             "type": "select",
             "label": "主线扫荡难度",
@@ -185,7 +272,7 @@
             "cases": [
                 {
                     "name": "Hard",
-                    "label": "困难",
+                    "label": "仅困难",
                     "pipeline_override": {
                         "Daily_Story_SelectDifficulty": {
                             "recognition": {
@@ -200,7 +287,7 @@
                 },
                 {
                     "name": "VeryHard",
-                    "label": "极难",
+                    "label": "仅极难",
                     "pipeline_override": {
                         "Daily_Story_SelectDifficulty": {
                             "recognition": {
@@ -210,6 +297,23 @@
                                     "expected": ["极难"]
                                 }
                             }
+                        }
+                    }
+                },
+                {
+                    "name": "Both",
+                    "label": "困难 + 极难",
+                    "pipeline_override": {
+                        "Daily_Story_SelectTab": {
+                            "next": [
+                                "Daily_Story_SelectPart1",
+                                "Daily_Story_BothSweep"
+                            ]
+                        },
+                        "Daily_Story_SelectPart1": {
+                            "next": [
+                                "Daily_Story_BothSweep"
+                            ]
                         }
                     }
                 }
