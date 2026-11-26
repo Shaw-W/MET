@@ -38,7 +38,7 @@
             "label": "官服",
             "description": "《悠久之树》官方服务器资源",
             "path": [
-                "{PROJECT_DIR}/resource/base"
+                "resource/base"
             ]
         },
         {
@@ -46,8 +46,8 @@
             "label": "B服",
             "description": "《悠久之树》Bilibili 服务器资源（基于官服差异覆盖）",
             "path": [
-                "{PROJECT_DIR}/resource/base",
-                "{PROJECT_DIR}/resource/bilibili"
+                "resource/base",
+                "resource/bilibili"
             ]
         }
     ],

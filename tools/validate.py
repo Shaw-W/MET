@@ -165,6 +165,15 @@ def main() -> int:
             if req not in interface:
                 errors.append(f"assets/interface.json: missing required field '{req}'")
 
+        for res in interface.get("resource") or []:
+            if not isinstance(res, dict):
+                continue
+            for p in res.get("path") or []:
+                if isinstance(p, str) and "{PROJECT_DIR}" in p:
+                    errors.append(
+                        f"assets/interface.json: resource path '{p}' must be relative to project root (do not use PI V1 '{{PROJECT_DIR}}')"
+                    )
+
         defined_options = set((interface.get("option") or {}).keys())
         for task in interface.get("task") or []:
             if not isinstance(task, dict):

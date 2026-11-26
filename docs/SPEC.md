@@ -82,8 +82,8 @@ MET-win-x86_64-<version>/
    - ADB 控制器默认配置 `"display_short_side": 720`（16:9 基准即 `1280x720`），保证跨设备坐标与模板匹配一致性。
    - Win32 控制器（如支持桌面端/模拟器窗口）按需配置 `window_regex`、`class_regex` 及截图/输入方式。
 6. **资源分层覆盖**：
-   - 官服加载 `["{PROJECT_DIR}/resource/base"]`。
-   - B服（如支持）加载 `["{PROJECT_DIR}/resource/base", "{PROJECT_DIR}/resource/bilibili"]`，增量覆盖差异项，禁止整份复制 `base`。
+   - 官服加载 `["resource/base"]`（PI V2 中相对项目根目录，禁止再写 PI V1 的 `{PROJECT_DIR}` 前缀）。
+   - B服（如支持）加载 `["resource/base", "resource/bilibili"]`，增量覆盖差异项，禁止整份复制 `base`。
 
 ### 3.2 Pipeline 与图像资源规范
 
