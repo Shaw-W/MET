@@ -67,6 +67,7 @@
 
 ### Phase 4：多服适配与交互优化
 - [x] B服资源差异覆盖层（`assets/resource/bilibili/pipeline/startup.json` 增量覆盖包名与入口 Activity）
+- [x] 补齐 `MAATree` 全部剩余待迁移模块（每日在线奖励、自动助战任务、自动推关、等待被邀请、限时活动副本/商店/任务、天使诞生与仪式提交）
 - [x] 细化 PI V2 `option` 交互配置项（补体门控、主线困难/极难/双难度、素材 1次/最大、多人战建房/蹭车、神眠首领、神狱桃园乡属性）
 - [x] 异常恢复与长时间挂机稳定性加固（战斗超时收敛、自动战斗检测、蹭车超时退房、神眠 SAP 兑换、`tools/validate.py` 校验 `pipeline_override`）
 

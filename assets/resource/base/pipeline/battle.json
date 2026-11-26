@@ -825,5 +825,409 @@
         "next": [
             "Common_BackHome"
         ]
+    },
+    "Battle_AutoAssist_Start": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Assist_OpenQuest",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Battle_Assist_OpenQuest": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [420, 630, 190, 80],
+                "expected": ["任务", "手记"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1200,
+        "next": [
+            "Battle_Assist_CheckClaim",
+            "Battle_Assist_Done",
+            "[JumpBack]Battle_Assist_SwipeDown",
+            "Common_BackHome"
+        ]
+    },
+    "Battle_Assist_CheckClaim": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1074, 97, 139, 582],
+                "expected": ["领取"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Assist_ClaimAll"
+        ]
+    },
+    "Battle_Assist_ClaimAll": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1120, 15, 140, 55],
+                "expected": ["一键领取", "键领"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Battle_Assist_Done",
+            "Common_BackHome"
+        ]
+    },
+    "Battle_Assist_SwipeDown": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1120, 15, 140, 55],
+                "expected": ["一键领取", "键领"]
+            }
+        },
+        "action": {
+            "type": "Swipe",
+            "param": {
+                "begin": [366, 686, 1, 1],
+                "end": [366, 350, 1, 1],
+                "duration": 800
+            }
+        },
+        "max_hit": 5,
+        "post_delay": 600
+    },
+    "Battle_Assist_Done": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1075, 91, 144, 586],
+                "expected": ["已完成"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Common_BackHome"
+        ]
+    },
+    "Battle_AutoPush_Start": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_AutoPush_Loop"
+        ]
+    },
+    "Battle_AutoPush_Loop": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 800,
+        "timeout": 20000,
+        "next": [
+            "Battle_AutoPush_Defeated",
+            "Battle_AutoPush_VictoryReturn",
+            "Battle_AutoPush_SkipStory",
+            "Battle_AutoPush_PlayStory",
+            "Battle_AutoPush_LaunchBattle",
+            "Battle_AutoPush_ClaimBlank",
+            "Battle_AutoPush_SelectStage",
+            "[JumpBack]Battle_AutoPush_SwipeRight"
+        ],
+        "on_error": [
+            "Common_Stop"
+        ]
+    },
+    "Battle_AutoPush_SelectStage": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [200, 75, 960, 554],
+                "expected": ["NEW", "挑战", "剧情"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Battle_AutoPush_Loop"
+        ]
+    },
+    "Battle_AutoPush_SwipeRight": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Swipe",
+            "param": {
+                "begin": [1167, 466, 1, 1],
+                "end": [61, 466, 1, 1],
+                "duration": 500
+            }
+        },
+        "max_hit": 5,
+        "post_delay": 1000
+    },
+    "Battle_AutoPush_PlayStory": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1100, 280, 175, 160],
+                "expected": ["播放", "剧情"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Battle_AutoPush_Loop"
+        ]
+    },
+    "Battle_AutoPush_SkipStory": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1124, 5, 155, 92],
+                "expected": ["跳过"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Battle_AutoPush_SkipConfirm",
+            "Battle_AutoPush_Loop"
+        ]
+    },
+    "Battle_AutoPush_SkipConfirm": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [650, 410, 265, 148],
+                "expected": ["确定"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Battle_AutoPush_Loop"
+        ]
+    },
+    "Battle_AutoPush_LaunchBattle": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [960, 577, 319, 142],
+                "expected": ["出击"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Battle_AutoPush_VictoryReturn",
+            "Battle_AutoPush_Defeated",
+            "Battle_AutoPush_SkipStory",
+            "[JumpBack]Battle_Core_SelectAssist",
+            "[JumpBack]Battle_Core_ConfirmStart",
+            "[JumpBack]Battle_Core_InBattle"
+        ]
+    },
+    "Battle_AutoPush_VictoryReturn": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1025, 583, 254, 136],
+                "expected": ["返回"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 2000,
+        "next": [
+            "Battle_AutoPush_Loop"
+        ]
+    },
+    "Battle_AutoPush_ClaimBlank": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [412, 402, 468, 254],
+                "expected": ["点击空白处", "点击"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Battle_AutoPush_Loop"
+        ]
+    },
+    "Battle_AutoPush_Defeated": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [350, 140, 580, 360],
+                "expected": ["全员重伤", "战斗失败"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Common_Stop"
+        ]
+    },
+    "Battle_WaitInvite_Start": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_WaitInvite_Listen",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Battle_WaitInvite_Listen": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [877, 459, 122, 85],
+                "expected": ["出击"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 1500,
+        "timeout": 300000,
+        "next": [
+            "Battle_WaitInvite_Accept",
+            "Common_NetworkDisconnect"
+        ],
+        "on_error": [
+            "Common_Stop"
+        ]
+    },
+    "Battle_WaitInvite_Accept": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [200, 540, 500, 140],
+                "expected": ["邀请", "接受", "加入"]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [416, 617, 27, 23]
+            }
+        },
+        "post_delay": 1000,
+        "next": [
+            "Battle_WaitInvite_InRoom",
+            "Battle_WaitInvite_Start"
+        ]
+    },
+    "Battle_WaitInvite_InRoom": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 1000,
+        "timeout": 300000,
+        "next": [
+            "Battle_WaitInvite_HostLost",
+            "Battle_Multi_JoinReady",
+            "Battle_WaitInvite_Listen"
+        ],
+        "on_error": [
+            "Battle_WaitInvite_LeaveToHome"
+        ]
+    },
+    "Battle_WaitInvite_HostLost": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1100, 637, 130, 57],
+                "expected": ["出击"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_WaitInvite_LeaveToHome"
+        ]
+    },
+    "Battle_WaitInvite_LeaveToHome": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [55, 32, 30, 20]
+            }
+        },
+        "post_delay": 800,
+        "next": [
+            "Battle_WaitInvite_ConfirmLeave",
+            "Battle_WaitInvite_Start"
+        ]
+    },
+    "Battle_WaitInvite_ConfirmLeave": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [371, 380, 535, 183],
+                "expected": ["退出", "确定"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1200,
+        "next": [
+            "Battle_WaitInvite_Start"
+        ]
     }
 }
