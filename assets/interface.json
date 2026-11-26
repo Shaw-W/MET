@@ -149,10 +149,14 @@
                     "name": "Disabled",
                     "label": "不自动补体",
                     "pipeline_override": {
-                        "Common_RefillStamina": {
-                            "next": [
-                                "Common_Stop"
-                            ]
+                        "Battle_Multi_CreateRefill": {
+                            "enabled": false
+                        },
+                        "Battle_Multi_JoinRefill": {
+                            "enabled": false
+                        },
+                        "Battle_GodSleep_DoRefill": {
+                            "enabled": false
                         }
                     }
                 },
@@ -160,10 +164,14 @@
                     "name": "UsePotion",
                     "label": "使用体力药水补体",
                     "pipeline_override": {
-                        "Common_RefillStamina": {
-                            "next": [
-                                "Common_RefillStamina_Open"
-                            ]
+                        "Battle_Multi_CreateRefill": {
+                            "enabled": true
+                        },
+                        "Battle_Multi_JoinRefill": {
+                            "enabled": true
+                        },
+                        "Battle_GodSleep_DoRefill": {
+                            "enabled": true
                         }
                     }
                 }
