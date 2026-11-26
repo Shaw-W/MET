@@ -1,15 +1,478 @@
 {
     "Activity_PeachGarden_Claim": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Activity_PeachGarden_EnterDungeon",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Activity_PeachGarden_EnterDungeon": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [877, 459, 122, 85],
+                "expected": ["出击"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Activity_PeachGarden_SelectEntry",
+            "Activity_PeachGarden_SelectContractTab"
+        ]
+    },
+    "Activity_PeachGarden_SelectContractTab": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [43, 84, 1205, 60],
+                "expected": ["契约", "挑战"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Activity_PeachGarden_SelectEntry"
+        ]
+    },
+    "Activity_PeachGarden_SelectEntry": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [23, 438, 1240, 180],
+                "expected": ["桃源乡", "桃园乡"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1500,
+        "next": [
+            "Activity_PeachGarden_SelectAttribute",
+            "Activity_PeachGarden_SelectEntry"
+        ]
+    },
+    "Activity_PeachGarden_SelectAttribute": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [283, 480, 972, 151],
+                "expected": ["朱雀"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Activity_PeachGarden_SelectLostItem",
+            "Activity_PeachGarden_SelectAttribute"
+        ]
+    },
+    "Activity_PeachGarden_SelectLostItem": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [78, 232, 1184, 227],
+                "expected": ["迷失", "之物"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Activity_PeachGarden_Sweep",
+            "Activity_PeachGarden_SelectLostItem"
+        ]
+    },
+    "Activity_PeachGarden_Sweep": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [866, 592, 171, 114],
+                "expected": ["扫荡"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Activity_PeachGarden_ConfirmSweep",
+            "Common_BackHome"
+        ]
+    },
+    "Activity_PeachGarden_ConfirmSweep": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [535, 423, 207, 109],
+                "expected": ["确定"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Activity_PeachGarden_Finish",
+            "[JumpBack]Common_Sweep_SkipAnimation"
+        ]
+    },
+    "Activity_PeachGarden_Finish": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [791, 612, 224, 107],
+                "expected": ["确认"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
         "next": [
             "Common_BackHome"
         ]
     },
     "Activity_Explore_Claim": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
         "next": [
+            "Activity_Explore_Open",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Activity_Explore_Open": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [624, 57, 637, 89],
+                "expected": ["探索", "探索活动"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Activity_Explore_SeekerBook",
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Explore_SeekerBook": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [16, 147, 228, 101],
+                "expected": ["探求"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Activity_Explore_SeekerTasks",
+            "Activity_Explore_SpiritBook"
+        ]
+    },
+    "Activity_Explore_SeekerTasks": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1115, 663, 123, 57],
+                "expected": ["任务"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 500,
+        "next": [
+            "Activity_Explore_SeekerClaimDaily"
+        ],
+        "on_error": [
+            "Activity_Explore_SeekerWeeklyTab"
+        ]
+    },
+    "Activity_Explore_DismissNoReward": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [528, 344, 225, 40],
+                "expected": ["暂无", "可领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 500
+    },
+    "Activity_Explore_SeekerClaimDaily": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1145, 30, 115, 50],
+                "expected": ["领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 500,
+        "timeout": 2000,
+        "next": [
+            "[JumpBack]Activity_Explore_DismissNoReward",
+            "[JumpBack]Common_ClickBlankClose",
+            "Activity_Explore_SeekerWeeklyTab"
+        ],
+        "on_error": [
+            "Activity_Explore_SeekerWeeklyTab"
+        ]
+    },
+    "Activity_Explore_SeekerWeeklyTab": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1004, 126, 122, 52],
+                "expected": ["本周任务"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 500,
+        "next": [
+            "Activity_Explore_SeekerClaimWeekly"
+        ],
+        "on_error": [
+            "Activity_Explore_SeekerRewardsTab"
+        ]
+    },
+    "Activity_Explore_SeekerClaimWeekly": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1145, 30, 115, 50],
+                "expected": ["领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 500,
+        "timeout": 2000,
+        "next": [
+            "[JumpBack]Activity_Explore_DismissNoReward",
+            "[JumpBack]Common_ClickBlankClose",
+            "Activity_Explore_SeekerRewardsTab"
+        ],
+        "on_error": [
+            "Activity_Explore_SeekerRewardsTab"
+        ]
+    },
+    "Activity_Explore_SeekerRewardsTab": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [919, 667, 111, 53],
+                "expected": ["奖励"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 500,
+        "next": [
+            "Activity_Explore_SeekerClaimRewards"
+        ],
+        "on_error": [
+            "Activity_Explore_SpiritBook"
+        ]
+    },
+    "Activity_Explore_SeekerClaimRewards": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1108, 27, 159, 58],
+                "expected": ["领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "timeout": 2000,
+        "next": [
+            "[JumpBack]Activity_Explore_DismissNoReward",
+            "[JumpBack]Common_ClickBlankClose",
+            "Activity_Explore_SpiritBook"
+        ],
+        "on_error": [
+            "Activity_Explore_SpiritBook"
+        ]
+    },
+    "Activity_Explore_SpiritBook": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [10, 237, 224, 106],
+                "expected": ["器灵讨伐书", "器灵"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Activity_Explore_SpiritTasks",
+            "Common_BackHome"
+        ],
+        "on_error": [
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Explore_SpiritTasks": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1115, 663, 123, 57],
+                "expected": ["任务"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 500,
+        "next": [
+            "Activity_Explore_SpiritClaimDaily"
+        ],
+        "on_error": [
+            "Activity_Explore_SpiritWeeklyTab"
+        ]
+    },
+    "Activity_Explore_SpiritClaimDaily": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1145, 30, 115, 50],
+                "expected": ["领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 500,
+        "timeout": 2000,
+        "next": [
+            "[JumpBack]Activity_Explore_DismissNoReward",
+            "[JumpBack]Common_ClickBlankClose",
+            "Activity_Explore_SpiritWeeklyTab"
+        ],
+        "on_error": [
+            "Activity_Explore_SpiritWeeklyTab"
+        ]
+    },
+    "Activity_Explore_SpiritWeeklyTab": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1004, 126, 122, 52],
+                "expected": ["本周任务"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 500,
+        "next": [
+            "Activity_Explore_SpiritClaimWeekly"
+        ],
+        "on_error": [
+            "Activity_Explore_SpiritRewardsTab"
+        ]
+    },
+    "Activity_Explore_SpiritClaimWeekly": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1145, 30, 115, 50],
+                "expected": ["领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 500,
+        "timeout": 2000,
+        "next": [
+            "[JumpBack]Activity_Explore_DismissNoReward",
+            "[JumpBack]Common_ClickBlankClose",
+            "Activity_Explore_SpiritRewardsTab"
+        ],
+        "on_error": [
+            "Activity_Explore_SpiritRewardsTab"
+        ]
+    },
+    "Activity_Explore_SpiritRewardsTab": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [919, 667, 111, 53],
+                "expected": ["奖励"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 500,
+        "next": [
+            "Activity_Explore_SpiritClaimRewards"
+        ],
+        "on_error": [
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Explore_SpiritClaimRewards": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1108, 27, 159, 58],
+                "expected": ["领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "timeout": 2000,
+        "next": [
+            "[JumpBack]Activity_Explore_DismissNoReward",
+            "[JumpBack]Common_ClickBlankClose",
+            "Common_BackHome"
+        ],
+        "on_error": [
             "Common_BackHome"
         ]
     }

@@ -55,7 +55,7 @@ python tools/install.py v0.0.0-dev
 - **Pipeline 开发与 MaaMCP 调试**：`.agents/skills/maa-pipeline-dev/SKILL.md`
 - **版本打包与 Release 发布**：`.agents/skills/met-release/SKILL.md`
 
-如本机已启用 `MaaMCP` MCP 服务器，请始终保持默认 `target_short_side=720` 连接 ADB 或 Win32（窗口正则 `悠久之树`），优先用 `ocr` 获取文字与坐标框，修改节点后必须执行 `tools/validate.py` 并更新 `docs/ROADMAP.md`。
+如本机已启用 `MaaMCP` MCP 服务器，请始终保持默认 `target_short_side=720` 连接 ADB 或 Win32（窗口正则 `([Ee]ternal\s*[Tt]ree|悠久之树)`），优先用 `ocr` 获取文字与坐标框，修改节点后必须执行 `tools/validate.py` 并更新 `docs/ROADMAP.md`。
 
 ---
 
