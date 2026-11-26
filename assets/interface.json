@@ -88,8 +88,14 @@
         {
             "name": "DailyQuests",
             "label": "每日任务领奖",
-            "description": "自动领取每日任务奖励",
+            "description": "自动进入探求手记一键领取每日任务奖励",
             "entry": "Daily_ClaimQuests"
+        },
+        {
+            "name": "DailyMail",
+            "label": "一键领取邮件",
+            "description": "自动打开邮箱并一键收取所有附件",
+            "entry": "Daily_ClaimMail"
         },
         {
             "name": "BattleMulti",
@@ -141,12 +147,24 @@
                 {
                     "name": "Disabled",
                     "label": "不自动补体",
-                    "pipeline_override": {}
+                    "pipeline_override": {
+                        "Common_RefillStamina": {
+                            "next": [
+                                "Common_Stop"
+                            ]
+                        }
+                    }
                 },
                 {
                     "name": "UsePotion",
                     "label": "使用体力药水补体",
-                    "pipeline_override": {}
+                    "pipeline_override": {
+                        "Common_RefillStamina": {
+                            "next": [
+                                "Common_RefillStamina_Open"
+                            ]
+                        }
+                    }
                 }
             ]
         },
@@ -154,22 +172,37 @@
             "type": "select",
             "label": "主线扫荡难度",
             "description": "选择要扫荡的主线关卡难度",
-            "default_case": "Both",
+            "default_case": "Hard",
             "cases": [
                 {
-                    "name": "Both",
-                    "label": "困难 + 极难",
-                    "pipeline_override": {}
-                },
-                {
                     "name": "Hard",
-                    "label": "仅困难",
-                    "pipeline_override": {}
+                    "label": "困难",
+                    "pipeline_override": {
+                        "Daily_Story_SelectDifficulty": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "roi": [20, 620, 260, 55],
+                                    "expected": ["困难"]
+                                }
+                            }
+                        }
+                    }
                 },
                 {
                     "name": "VeryHard",
-                    "label": "仅极难",
-                    "pipeline_override": {}
+                    "label": "极难",
+                    "pipeline_override": {
+                        "Daily_Story_SelectDifficulty": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "roi": [20, 620, 260, 55],
+                                    "expected": ["极难"]
+                                }
+                            }
+                        }
+                    }
                 }
             ]
         }

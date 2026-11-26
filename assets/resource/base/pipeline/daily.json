@@ -1,35 +1,589 @@
 {
     "Daily_ClaimSupply": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
         "next": [
+            "Daily_Supply_EnterActivity",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Daily_Supply_EnterActivity": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1112, 168, 161, 58],
+                "expected": ["活动"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Daily_Supply_SelectTab",
+            "[JumpBack]Daily_Supply_SelectLimitCategory",
+            "Daily_Supply_EnterActivity"
+        ]
+    },
+    "Daily_Supply_SelectLimitCategory": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [0, 95, 95, 340],
+                "expected": ["限时", "福利", "常规"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 500
+    },
+    "Daily_Supply_SelectTab": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [107, 75, 187, 579],
+                "expected": ["每日物资"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_Supply_VerifyPage",
+            "Daily_Supply_SelectTab"
+        ]
+    },
+    "Daily_Supply_VerifyPage": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [489, 315, 605, 55],
+                "expected": ["每日"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Supply_ClaimNoon",
+            "Daily_Supply_ClaimEvening",
+            "Common_BackHome"
+        ]
+    },
+    "Daily_Supply_ClaimNoon": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [500, 515, 200, 100],
+                "expected": ["领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_Supply_ClaimEvening",
+            "Common_BackHome"
+        ]
+    },
+    "Daily_Supply_ClaimEvening": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [890, 515, 200, 100],
+                "expected": ["领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
             "Common_BackHome"
         ]
     },
     "Daily_GuildSignIn": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
         "next": [
+            "Daily_Guild_Enter",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Daily_Guild_Enter": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [36, 640, 594, 55],
+                "expected": ["工会", "行会"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1200,
+        "next": [
+            "Daily_Guild_ClickSignIn",
+            "Daily_Guild_Enter"
+        ]
+    },
+    "Daily_Guild_ClickSignIn": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [40, 560, 150, 90],
+                "expected": ["签到"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_Guild_OpenDonate",
+            "Common_BackHome"
+        ]
+    },
+    "Daily_Guild_OpenDonate": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [180, 560, 160, 90],
+                "expected": ["捐赠", "捐献"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_Guild_ClickDonateButton",
+            "Common_BackHome"
+        ]
+    },
+    "Daily_Guild_ClickDonateButton": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [556, 500, 151, 90],
+                "expected": ["捐赠", "捐献"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Daily_Guild_AddDonate1",
+            "Common_BackHome"
+        ]
+    },
+    "Daily_Guild_AddDonate1": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [521, 456, 248, 62],
+                "expected": ["今日剩余"]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [714, 432, 14, 19]
+            }
+        },
+        "post_delay": 200,
+        "next": [
+            "Daily_Guild_AddDonate2"
+        ]
+    },
+    "Daily_Guild_AddDonate2": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [521, 456, 248, 62],
+                "expected": ["今日剩余"]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [714, 432, 14, 19]
+            }
+        },
+        "post_delay": 200,
+        "next": [
+            "Daily_Guild_AddDonate3"
+        ]
+    },
+    "Daily_Guild_AddDonate3": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [521, 456, 248, 62],
+                "expected": ["今日剩余"]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [714, 432, 14, 19]
+            }
+        },
+        "post_delay": 200,
+        "next": [
+            "Daily_Guild_ConfirmDonate"
+        ]
+    },
+    "Daily_Guild_ConfirmDonate": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [630, 425, 393, 294],
+                "expected": ["确定"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
             "Common_BackHome"
         ]
     },
     "Daily_MaterialSweep": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
         "next": [
+            "Daily_Material_EnterDungeon",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Daily_Material_EnterDungeon": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [877, 459, 122, 85],
+                "expected": ["出击"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Daily_Material_SelectTab"
+        ]
+    },
+    "Daily_Material_SelectTab": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [301, 73, 120, 84],
+                "expected": ["素材"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1200,
+        "next": [
+            "Daily_Material_SelectStage"
+        ]
+    },
+    "Daily_Material_SelectStage": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [56, 178, 300, 394],
+                "expected": ["经验", "束身"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_Material_SelectHighest"
+        ]
+    },
+    "Daily_Material_SelectHighest": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [0, 180, 1279, 385],
+                "expected": ["特级"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Daily_Material_RunSweep"
+        ]
+    },
+    "Daily_Material_RunSweep": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Common_Sweep_Open"
+        ],
+        "on_error": [
             "Common_BackHome"
         ]
     },
     "Daily_MainStorySweep": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
         "next": [
+            "Daily_Story_EnterDungeon",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Daily_Story_EnterDungeon": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [877, 459, 122, 85],
+                "expected": ["出击"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Daily_Story_SelectTab"
+        ]
+    },
+    "Daily_Story_SelectTab": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [12, 85, 1262, 59],
+                "expected": ["主线"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_Story_SelectPart1",
+            "Daily_Story_SelectDifficulty"
+        ]
+    },
+    "Daily_Story_SelectPart1": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [56, 152, 97, 37],
+                "expected": ["第一"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Daily_Story_SelectDifficulty"
+        ]
+    },
+    "Daily_Story_SelectDifficulty": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [20, 620, 260, 55],
+                "expected": ["困难"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Common_Sweep_OpenMax",
             "Common_BackHome"
         ]
     },
     "Daily_ClaimQuests": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Quests_Open",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Daily_Quests_Open": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [24, 626, 842, 79],
+                "expected": ["手记", "任务"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Daily_Quests_Main",
+            "Daily_Quests_Open"
+        ]
+    },
+    "Daily_Quests_Main": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [404, 42, 798, 81],
+                "expected": ["探求", "手记", "一键领取"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Quests_NoneLeft",
+            "[JumpBack]Daily_Quests_ClaimAll",
+            "[JumpBack]Common_ClickBlankClose"
+        ]
+    },
+    "Daily_Quests_ClaimAll": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [925, 21, 305, 108],
+                "expected": ["一键", "领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800
+    },
+    "Daily_Quests_NoneLeft": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [468, 309, 373, 99],
+                "expected": ["暂无", "可领取"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Common_BackHome"
+        ]
+    },
+    "Daily_ClaimMail": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Mail_Open",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Daily_Mail_Open": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [400, 14, 215, 56],
+                "expected": ["邮件"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_Mail_ClaimAll",
+            "Common_BackHome"
+        ]
+    },
+    "Daily_Mail_ClaimAll": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1081, 0, 198, 81],
+                "expected": ["一键领取", "一键"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_Mail_NoneLeft",
+            "Common_BackHome"
+        ]
+    },
+    "Daily_Mail_NoneLeft": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [508, 329, 258, 59],
+                "expected": ["暂无可收取"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
         "next": [
             "Common_BackHome"
         ]
