@@ -27,6 +27,42 @@ def strip_node_prefix(name: str) -> str:
     return NODE_PREFIX_RE.sub("", name)
 
 
+def _validate_override_map(
+    owner: str,
+    override_map: object,
+    known_nodes: set[str],
+    errors: list[str],
+) -> None:
+    if override_map is None:
+        return
+    if not isinstance(override_map, dict):
+        errors.append(f"assets/interface.json: {owner} pipeline_override must be an object")
+        return
+    for node_name, node_body in override_map.items():
+        if node_name not in known_nodes:
+            errors.append(
+                f"assets/interface.json: {owner} overrides unknown node '{node_name}'"
+            )
+        if not isinstance(node_body, dict):
+            continue
+        for field in ("next", "on_error", "interrupt"):
+            refs = node_body.get(field)
+            if refs is None:
+                continue
+            if isinstance(refs, str):
+                refs = [refs]
+            if not isinstance(refs, list):
+                continue
+            for raw_ref in refs:
+                if not isinstance(raw_ref, str):
+                    continue
+                target = strip_node_prefix(raw_ref)
+                if target and target not in known_nodes:
+                    errors.append(
+                        f"assets/interface.json: {owner} '{node_name}.{field}' references unknown node '{target}'"
+                    )
+
+
 def load_json(path: Path, errors: list[str]) -> dict | None:
     try:
         with path.open("r", encoding="utf-8") as f:
@@ -129,6 +165,15 @@ def main() -> int:
             if req not in interface:
                 errors.append(f"assets/interface.json: missing required field '{req}'")
 
+        for res in interface.get("resource") or []:
+            if not isinstance(res, dict):
+                continue
+            for p in res.get("path") or []:
+                if isinstance(p, str) and "{PROJECT_DIR}" in p:
+                    errors.append(
+                        f"assets/interface.json: resource path '{p}' must be relative to project root (do not use PI V1 '{{PROJECT_DIR}}')"
+                    )
+
         defined_options = set((interface.get("option") or {}).keys())
         for task in interface.get("task") or []:
             if not isinstance(task, dict):
@@ -146,6 +191,23 @@ def main() -> int:
                     errors.append(
                         f"assets/interface.json: task '{tname}' references undefined option '{opt}'"
                     )
+            _validate_override_map(
+                f"task '{tname}'", task.get("pipeline_override"), all_base_names, errors
+            )
+
+        for opt_name, opt_def in (interface.get("option") or {}).items():
+            if not isinstance(opt_def, dict):
+                continue
+            for case in opt_def.get("cases") or []:
+                if not isinstance(case, dict):
+                    continue
+                cname = case.get("name", "<unnamed>")
+                _validate_override_map(
+                    f"option '{opt_name}.{cname}'",
+                    case.get("pipeline_override"),
+                    all_base_names,
+                    errors,
+                )
 
     if errors:
         print("Validation FAILED:")

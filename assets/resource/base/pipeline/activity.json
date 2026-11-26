@@ -475,5 +475,467 @@
         "on_error": [
             "Common_BackHome"
         ]
+    },
+    "Activity_Limited_Enter": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [566, 65, 297, 100],
+                "expected": ["限时", "常驻"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1500
+    },
+    "Activity_Limited_Dungeon": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Activity_Limited_DungeonFromHome",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Activity_Limited_DungeonFromHome": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [877, 459, 122, 85],
+                "expected": ["出击"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Activity_Limited_DungeonSelectStage",
+            "[JumpBack]Activity_Limited_Enter",
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Limited_DungeonSelectStage": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [200, 355, 760, 80],
+                "expected": ["困难"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Activity_Limited_DungeonPrepare",
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Limited_DungeonPrepare": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1046, 604, 218, 77],
+                "expected": ["开启挑战", "挑战"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Activity_Limited_DungeonAfter",
+            "[JumpBack]Battle_Core_SelectAssist",
+            "[JumpBack]Battle_Core_ConfirmStart",
+            "[JumpBack]Battle_Core_InBattle"
+        ],
+        "on_error": [
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Limited_DungeonAfter": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [910, 592, 363, 123],
+                "expected": ["退出房间", "返回"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1500,
+        "next": [
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Limited_Shop": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Activity_Limited_ShopEnter",
+            "Activity_Limited_ShopMain",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Activity_Limited_ShopEnter": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [58, 432, 243, 162],
+                "expected": ["商店"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Activity_Limited_ShopMain",
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Limited_ShopMain": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [826, 573, 384, 138],
+                "expected": ["活动商店", "商店", "交易"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "[JumpBack]Activity_Limited_ShopBuy",
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Limited_ShopBuy": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [7, 145, 1272, 419],
+                "expected": ["尼奥德"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "max_hit": 5,
+        "post_delay": 600,
+        "next": [
+            "Activity_Limited_ShopConfirm"
+        ]
+    },
+    "Activity_Limited_ShopConfirm": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [739, 577, 170, 67],
+                "expected": ["确定"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1200,
+        "next": [
+            "Common_ClickBlankClose"
+        ]
+    },
+    "Activity_Limited_Task": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Activity_Limited_TaskEnter",
+            "Activity_Limited_TaskMain",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Activity_Limited_TaskEnter": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [90, 356, 169, 48],
+                "expected": ["任务"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Activity_Limited_TaskMain",
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Limited_TaskMain": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [87, 74, 150, 57],
+                "expected": ["任务"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "[JumpBack]Activity_Limited_TaskClaim",
+            "[JumpBack]Common_ClickBlankClose",
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Limited_TaskClaim": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [800, 20, 460, 640],
+                "expected": ["一键领取", "领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "max_hit": 10,
+        "post_delay": 800
+    },
+    "Activity_Angel_Birth": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Activity_Angel_EnterDungeon",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Activity_Angel_EnterDungeon": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [877, 459, 122, 85],
+                "expected": ["出击"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Activity_Angel_ContractTab"
+        ]
+    },
+    "Activity_Angel_ContractTab": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [880, 90, 120, 55],
+                "expected": ["契约"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Activity_Angel_SelectEntry"
+        ]
+    },
+    "Activity_Angel_SelectEntry": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [26, 227, 1217, 401],
+                "expected": ["天使诞生", "天使"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1200,
+        "next": [
+            "Activity_Angel_SelectElement"
+        ]
+    },
+    "Activity_Angel_SelectElement": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [10, 70, 1254, 574],
+                "expected": ["光", "天使"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1500,
+        "next": [
+            "Activity_Angel_Challenge"
+        ]
+    },
+    "Activity_Angel_Challenge": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1081, 550, 154, 62],
+                "expected": ["挑战"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1500,
+        "next": [
+            "Activity_Angel_CountLack",
+            "Activity_Angel_AfterBattle",
+            "[JumpBack]Battle_Core_SelectAssist",
+            "[JumpBack]Battle_Core_ConfirmStart",
+            "[JumpBack]Battle_Core_InBattle"
+        ],
+        "on_error": [
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Angel_CountLack": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [524, 319, 220, 73],
+                "expected": ["次数不足", "不足"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Angel_AfterBattle": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [910, 592, 363, 123],
+                "expected": ["退出房间", "返回"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1500,
+        "next": [
+            "Activity_Angel_Challenge"
+        ]
+    },
+    "Activity_Angel_Submit": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Activity_Angel_SubmitOpen",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Activity_Angel_SubmitOpen": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [960, 210, 200, 90],
+                "expected": ["天使", "仪式", "提交"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Activity_Angel_SubmitConfirm",
+            "Activity_Angel_SubmitRitual",
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Angel_SubmitConfirm": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [585, 591, 118, 48],
+                "expected": ["确定"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Activity_Angel_SubmitRitual",
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Angel_SubmitRitual": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [836, 507, 327, 128],
+                "expected": ["仪式", "完成"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "[JumpBack]Activity_Angel_SubmitClaim",
+            "[JumpBack]Common_ClickBlankClose",
+            "Common_BackHome"
+        ]
+    },
+    "Activity_Angel_SubmitClaim": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [943, 166, 175, 76],
+                "expected": ["领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "max_hit": 10,
+        "post_delay": 1200
     }
 }
