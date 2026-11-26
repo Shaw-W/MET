@@ -216,6 +216,19 @@
             "Activity_Explore_SeekerWeeklyTab"
         ]
     },
+    "Activity_Explore_DismissNoReward": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [528, 344, 225, 40],
+                "expected": ["暂无", "可领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 500
+    },
     "Activity_Explore_SeekerClaimDaily": {
         "recognition": {
             "type": "OCR",
@@ -230,6 +243,7 @@
         "post_delay": 500,
         "timeout": 2000,
         "next": [
+            "[JumpBack]Activity_Explore_DismissNoReward",
             "[JumpBack]Common_ClickBlankClose",
             "Activity_Explore_SeekerWeeklyTab"
         ],
@@ -270,6 +284,7 @@
         "post_delay": 500,
         "timeout": 2000,
         "next": [
+            "[JumpBack]Activity_Explore_DismissNoReward",
             "[JumpBack]Common_ClickBlankClose",
             "Activity_Explore_SeekerRewardsTab"
         ],
@@ -310,6 +325,7 @@
         "post_delay": 600,
         "timeout": 2000,
         "next": [
+            "[JumpBack]Activity_Explore_DismissNoReward",
             "[JumpBack]Common_ClickBlankClose",
             "Activity_Explore_SpiritBook"
         ],
@@ -370,6 +386,7 @@
         "post_delay": 500,
         "timeout": 2000,
         "next": [
+            "[JumpBack]Activity_Explore_DismissNoReward",
             "[JumpBack]Common_ClickBlankClose",
             "Activity_Explore_SpiritWeeklyTab"
         ],
@@ -410,6 +427,7 @@
         "post_delay": 500,
         "timeout": 2000,
         "next": [
+            "[JumpBack]Activity_Explore_DismissNoReward",
             "[JumpBack]Common_ClickBlankClose",
             "Activity_Explore_SpiritRewardsTab"
         ],
@@ -450,6 +468,7 @@
         "post_delay": 600,
         "timeout": 2000,
         "next": [
+            "[JumpBack]Activity_Explore_DismissNoReward",
             "[JumpBack]Common_ClickBlankClose",
             "Common_BackHome"
         ],

@@ -227,6 +227,7 @@
                     "pipeline_override": {
                         "Battle_Multi_ModeDispatch": {
                             "next": [
+                                "Battle_Multi_CreateNavigate",
                                 "Battle_Multi_CreateRoom"
                             ]
                         }
@@ -238,6 +239,7 @@
                     "pipeline_override": {
                         "Battle_Multi_ModeDispatch": {
                             "next": [
+                                "Battle_Multi_JoinNavigate",
                                 "Battle_Multi_JoinRoom"
                             ]
                         }
