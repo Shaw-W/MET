@@ -27,8 +27,8 @@
             "type": "Win32",
             "display_short_side": 720,
             "win32": {
-                "class_regex": ".*",
-                "window_regex": "悠久之树"
+                "class_regex": "UnityWndClass",
+                "window_regex": "([Ee]ternal\\s*[Tt]ree|悠久之树)"
             }
         }
     ],
