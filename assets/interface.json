@@ -100,9 +100,10 @@
         {
             "name": "BattleMulti",
             "label": "多人战斗",
-            "description": "自动重复刷多人战斗关卡（支持自动建房与补体）",
+            "description": "自动重复刷多人战斗关卡（支持自动建房 / 蹭车模式与自动补体）",
             "entry": "Battle_Multi_Start",
             "option": [
+                "MultiBattleMode",
                 "StaminaRefill"
             ]
         },
@@ -117,18 +118,18 @@
         },
         {
             "name": "BattleKinnara",
-            "label": "紧那罗击退战",
-            "description": "自动重复挑战紧那罗击退战",
-            "entry": "Battle_Kinnara_Start",
-            "option": [
-                "StaminaRefill"
-            ]
+            "label": "紧那罗击退战（暂缓实现）",
+            "description": "当前版本暂缓实现，后续按需补充",
+            "entry": "Battle_Kinnara_Start"
         },
         {
             "name": "ActivityPeachGarden",
-            "label": "神狱桃园乡领奖",
-            "description": "自动领取神狱桃园乡奖励",
-            "entry": "Activity_PeachGarden_Claim"
+            "label": "神狱桃园乡",
+            "description": "自动扫荡并领取神狱桃园乡奖励",
+            "entry": "Activity_PeachGarden_Claim",
+            "option": [
+                "PeachGardenAttribute"
+            ]
         },
         {
             "name": "ActivityExplore",
@@ -199,6 +200,104 @@
                                 "param": {
                                     "roi": [20, 620, 260, 55],
                                     "expected": ["极难"]
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "MultiBattleMode": {
+            "type": "select",
+            "label": "多人战斗模式",
+            "description": "选择自动建房或快速加入蹭车模式",
+            "default_case": "CreateRoom",
+            "cases": [
+                {
+                    "name": "CreateRoom",
+                    "label": "自动建房",
+                    "pipeline_override": {
+                        "Battle_Multi_ModeDispatch": {
+                            "next": [
+                                "Battle_Multi_CreateRoom"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "JoinRoom",
+                    "label": "蹭车模式",
+                    "pipeline_override": {
+                        "Battle_Multi_ModeDispatch": {
+                            "next": [
+                                "Battle_Multi_JoinRoom"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "PeachGardenAttribute": {
+            "type": "select",
+            "label": "神狱桃园乡属性",
+            "description": "选择神狱桃园乡目标属性区域",
+            "default_case": "Fire",
+            "cases": [
+                {
+                    "name": "Fire",
+                    "label": "朱雀（火）",
+                    "pipeline_override": {
+                        "Activity_PeachGarden_SelectAttribute": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "roi": [283, 480, 972, 151],
+                                    "expected": ["朱雀"]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Water",
+                    "label": "玄武（水）",
+                    "pipeline_override": {
+                        "Activity_PeachGarden_SelectAttribute": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "roi": [283, 480, 972, 151],
+                                    "expected": ["玄武"]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Wind",
+                    "label": "青龙（风）",
+                    "pipeline_override": {
+                        "Activity_PeachGarden_SelectAttribute": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "roi": [283, 480, 972, 151],
+                                    "expected": ["青龙"]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Earth",
+                    "label": "白虎（土）",
+                    "pipeline_override": {
+                        "Activity_PeachGarden_SelectAttribute": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "roi": [283, 480, 972, 151],
+                                    "expected": ["白虎"]
                                 }
                             }
                         }

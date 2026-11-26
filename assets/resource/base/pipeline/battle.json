@@ -1,21 +1,506 @@
 {
-    "Battle_Multi_Start": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
+    "Battle_Core_SelectAssist": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [578, 48, 200, 45],
+                "expected": ["选择", "支援", "虚数体"]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [260, 325, 27, 29]
+            }
+        },
+        "post_delay": 600,
         "next": [
+            "Battle_Core_ConfirmStart",
+            "Battle_Core_SelectAssist"
+        ]
+    },
+    "Battle_Core_ConfirmStart": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1017, 542, 238, 160],
+                "expected": ["出击"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1500,
+        "next": [
+            "Battle_Core_InBattle",
+            "Battle_Core_ConfirmStart",
+            "[JumpBack]Battle_Core_SelectAssist"
+        ]
+    },
+    "Battle_Core_InBattle": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [10, 9, 182, 36],
+                "expected": ["回合", "阶段"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "timeout": 300000,
+        "next": [
+            "Battle_Core_End",
+            "[JumpBack]Common_NetworkDisconnect",
+            "[JumpBack]Battle_Core_WaitTurn"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Battle_Core_WaitTurn": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [10, 9, 182, 36],
+                "expected": ["回合", "阶段"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "post_delay": 3000
+    },
+    "Battle_Core_End": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [910, 592, 363, 123],
+                "expected": ["退出房间", "返回"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1500
+    },
+    "Battle_Multi_Start": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Multi_EnterDungeon",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Battle_Multi_EnterDungeon": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [877, 459, 122, 85],
+                "expected": ["出击"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Battle_Multi_SelectTab"
+        ]
+    },
+    "Battle_Multi_SelectTab": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [12, 85, 1262, 59],
+                "expected": ["多人", "讨伐"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Battle_Multi_ModeDispatch"
+        ]
+    },
+    "Battle_Multi_ModeDispatch": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Multi_CreateRoom"
+        ]
+    },
+    "Battle_Multi_CreateRoom": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [557, 0, 710, 702],
+                "expected": ["创建"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1200,
+        "next": [
+            "Battle_Multi_CreateConfirm",
+            "Battle_Multi_CreateRoom"
+        ],
+        "on_error": [
             "Common_BackHome"
         ]
     },
-    "Battle_GodSleep_Start": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
+    "Battle_Multi_CreateConfirm": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [250, 352, 722, 306],
+                "expected": ["确定"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
         "next": [
+            "Battle_Multi_RoomLaunch",
+            "[JumpBack]Common_RefillStamina",
+            "Battle_Multi_CreateConfirm"
+        ]
+    },
+    "Battle_Multi_RoomLaunch": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1129, 649, 104, 40],
+                "expected": ["出击"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Battle_Multi_CreateAfterBattle",
+            "[JumpBack]Battle_Core_SelectAssist",
+            "[JumpBack]Battle_Core_ConfirmStart",
+            "[JumpBack]Battle_Core_InBattle"
+        ]
+    },
+    "Battle_Multi_CreateAfterBattle": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [910, 592, 363, 123],
+                "expected": ["退出房间", "返回"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1500,
+        "next": [
+            "Battle_Multi_CreateRoom",
+            "[JumpBack]Common_ClickBlankClose"
+        ]
+    },
+    "Battle_Multi_JoinRoom": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1020, 560, 255, 125],
+                "expected": ["加入", "快速加入"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "timeout": 60000,
+        "post_delay": 1000,
+        "next": [
+            "Battle_Multi_JoinReady",
+            "[JumpBack]Battle_Multi_JoinRetryContinue",
+            "Battle_Multi_JoinRoom"
+        ],
+        "on_error": [
+            "Common_BackHome"
+        ]
+    },
+    "Battle_Multi_JoinRetryContinue": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [380, 443, 506, 90],
+                "expected": ["继续"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000
+    },
+    "Battle_Multi_JoinReady": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1032, 619, 247, 100],
+                "expected": ["准备"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Battle_Multi_JoinWaitStart",
+            "[JumpBack]Common_RefillStamina",
+            "Battle_Multi_JoinRoom"
+        ]
+    },
+    "Battle_Multi_JoinWaitStart": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1047, 643, 219, 53],
+                "expected": ["取消准备"]
+            }
+        },
+        "inverse": true,
+        "action": {
+            "type": "DoNothing"
+        },
+        "timeout": 60000,
+        "next": [
+            "Battle_Multi_JoinAfterBattle",
+            "[JumpBack]Battle_Core_SelectAssist",
+            "[JumpBack]Battle_Core_ConfirmStart",
+            "[JumpBack]Battle_Core_InBattle"
+        ],
+        "on_error": [
+            "Battle_Multi_JoinRoom"
+        ]
+    },
+    "Battle_Multi_JoinAfterBattle": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [910, 592, 363, 123],
+                "expected": ["退出房间", "返回"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1500,
+        "next": [
+            "Battle_Multi_JoinRoom",
+            "[JumpBack]Common_ClickBlankClose"
+        ]
+    },
+    "Battle_GodSleep_Start": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_GodSleep_EnterDungeon",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Battle_GodSleep_EnterDungeon": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [877, 459, 122, 85],
+                "expected": ["出击"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Battle_GodSleep_SelectEntry",
+            "Battle_GodSleep_SelectContractTab"
+        ]
+    },
+    "Battle_GodSleep_SelectContractTab": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [43, 84, 1205, 60],
+                "expected": ["契约", "挑战"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Battle_GodSleep_SelectEntry",
+            "[JumpBack]Battle_GodSleep_SwipeRight"
+        ]
+    },
+    "Battle_GodSleep_SwipeRight": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Swipe",
+            "param": {
+                "begin": [1228, 206, 1, 1],
+                "end": [367, 206, 1, 1],
+                "duration": 500
+            }
+        },
+        "post_delay": 700
+    },
+    "Battle_GodSleep_SelectEntry": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [4, 190, 1059, 475],
+                "expected": ["神眠之地", "神眠"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1500,
+        "next": [
+            "Battle_GodSleep_SelectAttribute",
+            "Battle_GodSleep_SelectEntry"
+        ]
+    },
+    "Battle_GodSleep_SelectAttribute": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [440, 11, 806, 667],
+                "expected": ["歧路"]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [-40, -40, 1, 1]
+            }
+        },
+        "post_delay": 800,
+        "next": [
+            "Battle_GodSleep_SelectBoss",
+            "Battle_GodSleep_SelectAttribute"
+        ]
+    },
+    "Battle_GodSleep_SelectBoss": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [21, 132, 1213, 495],
+                "expected": ["新生", "罪人"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Battle_GodSleep_SweepLoop"
+        ]
+    },
+    "Battle_GodSleep_SweepLoop": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [866, 592, 171, 114],
+                "expected": ["扫荡"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Battle_GodSleep_ConfirmSweep",
+            "Battle_GodSleep_OutOfMaterial"
+        ],
+        "on_error": [
+            "Common_BackHome"
+        ]
+    },
+    "Battle_GodSleep_ConfirmSweep": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [495, 397, 287, 150],
+                "expected": ["确定"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Battle_GodSleep_SweepFinish",
+            "[JumpBack]Common_Sweep_SkipAnimation"
+        ]
+    },
+    "Battle_GodSleep_SweepFinish": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [773, 614, 248, 105],
+                "expected": ["确认"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Battle_GodSleep_SweepLoop"
+        ]
+    },
+    "Battle_GodSleep_OutOfMaterial": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [508, 319, 259, 76],
+                "expected": ["所需材料", "不足"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Common_RefillStamina",
             "Common_BackHome"
         ]
     },
     "Battle_Kinnara_Start": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
         "next": [
             "Common_BackHome"
         ]
