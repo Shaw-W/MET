@@ -115,6 +115,10 @@ def main() -> int:
     if readme.exists():
         shutil.copy2(readme, INSTALL_DIR / "README.md")
 
+    logo = ASSETS_DIR / "logo.png"
+    if logo.exists():
+        shutil.copy2(logo, INSTALL_DIR / "logo.png")
+
     print(f"Assembled MET {args.version} into {INSTALL_DIR}")
     return 0
 

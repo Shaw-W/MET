@@ -3,6 +3,7 @@
     "name": "MET",
     "label": "MET (Maa Eternal Tree)",
     "title": "MET - 悠久之树助手",
+    "icon": "logo.png",
     "version": "0.0.0-dev",
     "github": "https://github.com/Shaw-W/MET",
     "license": "MIT",
