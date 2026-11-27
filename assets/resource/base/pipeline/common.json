@@ -11,8 +11,21 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [877, 459, 122, 85],
+                "roi": [1060, 80, 220, 400],
                 "expected": ["出击"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        }
+    },
+    "Common_HomeCheck_Icon": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [1060, 80, 220, 400],
+                "template": "home/battle.png",
+                "threshold": 0.75
             }
         },
         "action": {
@@ -23,7 +36,7 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [877, 459, 122, 85],
+                "roi": [1060, 80, 220, 400],
                 "expected": ["出击"]
             }
         },
@@ -36,7 +49,7 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1112, 168, 161, 58],
+                "roi": [1060, 80, 220, 400],
                 "expected": ["活动"]
             }
         },
@@ -55,7 +68,10 @@
         "timeout": 25000,
         "next": [
             "Common_HomeCheck",
+            "Common_HomeCheck_Icon",
             "[JumpBack]Common_NetworkDisconnect",
+            "[JumpBack]Startup_ClosePopupIcon",
+            "[JumpBack]Startup_CloseGiftPopup",
             "[JumpBack]Common_ClickBlankClose",
             "[JumpBack]Common_SweepEndConfirm",
             "[JumpBack]Common_BattleEndReturn",

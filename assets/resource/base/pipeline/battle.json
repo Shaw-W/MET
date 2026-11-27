@@ -103,8 +103,8 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [877, 459, 122, 85],
-                "expected": ["出击"]
+                "roi": [1060, 80, 220, 400],
+                "expected": ["联机"]
             }
         },
         "action": {
@@ -112,7 +112,7 @@
         },
         "post_delay": 1000,
         "next": [
-            "Battle_Multi_SelectTab"
+            "Battle_Multi_ModeDispatch"
         ]
     },
     "Battle_Multi_SelectTab": {
@@ -559,7 +559,7 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [877, 459, 122, 85],
+                "roi": [1060, 80, 220, 400],
                 "expected": ["出击"]
             }
         },
@@ -845,8 +845,8 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [420, 630, 190, 80],
-                "expected": ["任务", "手记"]
+                "roi": [1060, 80, 220, 400],
+                "expected": ["探求者手记", "手记"]
             }
         },
         "action": {
@@ -1128,7 +1128,7 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [877, 459, 122, 85],
+                "roi": [1060, 80, 220, 400],
                 "expected": ["出击"]
             }
         },
