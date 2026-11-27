@@ -50,7 +50,7 @@
             "type": "OCR",
             "param": {
                 "roi": [1060, 80, 220, 400],
-                "expected": ["活动"]
+                "expected": ["^活动$"]
             }
         },
         "action": {

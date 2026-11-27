@@ -115,9 +115,17 @@ def main() -> int:
     if readme.exists():
         shutil.copy2(readme, INSTALL_DIR / "README.md")
 
+    license_file = ROOT_DIR / "LICENSE"
+    if license_file.exists():
+        shutil.copy2(license_file, INSTALL_DIR / "LICENSE")
+
     logo = ASSETS_DIR / "logo.png"
     if logo.exists():
         shutil.copy2(logo, INSTALL_DIR / "logo.png")
+
+    scripts_dir = ASSETS_DIR / "scripts"
+    if scripts_dir.exists():
+        shutil.copytree(scripts_dir, INSTALL_DIR / "scripts", dirs_exist_ok=True)
 
     print(f"Assembled MET {args.version} into {INSTALL_DIR}")
     return 0

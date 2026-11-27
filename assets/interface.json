@@ -6,7 +6,7 @@
     "icon": "logo.png",
     "version": "0.0.0-dev",
     "github": "https://github.com/Shaw-W/MET",
-    "license": "MIT",
+    "license": "LICENSE",
     "description": "基于 MaaFramework 与 MXU 开发的《悠久之树》自动化助手（纯 Pipeline 架构，仅支持 Windows）。",
     "welcome": [
         "欢迎使用 MET（Maa Eternal Tree）！",
@@ -26,10 +26,60 @@
             "description": "通过 Win32 API 连接《悠久之树》PC 窗口",
             "type": "Win32",
             "display_short_side": 720,
+            "attach_resource_path": [
+                "resource/win32"
+            ],
             "win32": {
                 "class_regex": "UnityWndClass",
-                "window_regex": "([Ee]ternal\\s*[Tt]ree|悠久之树)"
+                "window_regex": "([Ee]ternal\\s*[Tt]ree|悠久之树)",
+                "screencap": "FramePool",
+                "mouse": "Seize",
+                "keyboard": "Seize"
             }
+        }
+    ],
+    "pretask": [
+        {
+            "name": "LaunchGamePC",
+            "label": "启动 eternaltree.exe",
+            "description": "连接窗口前检测 eternaltree.exe 是否已在运行；进程在则直接跳过，未运行则自动启动并等待主窗口就绪",
+            "controller": [
+                "Win32"
+            ],
+            "exec": "powershell.exe",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "scripts/launch_game_pc.ps1"
+            ],
+            "option": [
+                "PCGamePathMode"
+            ]
+        }
+    ],
+    "preset": [
+        {
+            "name": "DailyCore",
+            "label": "核心日常（推荐）",
+            "description": "PC 端自动拉起游戏 + 启动进主界面 + 福利放送领奖 + 行会日常",
+            "pretask": [
+                {
+                    "name": "LaunchGamePC"
+                }
+            ],
+            "task": [
+                {
+                    "name": "Startup"
+                },
+                {
+                    "name": "ClaimRewards"
+                },
+                {
+                    "name": "DailyGuild"
+                }
+            ]
         }
     ],
     "resource": [
@@ -55,148 +105,81 @@
         {
             "name": "Startup",
             "label": "启动游戏",
-            "description": "启动《悠久之树》并自动关闭登录弹窗进入主界面",
+            "description": "启动《悠久之树》并自动关闭更新提示、礼包与登录弹窗进入主界面",
             "entry": "Startup_Launch"
         },
         {
-            "name": "DailySupply",
-            "label": "每日物资",
-            "description": "自动领取每日物资奖励",
-            "entry": "Daily_ClaimSupply"
+            "name": "ClaimRewards",
+            "label": "领取奖励",
+            "description": "进入「活动 → 福利放送」同页连续领取每日物资与在线奖励",
+            "entry": "Daily_ClaimRewards",
+            "option": [
+                "WelfareClaimSupply",
+                "WelfareClaimOnline"
+            ]
         },
         {
             "name": "DailyGuild",
-            "label": "行会签到与捐赠",
-            "description": "自动完成每日行会签到与捐赠",
-            "entry": "Daily_GuildSignIn"
-        },
-        {
-            "name": "DailyMaterial",
-            "label": "素材关卡扫荡",
-            "description": "自动扫荡素材关卡（支持扫荡 1 次或最大扫荡）",
-            "entry": "Daily_MaterialSweep",
+            "label": "行会日常",
+            "description": "自动完成每日行会签到与捐赠（支持分别开关并设置捐赠次数上限）",
+            "entry": "Daily_GuildSignIn",
             "option": [
-                "MaterialSweepCount"
+                "GuildSignInSwitch",
+                "GuildDonateSwitch"
             ]
-        },
-        {
-            "name": "DailyMainStory",
-            "label": "主线困难与极难扫荡",
-            "description": "自动扫荡困难与极难主线关卡",
-            "entry": "Daily_MainStorySweep",
-            "option": [
-                "MainStoryDifficulty"
-            ]
-        },
-        {
-            "name": "DailyQuests",
-            "label": "每日任务领奖",
-            "description": "自动进入探求手记一键领取每日任务奖励",
-            "entry": "Daily_ClaimQuests"
-        },
-        {
-            "name": "DailyMail",
-            "label": "一键领取邮件",
-            "description": "自动打开邮箱并一键收取所有附件",
-            "entry": "Daily_ClaimMail"
-        },
-        {
-            "name": "DailyOnline",
-            "label": "每日在线奖励",
-            "description": "自动领取每日在线时长奖励",
-            "entry": "Daily_OnlineReward"
-        },
-        {
-            "name": "BattleMulti",
-            "label": "多人战斗",
-            "description": "自动重复刷多人战斗关卡（支持自动建房 / 蹭车模式与自动补体）",
-            "entry": "Battle_Multi_Start",
-            "option": [
-                "MultiBattleMode",
-                "StaminaRefill"
-            ]
-        },
-        {
-            "name": "BattleAutoAssist",
-            "label": "自动助战任务",
-            "description": "自动检查并领取每日助战任务奖励",
-            "entry": "Battle_AutoAssist_Start"
-        },
-        {
-            "name": "BattleAutoPush",
-            "label": "自动推关",
-            "description": "在当前章节界面自动推进剧情与战斗关卡（遇全员重伤自动停止）",
-            "entry": "Battle_AutoPush_Start"
-        },
-        {
-            "name": "BattleWaitInvite",
-            "label": "等待被邀请",
-            "description": "在主界面自动监听并接受组队邀请、准备并跟车战斗",
-            "entry": "Battle_WaitInvite_Start"
-        },
-        {
-            "name": "BattleGodSleep",
-            "label": "神眠之地",
-            "description": "自动重复刷神眠之地",
-            "entry": "Battle_GodSleep_Start",
-            "option": [
-                "GodSleepBoss",
-                "StaminaRefill"
-            ]
-        },
-        {
-            "name": "BattleKinnara",
-            "label": "紧那罗击退战（暂缓实现）",
-            "description": "当前版本暂缓实现，后续按需补充",
-            "entry": "Battle_Kinnara_Start"
-        },
-        {
-            "name": "ActivityPeachGarden",
-            "label": "神狱桃园乡",
-            "description": "自动扫荡并领取神狱桃园乡奖励",
-            "entry": "Activity_PeachGarden_Claim",
-            "option": [
-                "PeachGardenAttribute"
-            ]
-        },
-        {
-            "name": "ActivityExplore",
-            "label": "探索活动领奖",
-            "description": "自动领取探索活动奖励",
-            "entry": "Activity_Explore_Claim"
-        },
-        {
-            "name": "ActivityLimitedDungeon",
-            "label": "限时活动副本",
-            "description": "自动进入限时活动困难副本并挑战",
-            "entry": "Activity_Limited_Dungeon"
-        },
-        {
-            "name": "ActivityLimitedShop",
-            "label": "限时活动商店",
-            "description": "自动在限时活动商店兑换目标道具",
-            "entry": "Activity_Limited_Shop"
-        },
-        {
-            "name": "ActivityLimitedTask",
-            "label": "限时活动任务",
-            "description": "自动领取限时活动任务奖励",
-            "entry": "Activity_Limited_Task"
-        },
-        {
-            "name": "ActivityAngelBirth",
-            "label": "天使诞生",
-            "description": "自动挑战契约「天使诞生」直至次数用尽",
-            "entry": "Activity_Angel_Birth"
-        },
-        {
-            "name": "ActivityAngelSubmit",
-            "label": "天使仪式提交",
-            "description": "自动完成天使仪式提交并领取奖励",
-            "entry": "Activity_Angel_Submit"
         }
     ],
     "option": {
+        "WelfareClaimSupply": {
+            "type": "switch",
+            "label": "领取每日物资（12点/18点）",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "label": "开启",
+                    "pipeline_override": {
+                        "Daily_Welfare_StepSupply": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Daily_Welfare_StepSupply": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+        "WelfareClaimOnline": {
+            "type": "switch",
+            "label": "领取在线奖励",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "label": "开启",
+                    "pipeline_override": {
+                        "Daily_Welfare_StepOnline": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Daily_Welfare_StepOnline": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
         "StaminaRefill": {
             "type": "select",
             "label": "自动补体",
@@ -468,6 +451,134 @@
                                     "expected": ["白虎"]
                                 }
                             }
+                        }
+                    }
+                }
+            ]
+        },
+        "PCGamePathMode": {
+            "type": "select",
+            "label": "游戏路径",
+            "description": "默认自动探测常见安装目录；若未找到或有多版本，请切换为「手动填写」",
+            "default_case": "Auto",
+            "cases": [
+                {
+                    "name": "Auto",
+                    "label": "自动判断"
+                },
+                {
+                    "name": "Manual",
+                    "label": "手动填写",
+                    "option": [
+                        "PCGameExePath"
+                    ]
+                }
+            ]
+        },
+        "PCGameExePath": {
+            "type": "input",
+            "label": "主程序路径",
+            "description": "选择游戏目录下的 eternaltree.exe",
+            "inputs": [
+                {
+                    "name": "GameExe",
+                    "label": "eternaltree.exe 路径",
+                    "default": "",
+                    "pipeline_type": "string",
+                    "verify": "^\"?.+[\\\\/][Ee]ternaltree\\.exe\"?$",
+                    "pattern_msg": "请填写 eternaltree.exe 的完整路径，例如 C:\\TapTap\\PC Games\\176733\\...\\eternaltree.exe",
+                    "input_type": "file"
+                }
+            ]
+        },
+        "GuildSignInSwitch": {
+            "type": "switch",
+            "label": "行会签到",
+            "description": "进入行会后执行每日签到",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "label": "开启"
+                },
+                {
+                    "name": "No",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Daily_Guild_StepSignIn": {
+                            "next": [
+                                "Daily_Guild_StepDonate"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "GuildDonateSwitch": {
+            "type": "switch",
+            "label": "行会捐赠",
+            "description": "进入行会后执行每日物资捐赠",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "label": "开启",
+                    "option": [
+                        "GuildDonateCount"
+                    ]
+                },
+                {
+                    "name": "No",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Daily_Guild_StepDonate": {
+                            "next": [
+                                "Common_BackHome"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "GuildDonateCount": {
+            "type": "select",
+            "label": "捐赠次数上限",
+            "description": "每次捐赠消耗 30000 尼奥德，每日最多 3 次",
+            "default_case": "Count3",
+            "cases": [
+                {
+                    "name": "Count1",
+                    "label": "1 次",
+                    "pipeline_override": {
+                        "Daily_Guild_AfterClickDonate": {
+                            "next": [
+                                "Daily_Guild_ConfirmDonate",
+                                "Daily_Guild_ExitDonate"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Count2",
+                    "label": "2 次",
+                    "pipeline_override": {
+                        "Daily_Guild_AfterClickDonate": {
+                            "next": [
+                                "Daily_Guild_AddDonate2",
+                                "Daily_Guild_ExitDonate"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Count3",
+                    "label": "3 次（最大）",
+                    "pipeline_override": {
+                        "Daily_Guild_AfterClickDonate": {
+                            "next": [
+                                "Daily_Guild_AddDonate1",
+                                "Daily_Guild_ExitDonate"
+                            ]
                         }
                     }
                 }
