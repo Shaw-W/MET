@@ -18,7 +18,7 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1112, 168, 161, 58],
+                "roi": [1060, 80, 220, 400],
                 "expected": ["活动"]
             }
         },
@@ -291,7 +291,7 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [877, 459, 122, 85],
+                "roi": [1060, 80, 220, 400],
                 "expected": ["出击"]
             }
         },
@@ -384,7 +384,7 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [877, 459, 122, 85],
+                "roi": [1060, 80, 220, 400],
                 "expected": ["出击"]
             }
         },
@@ -572,8 +572,8 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [24, 626, 842, 79],
-                "expected": ["手记", "任务"]
+                "roi": [1060, 80, 220, 400],
+                "expected": ["探求者手记", "手记"]
             }
         },
         "action": {
@@ -647,10 +647,11 @@
     },
     "Daily_Mail_Open": {
         "recognition": {
-            "type": "OCR",
+            "type": "TemplateMatch",
             "param": {
-                "roi": [400, 14, 215, 56],
-                "expected": ["邮件"]
+                "roi": [1130, 30, 75, 65],
+                "template": "daily/mail_icon.png",
+                "threshold": 0.75
             }
         },
         "action": {
@@ -714,7 +715,7 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [877, 459, 122, 85],
+                "roi": [1060, 80, 220, 400],
                 "expected": ["出击"]
             }
         },

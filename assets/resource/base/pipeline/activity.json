@@ -18,7 +18,7 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [877, 459, 122, 85],
+                "roi": [1060, 80, 220, 400],
                 "expected": ["出击"]
             }
         },
@@ -167,8 +167,8 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [624, 57, 637, 89],
-                "expected": ["探索", "探索活动"]
+                "roi": [0, 180, 115, 380],
+                "expected": ["探求者之书", "探求"]
             }
         },
         "action": {
@@ -508,8 +508,8 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [877, 459, 122, 85],
-                "expected": ["出击"]
+                "roi": [1060, 80, 220, 400],
+                "expected": ["限时活动"]
             }
         },
         "action": {
@@ -742,7 +742,7 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [877, 459, 122, 85],
+                "roi": [1060, 80, 220, 400],
                 "expected": ["出击"]
             }
         },
