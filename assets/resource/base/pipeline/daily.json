@@ -1,4 +1,19 @@
 {
+    "Daily_StaminaSupply": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Welfare_EnterActivity",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
     "Daily_ClaimRewards": {
         "recognition": {
             "type": "DirectHit"
@@ -41,7 +56,7 @@
         "post_delay": 1000,
         "next": [
             "Daily_Rewards_Mail_ClaimAll",
-            "Daily_Rewards_StepWelfare"
+            "Daily_Rewards_StepTasks"
         ]
     },
     "Daily_Rewards_Mail_ClaimAll": {
@@ -58,10 +73,10 @@
         "post_delay": 1000,
         "next": [
             "[JumpBack]Common_ClickBlankClose",
-            "Daily_Rewards_StepWelfare"
+            "Daily_Rewards_StepTasks"
         ]
     },
-    "Daily_Rewards_StepWelfare": {
+    "Daily_Rewards_StepTasks": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -69,8 +84,267 @@
             "type": "DoNothing"
         },
         "next": [
-            "Daily_Welfare_EnterActivity",
+            "Daily_Tasks_MainReady",
+            "Daily_Tasks_EnterFromDrawer",
+            "Daily_Tasks_OpenMenu",
             "[JumpBack]Common_BackHome"
+        ]
+    },
+    "Daily_Tasks_OpenMenu": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [1190, 0, 90, 90],
+                "template": "home/menu_icon.png",
+                "threshold": 0.75
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_Tasks_EnterFromDrawer",
+            "Daily_Tasks_OpenMenu"
+        ]
+    },
+    "Daily_Tasks_EnterFromDrawer": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1040, 85, 120, 80],
+                "expected": ["^任务$"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1200,
+        "next": [
+            "Daily_Tasks_MainReady",
+            "Daily_Tasks_EnterFromDrawer"
+        ]
+    },
+    "Daily_Tasks_MainReady": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [0, 120, 95, 320],
+                "expected": ["日常", "主线", "成就"]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Tasks_StepDaily"
+        ]
+    },
+    "Daily_Tasks_StepDaily": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Tasks_SelectDaily",
+            "Daily_Tasks_StepMain"
+        ]
+    },
+    "Daily_Tasks_SelectDaily": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [0, 120, 95, 80],
+                "expected": ["日常"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_Tasks_ClaimAll_Daily",
+            "Daily_Tasks_StepMain"
+        ]
+    },
+    "Daily_Tasks_ClaimAll_Daily": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [850, 0, 420, 90],
+                "expected": ["一键领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_Tasks_StepMain"
+        ]
+    },
+    "Daily_Tasks_StepMain": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Tasks_SelectMain",
+            "Daily_Tasks_StepAchievement"
+        ]
+    },
+    "Daily_Tasks_SelectMain": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [0, 240, 95, 80],
+                "expected": ["主线"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_Tasks_ClaimAll_Main",
+            "Daily_Tasks_StepAchievement"
+        ]
+    },
+    "Daily_Tasks_ClaimAll_Main": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [850, 0, 420, 90],
+                "expected": ["一键领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_Tasks_StepAchievement"
+        ]
+    },
+    "Daily_Tasks_StepAchievement": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Tasks_SelectAchievement",
+            "Common_BackHome"
+        ]
+    },
+    "Daily_Tasks_SelectAchievement": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [0, 355, 95, 80],
+                "expected": ["成就"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_Tasks_ClaimAll_AchGrowth",
+            "Daily_Tasks_Ach_SelectCollect",
+            "Common_BackHome"
+        ]
+    },
+    "Daily_Tasks_ClaimAll_AchGrowth": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [850, 0, 420, 90],
+                "expected": ["一键领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 700,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_Tasks_Ach_SelectCollect"
+        ]
+    },
+    "Daily_Tasks_Ach_SelectCollect": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [290, 65, 140, 65],
+                "expected": ["收集"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Daily_Tasks_ClaimAll_AchCollect",
+            "Daily_Tasks_Ach_SelectChallenge"
+        ]
+    },
+    "Daily_Tasks_ClaimAll_AchCollect": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [850, 0, 420, 90],
+                "expected": ["一键领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 700,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_Tasks_Ach_SelectChallenge"
+        ]
+    },
+    "Daily_Tasks_Ach_SelectChallenge": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [430, 65, 140, 65],
+                "expected": ["挑战"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Daily_Tasks_ClaimAll_AchChallenge",
+            "Common_BackHome"
+        ]
+    },
+    "Daily_Tasks_ClaimAll_AchChallenge": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [850, 0, 420, 90],
+                "expected": ["一键领取"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 700,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Common_BackHome"
         ]
     },
     "Daily_Welfare_EnterActivity": {

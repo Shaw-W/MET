@@ -63,7 +63,7 @@
         {
             "name": "DailyCore",
             "label": "核心日常（推荐）",
-            "description": "PC 端自动拉起游戏 + 启动进主界面 + 福利放送领奖 + 行会日常",
+            "description": "PC 自动拉起 + 启动游戏 + 体力补给 + 行会日常 + 收尾领取奖励",
             "pretask": [
                 {
                     "name": "LaunchGamePC"
@@ -74,10 +74,13 @@
                     "name": "Startup"
                 },
                 {
-                    "name": "ClaimRewards"
+                    "name": "StaminaSupply"
                 },
                 {
                     "name": "DailyGuild"
+                },
+                {
+                    "name": "ClaimRewards"
                 }
             ]
         }
@@ -109,12 +112,11 @@
             "entry": "Startup_Launch"
         },
         {
-            "name": "ClaimRewards",
-            "label": "领取奖励",
-            "description": "自动一键领取邮件，并进入「活动 → 福利放送」连续领取每日物资与在线奖励",
-            "entry": "Daily_ClaimRewards",
+            "name": "StaminaSupply",
+            "label": "体力补给",
+            "description": "前置进入「活动 → 福利放送」连续领取每日物资（12点/18点）与在线奖励",
+            "entry": "Daily_StaminaSupply",
             "option": [
-                "ClaimMailSwitch",
                 "WelfareClaimSupply",
                 "WelfareClaimOnline"
             ]
@@ -122,11 +124,21 @@
         {
             "name": "DailyGuild",
             "label": "行会日常",
-            "description": "自动完成每日行会签到与捐赠（支持分别开关并设置捐赠次数上限）",
+            "description": "自动完成每日行会签到与捐赠（支持分别开关并设置每日捐赠次数上限）",
             "entry": "Daily_GuildSignIn",
             "option": [
                 "GuildSignInSwitch",
                 "GuildDonateSwitch"
+            ]
+        },
+        {
+            "name": "ClaimRewards",
+            "label": "领取奖励",
+            "description": "收尾清红点：一键领取邮件，并领取任务（日常 / 主线 / 成就）奖励",
+            "entry": "Daily_ClaimRewards",
+            "option": [
+                "ClaimMailSwitch",
+                "ClaimTasksSwitch"
             ]
         }
     ],
@@ -147,7 +159,101 @@
                     "pipeline_override": {
                         "Daily_Rewards_StepMail": {
                             "next": [
-                                "Daily_Rewards_StepWelfare"
+                                "Daily_Rewards_StepTasks"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "ClaimTasksSwitch": {
+            "type": "switch",
+            "label": "任务领奖",
+            "description": "自动打开菜单抽屉进入「任务」，按勾选页签一键领取奖励",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "label": "开启",
+                    "option": [
+                        "TaskClaimDaily",
+                        "TaskClaimMain",
+                        "TaskClaimAchievement"
+                    ]
+                },
+                {
+                    "name": "No",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Daily_Rewards_StepTasks": {
+                            "next": [
+                                "Common_BackHome"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "TaskClaimDaily": {
+            "type": "switch",
+            "label": "日常任务（含每日/每周活跃宝箱）",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "label": "开启"
+                },
+                {
+                    "name": "No",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Daily_Tasks_StepDaily": {
+                            "next": [
+                                "Daily_Tasks_StepMain"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "TaskClaimMain": {
+            "type": "switch",
+            "label": "主线任务",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "label": "开启"
+                },
+                {
+                    "name": "No",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Daily_Tasks_StepMain": {
+                            "next": [
+                                "Daily_Tasks_StepAchievement"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "TaskClaimAchievement": {
+            "type": "switch",
+            "label": "成就任务",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "label": "开启"
+                },
+                {
+                    "name": "No",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Daily_Tasks_StepAchievement": {
+                            "next": [
+                                "Common_BackHome"
                             ]
                         }
                     }
