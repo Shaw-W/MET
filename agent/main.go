@@ -363,7 +363,8 @@ func runRestartCoopPC() int {
 		_ = resResp.Body.Close()
 		logf("重载资源响应 (%d): %s", resResp.StatusCode, strings.TrimSpace(string(resBody)))
 	}
-	time.Sleep(1 * time.Second)
+	// Wait for async controller connect & resource load to finish, with retries on "Tasker not properly initialized".
+	time.Sleep(4 * time.Second)
 	tasksPayload, _ := json.Marshal(map[string]any{
 		"tasks": []map[string]string{
 			{"entry": "Startup_Launch", "pipeline_override": "{}"},
@@ -376,15 +377,23 @@ func runRestartCoopPC() int {
 			},
 		},
 	})
-	resp2, err := client.Post(fmt.Sprintf("%s/api/maa/instances/%s/tasks/start", baseURL, instanceID), "application/json", bytes.NewReader(tasksPayload))
-	if err != nil {
-		logf("派发续刷任务失败: %v", err)
-		return 1
+	for attempt := 1; attempt <= 6; attempt++ {
+		resp2, err := client.Post(fmt.Sprintf("%s/api/maa/instances/%s/tasks/start", baseURL, instanceID), "application/json", bytes.NewReader(tasksPayload))
+		if err != nil {
+			logf("派发续刷任务失败 (尝试 %d/6): %v", attempt, err)
+			time.Sleep(3 * time.Second)
+			continue
+		}
+		body2, _ := io.ReadAll(resp2.Body)
+		_ = resp2.Body.Close()
+		msg2 := strings.TrimSpace(string(body2))
+		logf("续刷响应 (尝试 %d/6, status=%d): %s", attempt, resp2.StatusCode, msg2)
+		if resp2.StatusCode < 300 {
+			return 0
+		}
+		time.Sleep(3 * time.Second)
 	}
-	body2, _ := io.ReadAll(resp2.Body)
-	_ = resp2.Body.Close()
-	logf("续刷响应 (%d): %s", resp2.StatusCode, strings.TrimSpace(string(body2)))
-	return 0
+	return 1
 }
 
 func main() {
