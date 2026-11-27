@@ -23,6 +23,7 @@ var (
 
 	procFindWindowW              = user32.NewProc("FindWindowW")
 	procIsIconic                 = user32.NewProc("IsIconic")
+	procIsWindowVisible          = user32.NewProc("IsWindowVisible")
 	procShowWindow               = user32.NewProc("ShowWindow")
 	procCreateToolhelp32Snapshot = kernel32.NewProc("CreateToolhelp32Snapshot")
 	procProcess32FirstW          = kernel32.NewProc("Process32FirstW")
@@ -118,7 +119,10 @@ func findGameWindow() uintptr {
 		t, _ := syscall.UTF16PtrFromString(title)
 		hwnd, _, _ := procFindWindowW.Call(uintptr(unsafe.Pointer(cls)), uintptr(unsafe.Pointer(t)))
 		if hwnd != 0 {
-			return hwnd
+			vis, _, _ := procIsWindowVisible.Call(hwnd)
+			if vis != 0 {
+				return hwnd
+			}
 		}
 	}
 	return 0
@@ -308,23 +312,31 @@ func runRestartCoopPC() int {
 		return 1
 	}
 
+	// Wait for Unity's visible main window to stabilize (Unity often destroys an initial splash hwnd).
 	var newHwnd uint64
+	var stableSince time.Time
 	deadline := time.Now().Add(60 * time.Second)
 	for time.Now().Before(deadline) {
-		if hwnd := findGameWindow(); hwnd != 0 {
-			restoreIfMinimized(hwnd)
-			newHwnd = uint64(hwnd)
-			break
+		hwnd := findGameWindow()
+		if hwnd != 0 {
+			if uint64(hwnd) != newHwnd {
+				newHwnd = uint64(hwnd)
+				stableSince = time.Now()
+			} else if time.Since(stableSince) >= 3*time.Second {
+				restoreIfMinimized(hwnd)
+				break
+			}
+		} else {
+			newHwnd = 0
 		}
 		time.Sleep(500 * time.Millisecond)
 	}
 	if newHwnd == 0 {
-		logf("错误: 60秒内未检测到新启动的 eternaltree 窗口。")
+		logf("错误: 60秒内未检测到稳定的 eternaltree 可见主窗口。")
 		return 1
 	}
 
-	logf("检测到新游戏窗口 hwnd=%d，等待 3 秒初始化...", newHwnd)
-	time.Sleep(3 * time.Second)
+	logf("检测到稳定游戏窗口 hwnd=%d，准备重连 MXU...", newHwnd)
 
 	if !webEnabled || instanceID == "" {
 		logf("提示: MXU 本地 Web 服务未启用或未找到实例 ID，已完成客户端重启。")
