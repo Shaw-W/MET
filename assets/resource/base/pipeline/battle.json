@@ -145,7 +145,7 @@
             "[JumpBack]Common_BackHome"
         ],
         "on_error": [
-            "Common_RestartApp"
+            "Battle_Coop_Auto_FreezeRecover"
         ]
     },
     "Battle_Coop_Auto_AlreadyRunning": {
@@ -452,6 +452,9 @@
         "next": [
             "[JumpBack]Startup_WaitIntoHome",
             "Battle_Coop_Auto_Start"
+        ],
+        "on_error": [
+            "Battle_Coop_Auto_FreezeRecover"
         ]
     },
     "Battle_Coop_Auto_FreezeRecover": {
