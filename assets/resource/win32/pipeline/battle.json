@@ -1,0 +1,20 @@
+{
+    "Battle_Coop_Auto_FreezeRecover": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Command",
+            "param": {
+                "exec": "{RESOURCE_DIR}/../../agent/met-service.exe",
+                "args": [
+                    "--restart-coop"
+                ],
+                "detach": true
+            }
+        },
+        "next": [
+            "Common_Stop"
+        ]
+    }
+}

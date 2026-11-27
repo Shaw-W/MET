@@ -4,10 +4,10 @@
 Output layout (install/):
   install/
   ├── MET.exe          # Branded MXU executable
+  ├── agent/           # Static Go helper binary (met-service.exe)
   ├── maafw/           # MaaFramework bin/ contents
   ├── interface.json   # PI V2 config with injected version
   ├── logo.png         # App icon
-  ├── scripts/         # PC pretask scripts
   ├── resource/        # base/ + bilibili/ + win32/ resources (including OCR models)
   ├── LICENSE
   └── README.md
@@ -129,6 +129,12 @@ def main() -> int:
     scripts_dir = ASSETS_DIR / "scripts"
     if scripts_dir.exists():
         shutil.copytree(scripts_dir, INSTALL_DIR / "scripts", dirs_exist_ok=True)
+
+    prebuilt_agent = DEPS_DIR / "agent" / "met-service.exe"
+    if prebuilt_agent.exists():
+        dst_agent = INSTALL_DIR / "agent"
+        dst_agent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(prebuilt_agent, dst_agent / "met-service.exe")
 
     print(f"Assembled MET {args.version} into {INSTALL_DIR}")
     return 0

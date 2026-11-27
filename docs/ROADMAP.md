@@ -49,16 +49,16 @@
 
 ### Phase 2：核心通用能力与每日日常
 - [x] 通用基础节点（`common.json`）：主页判定、返回主页、弹窗关闭、掉线重连、卡死重启、跨夜检测、通用扫荡与自动补体
-- [x] 启动游戏（`startup.json` + `bilibili/pipeline/startup.json` + `win32/pipeline/startup.json` + `scripts/launch_game_pc.ps1`）：官服/B服 ADB 启动、Win32 PC 前置进程检测与自动拉起、弹窗清理
-- [x] 福利放送领取奖励（`Daily_ClaimRewards`：合并每日物资与在线奖励同页连续领取，已适配 4.0 界面与 PC 1080p）
-- [x] 行会签到与捐赠（`Daily_GuildSignIn`）
+- [x] 启动游戏（`startup.json` + `bilibili/pipeline/startup.json` + `win32/pipeline/startup.json` + `agent/met-service.exe`）：官服/B服 ADB 启动、Win32 PC 前置进程检测与自动拉起、弹窗清理
+- [x] 体力补给（`Daily_StaminaSupply`：每日物资与在线奖励同页连续领取，已适配 4.0 界面与 PC 1080p）
+- [x] 行会日常（`Daily_GuildSignIn`：签到/捐赠开关、每日捐赠上限 1~3 次、`ColorMatch` 跳过已完成）
+- [x] 领取奖励（`Daily_ClaimRewards`：一键领邮件 + 任务日常/主线/成就三分类 + 探求者之书/器灵讨伐书 + 探求者手记，已适配 4.0）
 - [x] 每日素材关卡扫荡一次（`Daily_MaterialSweep`）
 - [x] 困难与极难主线自动扫荡（`Daily_MainStorySweep` + `MainStoryDifficulty` 选项）
-- [x] 每日任务奖励领取（`Daily_ClaimQuests`）与一键领取邮件（`Daily_ClaimMail`）
 - [ ] **里程碑验收**：连接真实游戏窗口/模拟器（通过 MaaMCP 或 MXU）逐项跑通并微调 720p ROI 与偶发弹窗模板
 
 ### Phase 3：核心战斗与活动周回
-- [x] 多人战斗自动周回（`Battle_Multi_Start`，支持自动建房 / 蹭车模式 `MultiBattleMode` 与自动补体）
+- [x] 联机自动战斗（`Battle_Coop_Auto_Start` + `agent/met-service.exe --restart-coop`，支持 4.0 战斗设置自动同步与 PC 卡死强杀重启续刷）
 - [x] 神眠之地自动重复刷（`Battle_GodSleep_Start`，含材料不足检测与补体联动）
 - [ ] 紧那罗击退战自动重复打（**按需求暂缓实现**，保留占位入口）
 - [x] 神狱桃园乡扫荡与领奖（`Activity_PeachGarden_Claim`，支持朱雀/玄武/青龙/白虎属性选择）

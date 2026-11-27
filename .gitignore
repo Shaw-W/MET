@@ -15,6 +15,8 @@ debug/
 maa.log
 maafw/
 mxu.exe
+MET.exe
+agent/*.exe
 
 # Python
 __pycache__/

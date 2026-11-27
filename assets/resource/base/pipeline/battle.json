@@ -3,14 +3,28 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [578, 48, 200, 45],
-                "expected": ["选择", "支援", "虚数体"]
+                "roi": [
+                    578,
+                    48,
+                    200,
+                    45
+                ],
+                "expected": [
+                    "选择",
+                    "支援",
+                    "虚数体"
+                ]
             }
         },
         "action": {
             "type": "Click",
             "param": {
-                "target": [260, 325, 27, 29]
+                "target": [
+                    260,
+                    325,
+                    27,
+                    29
+                ]
             }
         },
         "post_delay": 600,
@@ -23,8 +37,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1017, 542, 238, 160],
-                "expected": ["出击"]
+                "roi": [
+                    1017,
+                    542,
+                    238,
+                    160
+                ],
+                "expected": [
+                    "出击"
+                ]
             }
         },
         "action": {
@@ -41,8 +62,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1040, 0, 240, 90],
-                "expected": ["手动"]
+                "roi": [
+                    1040,
+                    0,
+                    240,
+                    90
+                ],
+                "expected": [
+                    "手动"
+                ]
             }
         },
         "action": {
@@ -54,8 +82,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [10, 9, 182, 36],
-                "expected": ["回合", "阶段"]
+                "roi": [
+                    10,
+                    9,
+                    182,
+                    36
+                ],
+                "expected": [
+                    "回合",
+                    "阶段"
+                ]
             }
         },
         "action": {
@@ -76,13 +112,256 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [910, 592, 363, 123],
-                "expected": ["退出房间", "返回"]
+                "roi": [
+                    910,
+                    592,
+                    363,
+                    123
+                ],
+                "expected": [
+                    "退出房间",
+                    "返回"
+                ]
             }
         },
         "action": {
             "type": "DoNothing"
         }
+    },
+    "Battle_Coop_Auto_Start": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Auto_AlreadyRunning",
+            "Battle_Coop_Cfg_Ready",
+            "Battle_Coop_Auto_OpenSettings",
+            "Battle_Coop_Auto_EnterCoop",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Battle_Coop_Auto_AlreadyRunning": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    520,
+                    10,
+                    240,
+                    80
+                ],
+                "expected": [
+                    "连战次数"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Auto_Monitor"
+        ]
+    },
+    "Battle_Coop_Auto_EnterCoop": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1060,
+                    260,
+                    210,
+                    140
+                ],
+                "expected": [
+                    "联机"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 900,
+        "next": [
+            "Battle_Coop_Auto_OpenSettings",
+            "Battle_Coop_Auto_EnterCoop"
+        ]
+    },
+    "Battle_Coop_Auto_OpenSettings": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1060,
+                    560,
+                    200,
+                    110
+                ],
+                "expected": [
+                    "自动战斗"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Battle_Coop_Cfg_Ready",
+            "Battle_Coop_Auto_OpenSettings"
+        ]
+    },
+    "Battle_Coop_Auto_ClickStart": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    680,
+                    620,
+                    220,
+                    75
+                ],
+                "expected": [
+                    "开始自动战斗"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 2000,
+        "next": [
+            "Battle_Coop_Auto_Monitor"
+        ]
+    },
+    "Battle_Coop_Auto_Monitor": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "pre_wait_freezes": {
+            "time": 300000,
+            "target": [
+                0,
+                0,
+                1280,
+                720
+            ],
+            "timeout": 43200000,
+            "threshold": 0.999,
+            "rate_limit": 5000
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Auto_FinishedDialog",
+            "Battle_Coop_Auto_FinishedLobby",
+            "Battle_Coop_Auto_NetworkDisconnect",
+            "Battle_Coop_Auto_FreezeRecover"
+        ]
+    },
+    "Battle_Coop_Auto_FinishedLobby": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    90,
+                    210,
+                    150,
+                    60
+                ],
+                "expected": [
+                    "创建战斗"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Auto_OpenSettings"
+        ]
+    },
+    "Battle_Coop_Auto_FinishedDialog": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    320,
+                    200,
+                    640,
+                    280
+                ],
+                "expected": [
+                    "自动战斗已结束",
+                    "精力不足",
+                    "已达到上限",
+                    "次数已用尽"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "[JumpBack]Common_ClickConfirm",
+            "Common_BackHome"
+        ]
+    },
+    "Battle_Coop_Auto_NetworkDisconnect": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    420,
+                    260,
+                    440,
+                    160
+                ],
+                "expected": [
+                    "连接失败",
+                    "网络已断开",
+                    "重新登录",
+                    "跨日"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "[JumpBack]Common_ClickConfirm",
+            "Battle_Coop_Auto_WaitRelogin"
+        ]
+    },
+    "Battle_Coop_Auto_WaitRelogin": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "[JumpBack]Startup_WaitIntoHome",
+            "Battle_Coop_Auto_Start"
+        ]
+    },
+    "Battle_Coop_Auto_FreezeRecover": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "[JumpBack]Common_RestartApp",
+            "Battle_Coop_Auto_Start"
+        ]
     },
     "Battle_Multi_Start": {
         "recognition": {
@@ -103,8 +382,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1060, 80, 220, 400],
-                "expected": ["联机"]
+                "roi": [
+                    1060,
+                    80,
+                    220,
+                    400
+                ],
+                "expected": [
+                    "联机"
+                ]
             }
         },
         "action": {
@@ -119,8 +405,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [12, 85, 1262, 59],
-                "expected": ["多人", "讨伐"]
+                "roi": [
+                    12,
+                    85,
+                    1262,
+                    59
+                ],
+                "expected": [
+                    "多人",
+                    "讨伐"
+                ]
             }
         },
         "action": {
@@ -147,8 +441,19 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [40, 140, 1200, 480],
-                "expected": ["特异点", "高难", "讨伐", "困难", "极难"]
+                "roi": [
+                    40,
+                    140,
+                    1200,
+                    480
+                ],
+                "expected": [
+                    "特异点",
+                    "高难",
+                    "讨伐",
+                    "困难",
+                    "极难"
+                ]
             }
         },
         "action": {
@@ -164,8 +469,18 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [40, 140, 1200, 480],
-                "expected": ["Lv", "级", "讨伐", "挑战"]
+                "roi": [
+                    40,
+                    140,
+                    1200,
+                    480
+                ],
+                "expected": [
+                    "Lv",
+                    "级",
+                    "讨伐",
+                    "挑战"
+                ]
             }
         },
         "action": {
@@ -180,8 +495,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [557, 0, 710, 702],
-                "expected": ["创建"]
+                "roi": [
+                    557,
+                    0,
+                    710,
+                    702
+                ],
+                "expected": [
+                    "创建"
+                ]
             }
         },
         "action": {
@@ -201,8 +523,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [250, 352, 722, 306],
-                "expected": ["确定"]
+                "roi": [
+                    250,
+                    352,
+                    722,
+                    306
+                ],
+                "expected": [
+                    "确定"
+                ]
             }
         },
         "action": {
@@ -219,8 +548,19 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [240, 120, 800, 500],
-                "expected": ["道具回复", "体力不足", "BP不足", "所需材料", "不足"]
+                "roi": [
+                    240,
+                    120,
+                    800,
+                    500
+                ],
+                "expected": [
+                    "道具回复",
+                    "体力不足",
+                    "BP不足",
+                    "所需材料",
+                    "不足"
+                ]
             }
         },
         "action": {
@@ -248,8 +588,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [540, 565, 200, 60],
-                "expected": ["道具回复"]
+                "roi": [
+                    540,
+                    565,
+                    200,
+                    60
+                ],
+                "expected": [
+                    "道具回复"
+                ]
             }
         },
         "action": {
@@ -268,7 +615,12 @@
         "action": {
             "type": "Click",
             "param": {
-                "target": [1219, 23, 46, 49]
+                "target": [
+                    1219,
+                    23,
+                    46,
+                    49
+                ]
             }
         },
         "post_delay": 1000,
@@ -282,8 +634,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1129, 649, 104, 40],
-                "expected": ["出击"]
+                "roi": [
+                    1129,
+                    649,
+                    104,
+                    40
+                ],
+                "expected": [
+                    "出击"
+                ]
             }
         },
         "action": {
@@ -302,8 +661,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [910, 592, 363, 123],
-                "expected": ["退出房间", "返回"]
+                "roi": [
+                    910,
+                    592,
+                    363,
+                    123
+                ],
+                "expected": [
+                    "退出房间",
+                    "返回"
+                ]
             }
         },
         "action": {
@@ -319,8 +686,18 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [780, 540, 490, 160],
-                "expected": ["房间列表", "救援", "快速加入", "加入"]
+                "roi": [
+                    780,
+                    540,
+                    490,
+                    160
+                ],
+                "expected": [
+                    "房间列表",
+                    "救援",
+                    "快速加入",
+                    "加入"
+                ]
             }
         },
         "action": {
@@ -336,8 +713,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1020, 560, 255, 125],
-                "expected": ["加入", "快速加入"]
+                "roi": [
+                    1020,
+                    560,
+                    255,
+                    125
+                ],
+                "expected": [
+                    "加入",
+                    "快速加入"
+                ]
             }
         },
         "action": {
@@ -359,8 +744,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [380, 443, 506, 90],
-                "expected": ["继续"]
+                "roi": [
+                    380,
+                    443,
+                    506,
+                    90
+                ],
+                "expected": [
+                    "继续"
+                ]
             }
         },
         "action": {
@@ -372,8 +764,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1032, 619, 247, 100],
-                "expected": ["准备"]
+                "roi": [
+                    1032,
+                    619,
+                    247,
+                    100
+                ],
+                "expected": [
+                    "准备"
+                ]
             }
         },
         "action": {
@@ -389,8 +788,19 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [240, 120, 800, 500],
-                "expected": ["道具回复", "体力不足", "BP不足", "所需材料", "不足"]
+                "roi": [
+                    240,
+                    120,
+                    800,
+                    500
+                ],
+                "expected": [
+                    "道具回复",
+                    "体力不足",
+                    "BP不足",
+                    "所需材料",
+                    "不足"
+                ]
             }
         },
         "action": {
@@ -418,8 +828,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [540, 565, 200, 60],
-                "expected": ["道具回复"]
+                "roi": [
+                    540,
+                    565,
+                    200,
+                    60
+                ],
+                "expected": [
+                    "道具回复"
+                ]
             }
         },
         "action": {
@@ -438,7 +855,12 @@
         "action": {
             "type": "Click",
             "param": {
-                "target": [1219, 23, 46, 49]
+                "target": [
+                    1219,
+                    23,
+                    46,
+                    49
+                ]
             }
         },
         "post_delay": 1000,
@@ -473,8 +895,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1024, 620, 256, 99],
-                "expected": ["取消准备"]
+                "roi": [
+                    1024,
+                    620,
+                    256,
+                    99
+                ],
+                "expected": [
+                    "取消准备"
+                ]
             }
         },
         "action": {
@@ -495,7 +924,12 @@
         "action": {
             "type": "Click",
             "param": {
-                "target": [55, 32, 30, 20]
+                "target": [
+                    55,
+                    32,
+                    30,
+                    20
+                ]
             }
         },
         "post_delay": 800,
@@ -508,8 +942,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [348, 414, 596, 132],
-                "expected": ["退出", "确定"]
+                "roi": [
+                    348,
+                    414,
+                    596,
+                    132
+                ],
+                "expected": [
+                    "退出",
+                    "确定"
+                ]
             }
         },
         "action": {
@@ -527,8 +969,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [910, 592, 363, 123],
-                "expected": ["退出房间", "返回"]
+                "roi": [
+                    910,
+                    592,
+                    363,
+                    123
+                ],
+                "expected": [
+                    "退出房间",
+                    "返回"
+                ]
             }
         },
         "action": {
@@ -559,8 +1009,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1060, 80, 220, 400],
-                "expected": ["出击"]
+                "roi": [
+                    1060,
+                    80,
+                    220,
+                    400
+                ],
+                "expected": [
+                    "出击"
+                ]
             }
         },
         "action": {
@@ -576,8 +1033,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [43, 84, 1205, 60],
-                "expected": ["契约", "挑战"]
+                "roi": [
+                    43,
+                    84,
+                    1205,
+                    60
+                ],
+                "expected": [
+                    "契约",
+                    "挑战"
+                ]
             }
         },
         "action": {
@@ -596,8 +1061,18 @@
         "action": {
             "type": "Swipe",
             "param": {
-                "begin": [1228, 206, 1, 1],
-                "end": [367, 206, 1, 1],
+                "begin": [
+                    1228,
+                    206,
+                    1,
+                    1
+                ],
+                "end": [
+                    367,
+                    206,
+                    1,
+                    1
+                ],
                 "duration": 500
             }
         },
@@ -607,8 +1082,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [4, 190, 1059, 475],
-                "expected": ["神眠之地", "神眠"]
+                "roi": [
+                    4,
+                    190,
+                    1059,
+                    475
+                ],
+                "expected": [
+                    "神眠之地",
+                    "神眠"
+                ]
             }
         },
         "action": {
@@ -624,14 +1107,26 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [440, 11, 806, 667],
-                "expected": ["歧路"]
+                "roi": [
+                    440,
+                    11,
+                    806,
+                    667
+                ],
+                "expected": [
+                    "歧路"
+                ]
             }
         },
         "action": {
             "type": "Click",
             "param": {
-                "target_offset": [-40, -40, 1, 1]
+                "target_offset": [
+                    -40,
+                    -40,
+                    1,
+                    1
+                ]
             }
         },
         "post_delay": 800,
@@ -644,8 +1139,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [21, 132, 1213, 495],
-                "expected": ["新生", "罪人"]
+                "roi": [
+                    21,
+                    132,
+                    1213,
+                    495
+                ],
+                "expected": [
+                    "新生",
+                    "罪人"
+                ]
             }
         },
         "action": {
@@ -660,8 +1163,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [866, 592, 171, 114],
-                "expected": ["扫荡"]
+                "roi": [
+                    866,
+                    592,
+                    171,
+                    114
+                ],
+                "expected": [
+                    "扫荡"
+                ]
             }
         },
         "action": {
@@ -680,8 +1190,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [495, 397, 287, 150],
-                "expected": ["确定"]
+                "roi": [
+                    495,
+                    397,
+                    287,
+                    150
+                ],
+                "expected": [
+                    "确定"
+                ]
             }
         },
         "action": {
@@ -697,8 +1214,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [773, 614, 248, 105],
-                "expected": ["确认"]
+                "roi": [
+                    773,
+                    614,
+                    248,
+                    105
+                ],
+                "expected": [
+                    "确认"
+                ]
             }
         },
         "action": {
@@ -713,8 +1237,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [508, 319, 259, 76],
-                "expected": ["所需材料", "不足"]
+                "roi": [
+                    508,
+                    319,
+                    259,
+                    76
+                ],
+                "expected": [
+                    "所需材料",
+                    "不足"
+                ]
             }
         },
         "action": {
@@ -733,7 +1265,12 @@
         "action": {
             "type": "Click",
             "param": {
-                "target": [875, 35, 30, 30]
+                "target": [
+                    875,
+                    35,
+                    30,
+                    30
+                ]
             }
         },
         "post_delay": 800,
@@ -748,8 +1285,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [513, 104, 240, 119],
-                "expected": ["回复"]
+                "roi": [
+                    513,
+                    104,
+                    240,
+                    119
+                ],
+                "expected": [
+                    "回复"
+                ]
             }
         },
         "action": {
@@ -769,8 +1313,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [579, 295, 115, 71],
-                "expected": ["60"]
+                "roi": [
+                    579,
+                    295,
+                    115,
+                    71
+                ],
+                "expected": [
+                    "60"
+                ]
             }
         },
         "action": {
@@ -787,7 +1338,12 @@
         "action": {
             "type": "Click",
             "param": {
-                "target": [747, 316, 41, 20]
+                "target": [
+                    747,
+                    316,
+                    41,
+                    20
+                ]
             }
         },
         "post_delay": 150,
@@ -800,8 +1356,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [553, 416, 183, 85],
-                "expected": ["兑换"]
+                "roi": [
+                    553,
+                    416,
+                    183,
+                    85
+                ],
+                "expected": [
+                    "兑换"
+                ]
             }
         },
         "action": {
@@ -845,8 +1408,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1060, 80, 220, 400],
-                "expected": ["探求者手记", "手记"]
+                "roi": [
+                    1060,
+                    80,
+                    220,
+                    400
+                ],
+                "expected": [
+                    "探求者手记",
+                    "手记"
+                ]
             }
         },
         "action": {
@@ -864,8 +1435,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1074, 97, 139, 582],
-                "expected": ["领取"]
+                "roi": [
+                    1074,
+                    97,
+                    139,
+                    582
+                ],
+                "expected": [
+                    "领取"
+                ]
             }
         },
         "action": {
@@ -879,8 +1457,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1120, 15, 140, 55],
-                "expected": ["一键领取", "键领"]
+                "roi": [
+                    1120,
+                    15,
+                    140,
+                    55
+                ],
+                "expected": [
+                    "一键领取",
+                    "键领"
+                ]
             }
         },
         "action": {
@@ -897,15 +1483,33 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1120, 15, 140, 55],
-                "expected": ["一键领取", "键领"]
+                "roi": [
+                    1120,
+                    15,
+                    140,
+                    55
+                ],
+                "expected": [
+                    "一键领取",
+                    "键领"
+                ]
             }
         },
         "action": {
             "type": "Swipe",
             "param": {
-                "begin": [366, 686, 1, 1],
-                "end": [366, 350, 1, 1],
+                "begin": [
+                    366,
+                    686,
+                    1,
+                    1
+                ],
+                "end": [
+                    366,
+                    350,
+                    1,
+                    1
+                ],
                 "duration": 800
             }
         },
@@ -916,8 +1520,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1075, 91, 144, 586],
-                "expected": ["已完成"]
+                "roi": [
+                    1075,
+                    91,
+                    144,
+                    586
+                ],
+                "expected": [
+                    "已完成"
+                ]
             }
         },
         "action": {
@@ -965,8 +1576,17 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [200, 75, 960, 554],
-                "expected": ["NEW", "挑战", "剧情"]
+                "roi": [
+                    200,
+                    75,
+                    960,
+                    554
+                ],
+                "expected": [
+                    "NEW",
+                    "挑战",
+                    "剧情"
+                ]
             }
         },
         "action": {
@@ -984,8 +1604,18 @@
         "action": {
             "type": "Swipe",
             "param": {
-                "begin": [1167, 466, 1, 1],
-                "end": [61, 466, 1, 1],
+                "begin": [
+                    1167,
+                    466,
+                    1,
+                    1
+                ],
+                "end": [
+                    61,
+                    466,
+                    1,
+                    1
+                ],
                 "duration": 500
             }
         },
@@ -996,8 +1626,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1100, 280, 175, 160],
-                "expected": ["播放", "剧情"]
+                "roi": [
+                    1100,
+                    280,
+                    175,
+                    160
+                ],
+                "expected": [
+                    "播放",
+                    "剧情"
+                ]
             }
         },
         "action": {
@@ -1012,8 +1650,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1124, 5, 155, 92],
-                "expected": ["跳过"]
+                "roi": [
+                    1124,
+                    5,
+                    155,
+                    92
+                ],
+                "expected": [
+                    "跳过"
+                ]
             }
         },
         "action": {
@@ -1029,8 +1674,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [650, 410, 265, 148],
-                "expected": ["确定"]
+                "roi": [
+                    650,
+                    410,
+                    265,
+                    148
+                ],
+                "expected": [
+                    "确定"
+                ]
             }
         },
         "action": {
@@ -1045,8 +1697,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [960, 577, 319, 142],
-                "expected": ["出击"]
+                "roi": [
+                    960,
+                    577,
+                    319,
+                    142
+                ],
+                "expected": [
+                    "出击"
+                ]
             }
         },
         "action": {
@@ -1066,8 +1725,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1025, 583, 254, 136],
-                "expected": ["返回"]
+                "roi": [
+                    1025,
+                    583,
+                    254,
+                    136
+                ],
+                "expected": [
+                    "返回"
+                ]
             }
         },
         "action": {
@@ -1082,8 +1748,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [412, 402, 468, 254],
-                "expected": ["点击空白处", "点击"]
+                "roi": [
+                    412,
+                    402,
+                    468,
+                    254
+                ],
+                "expected": [
+                    "点击空白处",
+                    "点击"
+                ]
             }
         },
         "action": {
@@ -1098,8 +1772,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [350, 140, 580, 360],
-                "expected": ["全员重伤", "战斗失败"]
+                "roi": [
+                    350,
+                    140,
+                    580,
+                    360
+                ],
+                "expected": [
+                    "全员重伤",
+                    "战斗失败"
+                ]
             }
         },
         "action": {
@@ -1128,8 +1810,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1060, 80, 220, 400],
-                "expected": ["出击"]
+                "roi": [
+                    1060,
+                    80,
+                    220,
+                    400
+                ],
+                "expected": [
+                    "出击"
+                ]
             }
         },
         "action": {
@@ -1149,14 +1838,28 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [200, 540, 500, 140],
-                "expected": ["邀请", "接受", "加入"]
+                "roi": [
+                    200,
+                    540,
+                    500,
+                    140
+                ],
+                "expected": [
+                    "邀请",
+                    "接受",
+                    "加入"
+                ]
             }
         },
         "action": {
             "type": "Click",
             "param": {
-                "target": [416, 617, 27, 23]
+                "target": [
+                    416,
+                    617,
+                    27,
+                    23
+                ]
             }
         },
         "post_delay": 1000,
@@ -1187,8 +1890,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1100, 637, 130, 57],
-                "expected": ["出击"]
+                "roi": [
+                    1100,
+                    637,
+                    130,
+                    57
+                ],
+                "expected": [
+                    "出击"
+                ]
             }
         },
         "action": {
@@ -1205,7 +1915,12 @@
         "action": {
             "type": "Click",
             "param": {
-                "target": [55, 32, 30, 20]
+                "target": [
+                    55,
+                    32,
+                    30,
+                    20
+                ]
             }
         },
         "post_delay": 800,
@@ -1218,8 +1933,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [371, 380, 535, 183],
-                "expected": ["退出", "确定"]
+                "roi": [
+                    371,
+                    380,
+                    535,
+                    183
+                ],
+                "expected": [
+                    "退出",
+                    "确定"
+                ]
             }
         },
         "action": {
@@ -1228,6 +1951,839 @@
         "post_delay": 1200,
         "next": [
             "Battle_WaitInvite_Start"
+        ]
+    },
+    "Battle_Coop_Cfg_Ready": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    540,
+                    20,
+                    200,
+                    65
+                ],
+                "expected": [
+                    "战斗设置"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Cfg_Entry"
+        ]
+    },
+    "Battle_Coop_Cfg_Entry": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Auto_ClickStart"
+        ]
+    },
+    "Battle_Coop_Cfg_FilterMode": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Cfg_PlanMode"
+        ]
+    },
+    "Battle_Coop_Cfg_FilterMode_TurnOn": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    136,
+                    108,
+                    54,
+                    30
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        0,
+                        100,
+                        140
+                    ]
+                ],
+                "upper": [
+                    [
+                        100,
+                        255,
+                        255
+                    ]
+                ],
+                "count": 35
+            }
+        },
+        "inverse": true,
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    136,
+                    108,
+                    54,
+                    30
+                ]
+            }
+        },
+        "post_delay": 250,
+        "next": [
+            "Battle_Coop_Cfg_PlanMode"
+        ]
+    },
+    "Battle_Coop_Cfg_FilterMode_TurnOff": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    136,
+                    108,
+                    54,
+                    30
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        0,
+                        100,
+                        140
+                    ]
+                ],
+                "upper": [
+                    [
+                        100,
+                        255,
+                        255
+                    ]
+                ],
+                "count": 35
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    136,
+                    108,
+                    54,
+                    30
+                ]
+            }
+        },
+        "post_delay": 250,
+        "next": [
+            "Battle_Coop_Cfg_PlanMode"
+        ]
+    },
+    "Battle_Coop_Cfg_PlanMode": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Cfg_AutoCreate"
+        ]
+    },
+    "Battle_Coop_Cfg_PlanMode_TurnOn": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    136,
+                    150,
+                    54,
+                    30
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        0,
+                        100,
+                        140
+                    ]
+                ],
+                "upper": [
+                    [
+                        100,
+                        255,
+                        255
+                    ]
+                ],
+                "count": 35
+            }
+        },
+        "inverse": true,
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    136,
+                    150,
+                    54,
+                    30
+                ]
+            }
+        },
+        "post_delay": 250,
+        "next": [
+            "Battle_Coop_Cfg_AutoCreate"
+        ]
+    },
+    "Battle_Coop_Cfg_PlanMode_TurnOff": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    136,
+                    150,
+                    54,
+                    30
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        0,
+                        100,
+                        140
+                    ]
+                ],
+                "upper": [
+                    [
+                        100,
+                        255,
+                        255
+                    ]
+                ],
+                "count": 35
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    136,
+                    150,
+                    54,
+                    30
+                ]
+            }
+        },
+        "post_delay": 250,
+        "next": [
+            "Battle_Coop_Cfg_AutoCreate"
+        ]
+    },
+    "Battle_Coop_Cfg_AutoCreate": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Cfg_NoStopOnLose"
+        ]
+    },
+    "Battle_Coop_Cfg_AutoCreate_TurnOn": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    136,
+                    193,
+                    54,
+                    30
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        0,
+                        100,
+                        140
+                    ]
+                ],
+                "upper": [
+                    [
+                        100,
+                        255,
+                        255
+                    ]
+                ],
+                "count": 35
+            }
+        },
+        "inverse": true,
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    136,
+                    193,
+                    54,
+                    30
+                ]
+            }
+        },
+        "post_delay": 250,
+        "next": [
+            "Battle_Coop_Cfg_NoStopOnLose"
+        ]
+    },
+    "Battle_Coop_Cfg_AutoCreate_TurnOff": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    136,
+                    193,
+                    54,
+                    30
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        0,
+                        100,
+                        140
+                    ]
+                ],
+                "upper": [
+                    [
+                        100,
+                        255,
+                        255
+                    ]
+                ],
+                "count": 35
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    136,
+                    193,
+                    54,
+                    30
+                ]
+            }
+        },
+        "post_delay": 250,
+        "next": [
+            "Battle_Coop_Cfg_NoStopOnLose"
+        ]
+    },
+    "Battle_Coop_Cfg_NoStopOnLose": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Cfg_AutoPotion"
+        ]
+    },
+    "Battle_Coop_Cfg_NoStopOnLose_TurnOn": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    136,
+                    500,
+                    54,
+                    30
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        0,
+                        100,
+                        140
+                    ]
+                ],
+                "upper": [
+                    [
+                        100,
+                        255,
+                        255
+                    ]
+                ],
+                "count": 35
+            }
+        },
+        "inverse": true,
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    136,
+                    500,
+                    54,
+                    30
+                ]
+            }
+        },
+        "post_delay": 250,
+        "next": [
+            "Battle_Coop_Cfg_AutoPotion"
+        ]
+    },
+    "Battle_Coop_Cfg_NoStopOnLose_TurnOff": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    136,
+                    500,
+                    54,
+                    30
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        0,
+                        100,
+                        140
+                    ]
+                ],
+                "upper": [
+                    [
+                        100,
+                        255,
+                        255
+                    ]
+                ],
+                "count": 35
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    136,
+                    500,
+                    54,
+                    30
+                ]
+            }
+        },
+        "post_delay": 250,
+        "next": [
+            "Battle_Coop_Cfg_AutoPotion"
+        ]
+    },
+    "Battle_Coop_Cfg_AutoPotion": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Cfg_SmallPotion"
+        ]
+    },
+    "Battle_Coop_Cfg_AutoPotion_TurnOn": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    136,
+                    545,
+                    54,
+                    30
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        0,
+                        100,
+                        140
+                    ]
+                ],
+                "upper": [
+                    [
+                        100,
+                        255,
+                        255
+                    ]
+                ],
+                "count": 35
+            }
+        },
+        "inverse": true,
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    136,
+                    545,
+                    54,
+                    30
+                ]
+            }
+        },
+        "post_delay": 250,
+        "next": [
+            "Battle_Coop_Cfg_SmallPotion"
+        ]
+    },
+    "Battle_Coop_Cfg_AutoPotion_TurnOff": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    136,
+                    545,
+                    54,
+                    30
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        0,
+                        100,
+                        140
+                    ]
+                ],
+                "upper": [
+                    [
+                        100,
+                        255,
+                        255
+                    ]
+                ],
+                "count": 35
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    136,
+                    545,
+                    54,
+                    30
+                ]
+            }
+        },
+        "post_delay": 250,
+        "next": [
+            "Battle_Coop_Cfg_SmallPotion"
+        ]
+    },
+    "Battle_Coop_Cfg_SmallPotion": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Cfg_LargePotion"
+        ]
+    },
+    "Battle_Coop_Cfg_SmallPotion_TurnOn": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    694,
+                    496,
+                    38,
+                    36
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        180,
+                        140,
+                        0
+                    ]
+                ],
+                "upper": [
+                    [
+                        255,
+                        255,
+                        110
+                    ]
+                ],
+                "count": 35
+            }
+        },
+        "inverse": true,
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    694,
+                    496,
+                    38,
+                    36
+                ]
+            }
+        },
+        "post_delay": 250,
+        "next": [
+            "Battle_Coop_Cfg_LargePotion"
+        ]
+    },
+    "Battle_Coop_Cfg_SmallPotion_TurnOff": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    694,
+                    496,
+                    38,
+                    36
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        180,
+                        140,
+                        0
+                    ]
+                ],
+                "upper": [
+                    [
+                        255,
+                        255,
+                        110
+                    ]
+                ],
+                "count": 35
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    694,
+                    496,
+                    38,
+                    36
+                ]
+            }
+        },
+        "post_delay": 250,
+        "next": [
+            "Battle_Coop_Cfg_LargePotion"
+        ]
+    },
+    "Battle_Coop_Cfg_LargePotion": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Cfg_RetreatAllDead"
+        ]
+    },
+    "Battle_Coop_Cfg_LargePotion_TurnOn": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    694,
+                    564,
+                    38,
+                    36
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        180,
+                        140,
+                        0
+                    ]
+                ],
+                "upper": [
+                    [
+                        255,
+                        255,
+                        110
+                    ]
+                ],
+                "count": 35
+            }
+        },
+        "inverse": true,
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    694,
+                    564,
+                    38,
+                    36
+                ]
+            }
+        },
+        "post_delay": 250,
+        "next": [
+            "Battle_Coop_Cfg_RetreatAllDead"
+        ]
+    },
+    "Battle_Coop_Cfg_LargePotion_TurnOff": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    694,
+                    564,
+                    38,
+                    36
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        180,
+                        140,
+                        0
+                    ]
+                ],
+                "upper": [
+                    [
+                        255,
+                        255,
+                        110
+                    ]
+                ],
+                "count": 35
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    694,
+                    564,
+                    38,
+                    36
+                ]
+            }
+        },
+        "post_delay": 250,
+        "next": [
+            "Battle_Coop_Cfg_RetreatAllDead"
+        ]
+    },
+    "Battle_Coop_Cfg_RetreatAllDead": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Auto_ClickStart"
+        ]
+    },
+    "Battle_Coop_Cfg_RetreatAllDead_TurnOn": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    136,
+                    590,
+                    54,
+                    30
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        0,
+                        100,
+                        140
+                    ]
+                ],
+                "upper": [
+                    [
+                        100,
+                        255,
+                        255
+                    ]
+                ],
+                "count": 35
+            }
+        },
+        "inverse": true,
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    136,
+                    590,
+                    54,
+                    30
+                ]
+            }
+        },
+        "post_delay": 250,
+        "next": [
+            "Battle_Coop_Auto_ClickStart"
+        ]
+    },
+    "Battle_Coop_Cfg_RetreatAllDead_TurnOff": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    136,
+                    590,
+                    54,
+                    30
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        0,
+                        100,
+                        140
+                    ]
+                ],
+                "upper": [
+                    [
+                        100,
+                        255,
+                        255
+                    ]
+                ],
+                "count": 35
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    136,
+                    590,
+                    54,
+                    30
+                ]
+            }
+        },
+        "post_delay": 250,
+        "next": [
+            "Battle_Coop_Auto_ClickStart"
         ]
     }
 }

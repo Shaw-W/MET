@@ -53,3 +53,10 @@ description: >-
      uv run --python 3.12 python tools/validate.py
      ```
    - 同步勾选 `docs/ROADMAP.md` 中对应任务的进度。
+
+
+## 5. MaaFramework v5 进阶特性与 4.0 界面约定
+
+- **动效稳定**：在战斗结算、抽卡、扫荡动画等过渡页面，优先使用 `pre_wait_freezes` 等待画面静止，避免硬写过长 `post_delay`；纯点击领奖与同页切换保持轻量延迟（`250~400ms`），并优先跳过进入页面时默认已选中的页签。
+- **组合识别**：复杂弹窗或同名按钮场景优先使用 MaaFramework v5 原生 `And` / `Or` 组合识别与 `ColorMatch`（如行会签到/捐赠亮暗状态判定）。
+- **PI V2 扩展**：当正式放开的任务超过 8~10 个时，使用 PI V2 `group`（任务分组）与 `import`（拆分任务配置文件）保持 `assets/interface.json` 精简；定期对照官方 `interface.schema.json` 与 `pipeline.schema.json` 校验。

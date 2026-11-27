@@ -13,7 +13,7 @@ MET 是面向《悠久之树》的新一代自动化助手，参考 [MAATree](ht
 | 核心引擎 | [MaaFramework](https://github.com/MaaXYZ/MaaFramework) | `>= v5.12.1` | 图像识别、OCR、模拟控制、Pipeline 调度引擎 |
 | 接口协议 | **Project Interface V2 (PI V2)** | `"interface_version": 2` | 前后端解耦协议，严格遵循 `interface.schema.json` |
 | 前端 GUI | [MXU (MaaFramework Next UI)](https://github.com/MaaXYZ/MXU) | Latest Release | Tauri + React + TypeScript 通用客户端（仅打包 Windows `x86_64`） |
-| 逻辑实现 | **纯 Pipeline JSON** | 零外部运行时依赖 | 不引入 Python `MaaAgent`（自动炼金功能已移除），保持产物轻量便携 |
+| 逻辑实现 | **Pipeline JSON + 轻量 Go 单文件服务** | 零外部运行时依赖 | 核心流程为纯 Pipeline JSON，配合静态编译的 `agent/met-service.exe` 处理 PC 前置启动、卡死重启与未来 Custom Agent 扩展；不引入 Python 运行时 |
 | 目标平台与服区 | Windows (`x86_64`) / 官服 + B服 | ADB + Win32 | 支持安卓模拟器（ADB）与 PC 桌面端（Win32） |
 | 自动化打包 | GitHub Actions | `win-x86_64` 自动组装 | 仅发布至 GitHub Actions Artifacts / GitHub Releases，不含 MirrorChyan |
 
