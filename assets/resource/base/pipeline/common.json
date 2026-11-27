@@ -71,6 +71,7 @@
             "Common_HomeCheck_Icon",
             "[JumpBack]Common_NetworkDisconnect",
             "[JumpBack]Startup_ClosePopupIcon",
+            "[JumpBack]Startup_CloseDailyAttendance",
             "[JumpBack]Startup_CloseGiftPopup",
             "[JumpBack]Common_ClickBlankClose",
             "[JumpBack]Common_SweepEndConfirm",

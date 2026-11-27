@@ -49,6 +49,7 @@
             "[JumpBack]Common_ClickBlankClose",
             "[JumpBack]Common_ClickCancel",
             "[JumpBack]Startup_ClosePopupIcon",
+            "[JumpBack]Startup_CloseDailyAttendance",
             "[JumpBack]Startup_CloseGiftPopup",
             "[JumpBack]Startup_CloseAnnouncement",
             "[JumpBack]Common_BattleEndReturn",
@@ -102,6 +103,22 @@
             "type": "Click"
         },
         "post_delay": 800
+    },
+    "Startup_CloseDailyAttendance": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [450, 95, 380, 55],
+                "expected": ["DAILY ATTENDANCE", "ATTENDANCE"]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [1116, 95, 20, 20]
+            }
+        },
+        "post_delay": 700
     },
     "Startup_CloseGiftPopup": {
         "recognition": {
