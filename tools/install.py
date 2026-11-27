@@ -3,10 +3,13 @@
 
 Output layout (install/):
   install/
-  ├── mxu.exe
+  ├── MET.exe          # Branded MXU executable
   ├── maafw/           # MaaFramework bin/ contents
   ├── interface.json   # PI V2 config with injected version
-  ├── resource/        # base/ + bilibili/ resources (including OCR models)
+  ├── logo.png         # App icon
+  ├── scripts/         # PC pretask scripts
+  ├── resource/        # base/ + bilibili/ + win32/ resources (including OCR models)
+  ├── LICENSE
   └── README.md
 """
 
@@ -80,7 +83,7 @@ def install_runtime(allow_missing_runtime: bool) -> None:
         )
 
     if mxu_exe is not None:
-        shutil.copy2(mxu_exe, INSTALL_DIR / "mxu.exe")
+        shutil.copy2(mxu_exe, INSTALL_DIR / "MET.exe")
     elif not allow_missing_runtime:
         raise FileNotFoundError(
             f"Missing mxu.exe under {DEPS_DIR / 'mxu'}. "

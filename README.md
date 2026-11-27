@@ -31,9 +31,9 @@
 
 ## 快速开始
 
-本仓库仅保留**配置、Pipeline 源码与模板素材**，运行时二进制（`mxu.exe`、`maafw/` 与 OCR 模型）均由 GitHub Actions 自动拉取并打包。
+本仓库仅保留**配置、Pipeline 源码与模板素材**，运行时二进制（`MET.exe`、`maafw/` 与 OCR 模型）均由 GitHub Actions 自动拉取并打包。
 
-- **普通用户**：前往 [Releases](https://github.com/Shaw-W/MET/releases) 下载最新 `MET-win-x86_64-*.zip`，解压后直接双击 `mxu.exe` 即可运行，无需安装 Python 或其他运行环境。
+- **普通用户**：前往 [Releases](https://github.com/Shaw-W/MET/releases) 下载最新 `MET-win-x86_64-*.zip`，解压后直接双击 `MET.exe` 即可运行，无需安装 Python 或其他运行环境。
 - **支持环境**：Windows (`x86_64`)，支持 **官服 + B服**，支持 **ADB（安卓模拟器，推荐 `1280×720`）** 与 **Win32（PC 桌面端）**。
 
 ---

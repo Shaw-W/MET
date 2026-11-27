@@ -62,7 +62,10 @@ jobs:
 
   package:
     needs: meta
-    runs-on: ubuntu-24.04
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -73,7 +76,7 @@ jobs:
           python-version: "3.12"
 
       - name: Validate PI V2 interface & pipelines
-        run: python3 tools/validate.py
+        run: python tools/validate.py
 
       - name: Download MaaFramework (win-x86_64)
         uses: robinraju/release-downloader@v1
@@ -93,6 +96,14 @@ jobs:
           tag: ${{ env.MXU_VERSION }}
           out-file-path: "deps/downloads/mxu"
 
+      - name: Download rcedit (icon patcher)
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: electron/rcedit
+          fileName: "rcedit-x64.exe"
+          latest: true
+          out-file-path: "deps/tools"
+
       - name: Extract MaaFramework & MXU
         run: |
           mkdir -p deps/maafw deps/mxu
@@ -100,17 +111,31 @@ jobs:
           unzip -q deps/downloads/mxu/*.zip -d deps/mxu
 
       - name: Fetch OCR models (MaaCommonAssets)
-        run: python3 tools/configure.py
+        run: python tools/configure.py
 
-      - name: Assemble Windows MXU distribution
-        run: python3 tools/install.py "${{ needs.meta.outputs.tag }}"
+      - name: Assemble Windows MET distribution
+        run: python tools/install.py "${{ needs.meta.outputs.tag }}"
+
+      - name: Embed MET logo icon into MET.exe
+        run: |
+          python -m pip install --quiet pillow
+          python -c "
+          from PIL import Image
+          img = Image.open('assets/logo.png').convert('RGBA')
+          img.save('deps/logo.ico', format='ICO', sizes=[(16,16),(32,32),(48,48),(64,64),(128,128),(256,256)])
+          "
+          ./deps/tools/rcedit-x64.exe install/MET.exe \
+            --set-icon deps/logo.ico \
+            --set-version-string ProductName "MET" \
+            --set-version-string FileDescription "MET - Maa Eternal Tree"
 
       - name: Create release archive
+        shell: pwsh
         run: |
-          mkdir -p dist
-          ARCHIVE="MET-win-x86_64-${{ needs.meta.outputs.tag }}.zip"
-          (cd install && zip -r "../dist/${ARCHIVE}" .)
-          echo "ARCHIVE_NAME=${ARCHIVE}" >> "$GITHUB_ENV"
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          $archive = "MET-win-x86_64-${{ needs.meta.outputs.tag }}.zip"
+          Compress-Archive -Path "install\*" -DestinationPath "dist\$archive" -Force
+          "ARCHIVE_NAME=$archive" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
