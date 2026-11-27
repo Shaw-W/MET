@@ -17,7 +17,7 @@
 
 ## 2. 必须遵守的硬性约束
 
-1. **纯 Pipeline JSON 架构**：不引入 Python `MaaAgent` 自定义代码，不实现已移除的“自动炼金”功能，确保最终产物零外部运行时依赖。
+1. **Pipeline JSON 为主 + 轻量 Go 单文件服务**：核心游戏自动化逻辑保持纯 Pipeline JSON，仅允许使用静态编译的零依赖 Go 服务（`agent/met-service.exe`，用于 PC 前置启动、卡死强杀重启与未来按需扩展的 Custom Agent）；不引入 Python 运行时依赖，不实现已移除的“自动炼金”功能，确保最终产物零外部运行时依赖。
 2. **零 MirrorChyan 耦合**：严禁添加任何 `mirrorchyan_*` 字段、MirrorChyan 工作流或相关文档。
 3. **纯 PI V2 + MXU 协议**：`assets/interface.json` 必须是严格标准 JSON（无注释、无尾随逗号），顶层固定 `"interface_version": 2`，严禁引入 MFAAvalonia / PI V1 废弃字段（如 `custom_title`）。
 4. **模块化 Pipeline**：

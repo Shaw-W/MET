@@ -10,7 +10,8 @@
   <img alt="Platform" src="https://img.shields.io/badge/platform-Windows%20x86__64-0078D6?logo=windows&logoColor=white" />
   <img alt="Engine" src="https://img.shields.io/badge/MaaFramework-%3E%3D%20v5.12.1-2ea44f" />
   <img alt="UI" src="https://img.shields.io/badge/GUI-MXU%20(PI%20V2)-blueviolet" />
-  <img alt="Architecture" src="https://img.shields.io/badge/Pipeline-Pure%20JSON-454545" />
+  <img alt="Pipeline" src="https://img.shields.io/badge/Pipeline-JSON-454545" />
+  <a href="./agent"><img alt="Go" src="https://img.shields.io/badge/Go-007d9c?logo=go&logoColor=white" /></a>
 </p>
 <p>
   <a href="https://github.com/Shaw-W/MET/actions/workflows/ci.yml"><img alt="CI Validation" src="https://github.com/Shaw-W/MET/actions/workflows/ci.yml/badge.svg" /></a>
@@ -21,7 +22,7 @@
 
 面向《悠久之树》的新一代轻量化自动化小助手
 
-基于 **[MaaFramework](https://github.com/MaaXYZ/MaaFramework)** 纯 Pipeline JSON 架构与 **[MXU](https://github.com/MaaXYZ/MXU)** 前端构建，零外部运行时依赖，解压即用，解放双手！
+基于 **[MaaFramework](https://github.com/MaaXYZ/MaaFramework)** Pipeline JSON + 轻量 **Go** 服务与 **[MXU](https://github.com/MaaXYZ/MXU)** 前端构建，零外部运行时依赖，解压即用，解放双手！
 
 [使用手册](docs/USAGE.md) · [架构规范](docs/SPEC.md) · [开发进度](docs/ROADMAP.md) · [AI 开发约定](AGENTS.md) · [下载发布包](https://github.com/Shaw-W/MET/releases)
 
@@ -31,7 +32,7 @@
 
 ## 快速开始
 
-本仓库仅保留**配置、Pipeline 源码与模板素材**，运行时二进制（`MET.exe`、`maafw/` 与 OCR 模型）均由 GitHub Actions 自动拉取并打包。
+本仓库仅保留**配置、Pipeline 源码、Go 辅助服务源码与模板素材**，运行时二进制（`MET.exe`、`agent/met-service.exe`、`maafw/` 与 OCR 模型）均由 GitHub Actions 自动编译拉取并打包。
 
 - **普通用户**：前往 [Releases](https://github.com/Shaw-W/MET/releases) 下载最新 `MET-win-x86_64-*.zip`，解压后直接双击 `MET.exe` 即可运行，无需安装 Python 或其他运行环境。
 - **支持环境**：Windows (`x86_64`)，支持 **官服 + B服**，支持 **ADB（安卓模拟器，推荐 `1280×720`）** 与 **Win32（PC 桌面端）**。
@@ -43,9 +44,10 @@
 - 🚀 **启动游戏**：PC 端自动检测并拉起 `eternaltree.exe`（已在运行则秒过），支持 ADB 官服 / B服自动启动，定时轮询并自动清理登录与礼包弹窗，稳稳进主界面！
 - 🔋 **体力补给**：前置进入「活动 → 福利放送」同页连续领取每日物资（12点/18点）与在线奖励，支持独立开关，无奖自动提前结束。
 - 🏰 **行会日常**：自动从菜单抽屉进入行会完成每日签到与物资捐赠，支持分别开关、真正的每日捐赠上限（1～3 次）及已完成自动跳过。
+- ⚔️ **联机自动战斗**：一键进入「联机 → 自动战斗」，支持按 MET 选项自动同步 6 项战斗开关与精力药水勾选，内置防卡死守护（画面静止超 5 分钟自动强杀重启 PC 客户端并重连续刷，异常掉回联机大厅自动续战）。
 - 🎁 **领取奖励**：收尾统一清红点——一键领取邮箱附件、任务（日常含活跃宝箱 / 主线 / 成就三分类）、探求者之书 & 器灵讨伐书（先领任务经验再领等级奖励）以及探求者手记，全部支持逐项开关 ✅
 - 💻 **多端与多服适配**：支持 **Win32 PC 端**（原生兼容 1080p / 2K 16:9 缩放）与 **ADB 安卓模拟器**，支持 **官服 + B服**，内置「核心日常（推荐）」一键预设。
-- 🚧 **正在维护**：素材 / 主线扫荡、多人战斗、神眠之地、神狱桃源乡与限时活动等模块正在按 4.0 界面陆续适配中，详见 [开发进度计划](docs/ROADMAP.md)。
+- 🚧 **正在维护**：素材 / 主线扫荡、神眠之地、神狱桃源乡与限时活动等模块正在按 4.0 界面陆续适配中，详见 [开发进度计划](docs/ROADMAP.md)。
 
 ---
 

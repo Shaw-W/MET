@@ -10,7 +10,8 @@
     "description": "基于 MaaFramework 与 MXU 开发的《悠久之树》自动化助手（纯 Pipeline 架构，仅支持 Windows）。",
     "welcome": [
         "欢迎使用 MET（Maa Eternal Tree）！",
-        "当前处于脚手架初始化阶段，各任务节点正在按开发计划逐步完善中。"
+        "当前已支持「启动游戏 / 体力补给 / 行会日常 / 领取奖励（邮件、任务、探求者之书、器灵讨伐书、探求者手记）」，推荐使用「核心日常（推荐）」预设一键运行。",
+        "其余扫荡、战斗与活动模块正在按 4.0 界面陆续校准中，欢迎在 GitHub 反馈问题或建议。"
     ],
     "controller": [
         {
@@ -46,13 +47,10 @@
             "controller": [
                 "Win32"
             ],
-            "exec": "powershell.exe",
+            "exec": "agent/met-service.exe",
             "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "scripts/launch_game_pc.ps1"
+                "--pretask",
+                "LaunchGamePC"
             ],
             "option": [
                 "PCGamePathMode"
@@ -129,6 +127,16 @@
             "option": [
                 "GuildSignInSwitch",
                 "GuildDonateSwitch"
+            ]
+        },
+        {
+            "name": "BattleCoopAuto",
+            "label": "联机自动战斗",
+            "description": "进入「联机 → 自动战斗」按游戏内已配置计划挂机连战，并自动监测画面卡死强杀重启续刷",
+            "entry": "Battle_Coop_Auto_Start",
+            "option": [
+                "CoopFreezeTimeout",
+                "CoopApplySettings"
             ]
         },
         {
@@ -488,8 +496,16 @@
                             "recognition": {
                                 "type": "OCR",
                                 "param": {
-                                    "roi": [21, 132, 1213, 495],
-                                    "expected": ["新生", "罪人"]
+                                    "roi": [
+                                        21,
+                                        132,
+                                        1213,
+                                        495
+                                    ],
+                                    "expected": [
+                                        "新生",
+                                        "罪人"
+                                    ]
                                 }
                             }
                         }
@@ -503,8 +519,15 @@
                             "recognition": {
                                 "type": "OCR",
                                 "param": {
-                                    "roi": [21, 132, 1213, 495],
-                                    "expected": ["新生"]
+                                    "roi": [
+                                        21,
+                                        132,
+                                        1213,
+                                        495
+                                    ],
+                                    "expected": [
+                                        "新生"
+                                    ]
                                 }
                             }
                         }
@@ -518,8 +541,15 @@
                             "recognition": {
                                 "type": "OCR",
                                 "param": {
-                                    "roi": [21, 132, 1213, 495],
-                                    "expected": ["罪人"]
+                                    "roi": [
+                                        21,
+                                        132,
+                                        1213,
+                                        495
+                                    ],
+                                    "expected": [
+                                        "罪人"
+                                    ]
                                 }
                             }
                         }
@@ -541,8 +571,15 @@
                             "recognition": {
                                 "type": "OCR",
                                 "param": {
-                                    "roi": [20, 620, 260, 55],
-                                    "expected": ["困难"]
+                                    "roi": [
+                                        20,
+                                        620,
+                                        260,
+                                        55
+                                    ],
+                                    "expected": [
+                                        "困难"
+                                    ]
                                 }
                             }
                         }
@@ -556,8 +593,15 @@
                             "recognition": {
                                 "type": "OCR",
                                 "param": {
-                                    "roi": [20, 620, 260, 55],
-                                    "expected": ["极难"]
+                                    "roi": [
+                                        20,
+                                        620,
+                                        260,
+                                        55
+                                    ],
+                                    "expected": [
+                                        "极难"
+                                    ]
                                 }
                             }
                         }
@@ -628,8 +672,15 @@
                             "recognition": {
                                 "type": "OCR",
                                 "param": {
-                                    "roi": [283, 480, 972, 151],
-                                    "expected": ["朱雀"]
+                                    "roi": [
+                                        283,
+                                        480,
+                                        972,
+                                        151
+                                    ],
+                                    "expected": [
+                                        "朱雀"
+                                    ]
                                 }
                             }
                         }
@@ -643,8 +694,15 @@
                             "recognition": {
                                 "type": "OCR",
                                 "param": {
-                                    "roi": [283, 480, 972, 151],
-                                    "expected": ["玄武"]
+                                    "roi": [
+                                        283,
+                                        480,
+                                        972,
+                                        151
+                                    ],
+                                    "expected": [
+                                        "玄武"
+                                    ]
                                 }
                             }
                         }
@@ -658,8 +716,15 @@
                             "recognition": {
                                 "type": "OCR",
                                 "param": {
-                                    "roi": [283, 480, 972, 151],
-                                    "expected": ["青龙"]
+                                    "roi": [
+                                        283,
+                                        480,
+                                        972,
+                                        151
+                                    ],
+                                    "expected": [
+                                        "青龙"
+                                    ]
                                 }
                             }
                         }
@@ -673,8 +738,15 @@
                             "recognition": {
                                 "type": "OCR",
                                 "param": {
-                                    "roi": [283, 480, 972, 151],
-                                    "expected": ["白虎"]
+                                    "roi": [
+                                        283,
+                                        480,
+                                        972,
+                                        151
+                                    ],
+                                    "expected": [
+                                        "白虎"
+                                    ]
                                 }
                             }
                         }
@@ -766,6 +838,85 @@
                 }
             ]
         },
+        "CoopFreezeTimeout": {
+            "type": "select",
+            "label": "卡死重启判定时间",
+            "description": "官方自动战斗期间画面完全静止超过该时长（且非正常结束）时，自动强杀重启客户端并续刷",
+            "default_case": "Min5",
+            "cases": [
+                {
+                    "name": "Min2",
+                    "label": "2 分钟",
+                    "pipeline_override": {
+                        "Battle_Coop_Auto_Monitor": {
+                            "pre_wait_freezes": {
+                                "time": 120000,
+                                "target": [
+                                    0,
+                                    0,
+                                    1280,
+                                    720
+                                ],
+                                "timeout": 43200000,
+                                "threshold": 0.999,
+                                "rate_limit": 5000
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Min3",
+                    "label": "3 分钟",
+                    "pipeline_override": {
+                        "Battle_Coop_Auto_Monitor": {
+                            "pre_wait_freezes": {
+                                "time": 180000,
+                                "target": [
+                                    0,
+                                    0,
+                                    1280,
+                                    720
+                                ],
+                                "timeout": 43200000,
+                                "threshold": 0.999,
+                                "rate_limit": 5000
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Min5",
+                    "label": "5 分钟（推荐）",
+                    "pipeline_override": {
+                        "Battle_Coop_Auto_Monitor": {
+                            "pre_wait_freezes": {
+                                "time": 300000,
+                                "target": [
+                                    0,
+                                    0,
+                                    1280,
+                                    720
+                                ],
+                                "timeout": 43200000,
+                                "threshold": 0.999,
+                                "rate_limit": 5000
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Disabled",
+                    "label": "不检测卡死（点完开始即结束）",
+                    "pipeline_override": {
+                        "Battle_Coop_Auto_ClickStart": {
+                            "next": [
+                                "Common_Stop"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
         "GuildDonateCount": {
             "type": "select",
             "label": "每日捐赠次数上限",
@@ -806,6 +957,319 @@
                                 "Daily_Guild_DonateNoneLeft",
                                 "Daily_Guild_ClickDonate_All",
                                 "Common_BackHome"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "CoopApplySettings": {
+            "type": "switch",
+            "label": "自动同步战斗设置",
+            "description": "开启后在点「开始自动战斗」前，按下方选项自动同步游戏内 6 个开关与精力药水勾选",
+            "default_case": "No",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "label": "开启",
+                    "option": [
+                        "CoopCfgFilterMode",
+                        "CoopCfgPlanMode",
+                        "CoopCfgAutoCreate",
+                        "CoopCfgNoStopOnLose",
+                        "CoopCfgAutoPotion",
+                        "CoopCfgSmallPotion",
+                        "CoopCfgLargePotion",
+                        "CoopCfgRetreatAllDead"
+                    ],
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_Entry": {
+                            "next": [
+                                "Battle_Coop_Cfg_FilterMode"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "label": "关闭（沿用游戏内设置）"
+                }
+            ]
+        },
+        "CoopCfgFilterMode": {
+            "type": "select",
+            "label": "开启筛选模式",
+            "default_case": "Unchanged",
+            "cases": [
+                {
+                    "name": "Unchanged",
+                    "label": "不修改"
+                },
+                {
+                    "name": "On",
+                    "label": "开启",
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_FilterMode": {
+                            "next": [
+                                "Battle_Coop_Cfg_FilterMode_TurnOn",
+                                "Battle_Coop_Cfg_PlanMode"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Off",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_FilterMode": {
+                            "next": [
+                                "Battle_Coop_Cfg_FilterMode_TurnOff",
+                                "Battle_Coop_Cfg_PlanMode"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "CoopCfgPlanMode": {
+            "type": "select",
+            "label": "计划模式使用中",
+            "default_case": "Unchanged",
+            "cases": [
+                {
+                    "name": "Unchanged",
+                    "label": "不修改"
+                },
+                {
+                    "name": "On",
+                    "label": "开启",
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_PlanMode": {
+                            "next": [
+                                "Battle_Coop_Cfg_PlanMode_TurnOn",
+                                "Battle_Coop_Cfg_AutoCreate"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Off",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_PlanMode": {
+                            "next": [
+                                "Battle_Coop_Cfg_PlanMode_TurnOff",
+                                "Battle_Coop_Cfg_AutoCreate"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "CoopCfgAutoCreate": {
+            "type": "select",
+            "label": "无动作时自动创建战斗",
+            "default_case": "Unchanged",
+            "cases": [
+                {
+                    "name": "Unchanged",
+                    "label": "不修改"
+                },
+                {
+                    "name": "On",
+                    "label": "开启",
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_AutoCreate": {
+                            "next": [
+                                "Battle_Coop_Cfg_AutoCreate_TurnOn",
+                                "Battle_Coop_Cfg_NoStopOnLose"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Off",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_AutoCreate": {
+                            "next": [
+                                "Battle_Coop_Cfg_AutoCreate_TurnOff",
+                                "Battle_Coop_Cfg_NoStopOnLose"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "CoopCfgNoStopOnLose": {
+            "type": "select",
+            "label": "战败后不终止连战",
+            "default_case": "Unchanged",
+            "cases": [
+                {
+                    "name": "Unchanged",
+                    "label": "不修改"
+                },
+                {
+                    "name": "On",
+                    "label": "开启",
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_NoStopOnLose": {
+                            "next": [
+                                "Battle_Coop_Cfg_NoStopOnLose_TurnOn",
+                                "Battle_Coop_Cfg_AutoPotion"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Off",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_NoStopOnLose": {
+                            "next": [
+                                "Battle_Coop_Cfg_NoStopOnLose_TurnOff",
+                                "Battle_Coop_Cfg_AutoPotion"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "CoopCfgAutoPotion": {
+            "type": "select",
+            "label": "自动吃药",
+            "default_case": "Unchanged",
+            "cases": [
+                {
+                    "name": "Unchanged",
+                    "label": "不修改"
+                },
+                {
+                    "name": "On",
+                    "label": "开启",
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_AutoPotion": {
+                            "next": [
+                                "Battle_Coop_Cfg_AutoPotion_TurnOn",
+                                "Battle_Coop_Cfg_SmallPotion"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Off",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_AutoPotion": {
+                            "next": [
+                                "Battle_Coop_Cfg_AutoPotion_TurnOff",
+                                "Battle_Coop_Cfg_SmallPotion"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "CoopCfgSmallPotion": {
+            "type": "select",
+            "label": "小瓶精力药水",
+            "default_case": "Unchanged",
+            "cases": [
+                {
+                    "name": "Unchanged",
+                    "label": "不修改"
+                },
+                {
+                    "name": "On",
+                    "label": "开启",
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_SmallPotion": {
+                            "next": [
+                                "Battle_Coop_Cfg_SmallPotion_TurnOn",
+                                "Battle_Coop_Cfg_LargePotion"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Off",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_SmallPotion": {
+                            "next": [
+                                "Battle_Coop_Cfg_SmallPotion_TurnOff",
+                                "Battle_Coop_Cfg_LargePotion"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "CoopCfgLargePotion": {
+            "type": "select",
+            "label": "大瓶精力药水",
+            "default_case": "Unchanged",
+            "cases": [
+                {
+                    "name": "Unchanged",
+                    "label": "不修改"
+                },
+                {
+                    "name": "On",
+                    "label": "开启",
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_LargePotion": {
+                            "next": [
+                                "Battle_Coop_Cfg_LargePotion_TurnOn",
+                                "Battle_Coop_Cfg_RetreatAllDead"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Off",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_LargePotion": {
+                            "next": [
+                                "Battle_Coop_Cfg_LargePotion_TurnOff",
+                                "Battle_Coop_Cfg_RetreatAllDead"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "CoopCfgRetreatAllDead": {
+            "type": "select",
+            "label": "全员不可战斗时自动撤退",
+            "default_case": "Unchanged",
+            "cases": [
+                {
+                    "name": "Unchanged",
+                    "label": "不修改"
+                },
+                {
+                    "name": "On",
+                    "label": "开启",
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_RetreatAllDead": {
+                            "next": [
+                                "Battle_Coop_Cfg_RetreatAllDead_TurnOn",
+                                "Battle_Coop_Auto_ClickStart"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Off",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Battle_Coop_Cfg_RetreatAllDead": {
+                            "next": [
+                                "Battle_Coop_Cfg_RetreatAllDead_TurnOff",
+                                "Battle_Coop_Auto_ClickStart"
                             ]
                         }
                     }
