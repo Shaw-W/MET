@@ -500,12 +500,39 @@
         "action": {
             "type": "DoNothing"
         },
+        "rate_limit": 1000,
+        "timeout": 45000,
         "next": [
-            "[JumpBack]Startup_WaitIntoHome",
-            "Battle_Coop_Auto_Start"
+            "Battle_Coop_Auto_ReloginReady",
+            "[JumpBack]Startup_ClickStart",
+            "[JumpBack]Startup_CloseDailyAttendance",
+            "[JumpBack]Startup_ClosePopupIcon",
+            "[JumpBack]Common_ClickBlankClose"
         ],
         "on_error": [
             "Battle_Coop_Auto_FreezeRecover"
+        ]
+    },
+    "Battle_Coop_Auto_ReloginReady": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1060,
+                    80,
+                    220,
+                    400
+                ],
+                "expected": [
+                    "出击"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Auto_Start"
         ]
     },
     "Battle_Coop_Auto_FreezeRecover": {
