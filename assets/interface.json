@@ -134,11 +134,13 @@
         {
             "name": "ClaimRewards",
             "label": "领取奖励",
-            "description": "收尾清红点：一键领取邮件，并领取任务（日常 / 主线 / 成就）奖励",
+            "description": "收尾清红点：一键领取邮件、任务（日常/主线/成就）、探求者之书/器灵讨伐书及探求者手记奖励",
             "entry": "Daily_ClaimRewards",
             "option": [
                 "ClaimMailSwitch",
-                "ClaimTasksSwitch"
+                "ClaimTasksSwitch",
+                "ClaimSeekerBookSwitch",
+                "ClaimHandbookSwitch"
             ]
         }
     ],
@@ -187,7 +189,101 @@
                     "pipeline_override": {
                         "Daily_Rewards_StepTasks": {
                             "next": [
+                                "Daily_Rewards_StepBook"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "ClaimSeekerBookSwitch": {
+            "type": "switch",
+            "label": "探求者之书 / 器灵讨伐书",
+            "description": "依次领取日常任务、本周任务与等级奖励",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "label": "开启",
+                    "option": [
+                        "SeekerBookMain",
+                        "SeekerBookSpirit"
+                    ]
+                },
+                {
+                    "name": "No",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Daily_Rewards_StepBook": {
+                            "next": [
+                                "Daily_Rewards_StepHandbook"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "ClaimHandbookSwitch": {
+            "type": "switch",
+            "label": "探求者手记",
+            "description": "自动领取探求者手记的每日奖励与里程碑一键领取",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "label": "开启"
+                },
+                {
+                    "name": "No",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Daily_Rewards_StepHandbook": {
+                            "next": [
                                 "Common_BackHome"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "SeekerBookMain": {
+            "type": "switch",
+            "label": "探求者之书",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "label": "开启"
+                },
+                {
+                    "name": "No",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Daily_Book_StepMain": {
+                            "next": [
+                                "Daily_Book_StepSpirit"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "SeekerBookSpirit": {
+            "type": "switch",
+            "label": "器灵讨伐书",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "label": "开启"
+                },
+                {
+                    "name": "No",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Daily_Book_StepSpirit": {
+                            "next": [
+                                "Daily_Rewards_StepHandbook"
                             ]
                         }
                     }
@@ -253,7 +349,7 @@
                     "pipeline_override": {
                         "Daily_Tasks_StepAchievement": {
                             "next": [
-                                "Common_BackHome"
+                                "Daily_Rewards_StepBook"
                             ]
                         }
                     }
