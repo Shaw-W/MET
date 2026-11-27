@@ -137,6 +137,8 @@
         },
         "next": [
             "Battle_Coop_Auto_AlreadyRunning",
+            "Battle_Coop_Auto_AlreadyInBattleHud",
+            "Battle_Coop_Auto_AlreadyInSettlement",
             "Battle_Coop_Cfg_Ready",
             "Battle_Coop_Auto_OpenSettings",
             "Battle_Coop_Auto_EnterCoop",
@@ -158,6 +160,51 @@
                 ],
                 "expected": [
                     "连战次数"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Auto_Monitor"
+        ]
+    },
+    "Battle_Coop_Auto_AlreadyInBattleHud": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    0,
+                    10,
+                    260,
+                    65
+                ],
+                "expected": [
+                    "回合",
+                    "时间"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Auto_Monitor"
+        ]
+    },
+    "Battle_Coop_Auto_AlreadyInSettlement": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    40,
+                    5,
+                    200,
+                    55
+                ],
+                "expected": [
+                    "战斗结算"
                 ]
             }
         },

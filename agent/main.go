@@ -352,6 +352,18 @@ func runRestartCoopPC() int {
 	}
 
 	time.Sleep(1 * time.Second)
+	resPayload, _ := json.Marshal(map[string]any{
+		"paths": []string{
+			filepath.Join(root, "resource", "base"),
+			filepath.Join(root, "resource", "win32"),
+		},
+	})
+	if resResp, resErr := client.Post(fmt.Sprintf("%s/api/maa/instances/%s/resource/load", baseURL, instanceID), "application/json", bytes.NewReader(resPayload)); resErr == nil {
+		resBody, _ := io.ReadAll(resResp.Body)
+		_ = resResp.Body.Close()
+		logf("重载资源响应 (%d): %s", resResp.StatusCode, strings.TrimSpace(string(resBody)))
+	}
+	time.Sleep(1 * time.Second)
 	tasksPayload, _ := json.Marshal(map[string]any{
 		"tasks": []map[string]string{
 			{"entry": "Startup_Launch", "pipeline_override": "{}"},
