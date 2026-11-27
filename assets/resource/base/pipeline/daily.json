@@ -7,11 +7,70 @@
             "type": "DoNothing"
         },
         "next": [
-            "Daily_Welfare_EnterActivity",
-            "[JumpBack]Common_BackHome"
+            "Daily_Rewards_StepMail"
         ],
         "on_error": [
             "Common_RestartApp"
+        ]
+    },
+    "Daily_Rewards_StepMail": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Rewards_Mail_ClaimAll",
+            "Daily_Rewards_Mail_Open",
+            "[JumpBack]Common_BackHome"
+        ]
+    },
+    "Daily_Rewards_Mail_Open": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [1120, 10, 95, 80],
+                "template": "daily/mail_icon.png",
+                "threshold": 0.75
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "Daily_Rewards_Mail_ClaimAll",
+            "Daily_Rewards_StepWelfare"
+        ]
+    },
+    "Daily_Rewards_Mail_ClaimAll": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1081, 0, 198, 81],
+                "expected": ["一键领取", "一键"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1000,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_Rewards_StepWelfare"
+        ]
+    },
+    "Daily_Rewards_StepWelfare": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Welfare_EnterActivity",
+            "[JumpBack]Common_BackHome"
         ]
     },
     "Daily_Welfare_EnterActivity": {
@@ -343,8 +402,19 @@
         },
         "post_delay": 1000,
         "next": [
+            "Daily_Guild_DonateCheck"
+        ]
+    },
+    "Daily_Guild_DonateCheck": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
             "Daily_Guild_DonateNoneLeft",
-            "Daily_Guild_ClickDonateButton",
+            "Daily_Guild_ClickDonate_All",
             "Common_BackHome"
         ]
     },
@@ -363,7 +433,67 @@
             "Daily_Guild_ExitDonate"
         ]
     },
-    "Daily_Guild_ClickDonateButton": {
+    "Daily_Guild_ClickDonate_Rem3_Do1": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [40, 570, 240, 60],
+                "expected": ["今日剩余.*3"]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [573, 524, 118, 46]
+            }
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_Guild_ConfirmDonate",
+            "Daily_Guild_ExitDonate"
+        ]
+    },
+    "Daily_Guild_ClickDonate_Rem3_Do2": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [40, 570, 240, 60],
+                "expected": ["今日剩余.*3"]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [573, 524, 118, 46]
+            }
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_Guild_AddDonate2",
+            "Daily_Guild_ExitDonate"
+        ]
+    },
+    "Daily_Guild_ClickDonate_Rem2_Do1": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [40, 570, 240, 60],
+                "expected": ["今日剩余.*2"]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [573, 524, 118, 46]
+            }
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_Guild_ConfirmDonate",
+            "Daily_Guild_ExitDonate"
+        ]
+    },
+    "Daily_Guild_ClickDonate_All": {
         "recognition": {
             "type": "OCR",
             "param": {
@@ -378,17 +508,6 @@
             }
         },
         "post_delay": 800,
-        "next": [
-            "Daily_Guild_AfterClickDonate"
-        ]
-    },
-    "Daily_Guild_AfterClickDonate": {
-        "recognition": {
-            "type": "DirectHit"
-        },
-        "action": {
-            "type": "DoNothing"
-        },
         "next": [
             "Daily_Guild_AddDonate1",
             "Daily_Guild_ExitDonate"
@@ -835,6 +954,7 @@
             "type": "DoNothing"
         },
         "next": [
+            "Daily_Mail_ClaimAll",
             "Daily_Mail_Open",
             "[JumpBack]Common_BackHome"
         ],
@@ -846,7 +966,7 @@
         "recognition": {
             "type": "TemplateMatch",
             "param": {
-                "roi": [1130, 30, 75, 65],
+                "roi": [1120, 10, 95, 80],
                 "template": "daily/mail_icon.png",
                 "threshold": 0.75
             }
@@ -854,7 +974,7 @@
         "action": {
             "type": "Click"
         },
-        "post_delay": 800,
+        "post_delay": 1000,
         "next": [
             "Daily_Mail_ClaimAll",
             "Common_BackHome"
@@ -871,7 +991,7 @@
         "action": {
             "type": "Click"
         },
-        "post_delay": 800,
+        "post_delay": 1000,
         "next": [
             "[JumpBack]Common_ClickBlankClose",
             "Daily_Mail_NoneLeft",
@@ -882,8 +1002,8 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [508, 329, 258, 59],
-                "expected": ["暂无可收取"]
+                "roi": [360, 260, 560, 180],
+                "expected": ["暂无可收取", "暂无可领取", "没有可领取"]
             }
         },
         "action": {

@@ -111,9 +111,10 @@
         {
             "name": "ClaimRewards",
             "label": "领取奖励",
-            "description": "进入「活动 → 福利放送」同页连续领取每日物资与在线奖励",
+            "description": "自动一键领取邮件，并进入「活动 → 福利放送」连续领取每日物资与在线奖励",
             "entry": "Daily_ClaimRewards",
             "option": [
+                "ClaimMailSwitch",
                 "WelfareClaimSupply",
                 "WelfareClaimOnline"
             ]
@@ -130,6 +131,29 @@
         }
     ],
     "option": {
+        "ClaimMailSwitch": {
+            "type": "switch",
+            "label": "一键领取邮件",
+            "description": "自动打开邮箱并一键收取全部附件",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "label": "开启"
+                },
+                {
+                    "name": "No",
+                    "label": "关闭",
+                    "pipeline_override": {
+                        "Daily_Rewards_StepMail": {
+                            "next": [
+                                "Daily_Rewards_StepWelfare"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
         "WelfareClaimSupply": {
             "type": "switch",
             "label": "领取每日物资（12点/18点）",
@@ -542,17 +566,17 @@
         },
         "GuildDonateCount": {
             "type": "select",
-            "label": "捐赠次数上限",
-            "description": "每次捐赠消耗 30000 尼奥德，每日最多 3 次",
+            "label": "每日捐赠次数上限",
+            "description": "按当日已捐次数补齐至上限（每次消耗 30000 尼奥德，每日最多 3 次；重复运行不会超捐）",
             "default_case": "Count3",
             "cases": [
                 {
                     "name": "Count1",
-                    "label": "1 次",
+                    "label": "每日最多 1 次",
                     "pipeline_override": {
-                        "Daily_Guild_AfterClickDonate": {
+                        "Daily_Guild_DonateCheck": {
                             "next": [
-                                "Daily_Guild_ConfirmDonate",
+                                "Daily_Guild_ClickDonate_Rem3_Do1",
                                 "Daily_Guild_ExitDonate"
                             ]
                         }
@@ -560,11 +584,12 @@
                 },
                 {
                     "name": "Count2",
-                    "label": "2 次",
+                    "label": "每日最多 2 次",
                     "pipeline_override": {
-                        "Daily_Guild_AfterClickDonate": {
+                        "Daily_Guild_DonateCheck": {
                             "next": [
-                                "Daily_Guild_AddDonate2",
+                                "Daily_Guild_ClickDonate_Rem3_Do2",
+                                "Daily_Guild_ClickDonate_Rem2_Do1",
                                 "Daily_Guild_ExitDonate"
                             ]
                         }
@@ -572,12 +597,13 @@
                 },
                 {
                     "name": "Count3",
-                    "label": "3 次（最大）",
+                    "label": "每日最多 3 次（捐满）",
                     "pipeline_override": {
-                        "Daily_Guild_AfterClickDonate": {
+                        "Daily_Guild_DonateCheck": {
                             "next": [
-                                "Daily_Guild_AddDonate1",
-                                "Daily_Guild_ExitDonate"
+                                "Daily_Guild_DonateNoneLeft",
+                                "Daily_Guild_ClickDonate_All",
+                                "Common_BackHome"
                             ]
                         }
                     }
