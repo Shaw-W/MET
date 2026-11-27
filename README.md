@@ -13,10 +13,10 @@
   <img alt="Architecture" src="https://img.shields.io/badge/Pipeline-Pure%20JSON-454545" />
 </p>
 <p>
-  <img alt="License" src="https://img.shields.io/github/license/Shaw-W/MET" />
-  <img alt="Commit Activity" src="https://img.shields.io/github/commit-activity/m/Shaw-W/MET?color=%23ff69b4" />
-  <img alt="Release" src="https://img.shields.io/github/v/release/Shaw-W/MET?include_prereleases" />
-  <img alt="Stars" src="https://img.shields.io/github/stars/Shaw-W/MET?style=social" />
+  <a href="https://github.com/Shaw-W/MET/actions/workflows/ci.yml"><img alt="CI Validation" src="https://github.com/Shaw-W/MET/actions/workflows/ci.yml/badge.svg" /></a>
+  <a href="https://github.com/Shaw-W/MET/actions/workflows/release.yml"><img alt="Build & Release" src="https://github.com/Shaw-W/MET/actions/workflows/release.yml/badge.svg" /></a>
+  <a href="./LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue" /></a>
+  <a href="https://github.com/Shaw-W/MET/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/Shaw-W/MET?style=social" /></a>
 </p>
 
 面向《悠久之树》的新一代轻量化自动化小助手
