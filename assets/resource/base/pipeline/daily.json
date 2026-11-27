@@ -45,7 +45,12 @@
         "recognition": {
             "type": "TemplateMatch",
             "param": {
-                "roi": [1120, 10, 95, 80],
+                "roi": [
+                    1120,
+                    10,
+                    95,
+                    80
+                ],
                 "template": "daily/mail_icon.png",
                 "threshold": 0.75
             }
@@ -53,7 +58,7 @@
         "action": {
             "type": "Click"
         },
-        "post_delay": 1000,
+        "post_delay": 700,
         "next": [
             "Daily_Rewards_Mail_ClaimAll",
             "Daily_Rewards_StepTasks"
@@ -63,14 +68,22 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1081, 0, 198, 81],
-                "expected": ["一键领取", "一键"]
+                "roi": [
+                    1081,
+                    0,
+                    198,
+                    81
+                ],
+                "expected": [
+                    "一键领取",
+                    "一键"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 1000,
+        "post_delay": 250,
         "next": [
             "[JumpBack]Common_ClickBlankClose",
             "Daily_Rewards_StepTasks"
@@ -94,7 +107,12 @@
         "recognition": {
             "type": "TemplateMatch",
             "param": {
-                "roi": [1190, 0, 90, 90],
+                "roi": [
+                    1190,
+                    0,
+                    90,
+                    90
+                ],
                 "template": "home/menu_icon.png",
                 "threshold": 0.75
             }
@@ -102,7 +120,7 @@
         "action": {
             "type": "Click"
         },
-        "post_delay": 800,
+        "post_delay": 450,
         "next": [
             "Daily_Tasks_EnterFromDrawer",
             "Daily_Tasks_OpenMenu"
@@ -112,14 +130,21 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1040, 85, 120, 80],
-                "expected": ["^任务$"]
+                "roi": [
+                    1040,
+                    85,
+                    120,
+                    80
+                ],
+                "expected": [
+                    "^任务$"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 1200,
+        "post_delay": 800,
         "next": [
             "Daily_Tasks_MainReady",
             "Daily_Tasks_EnterFromDrawer"
@@ -129,8 +154,17 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [0, 120, 95, 320],
-                "expected": ["日常", "主线", "成就"]
+                "roi": [
+                    0,
+                    120,
+                    95,
+                    320
+                ],
+                "expected": [
+                    "日常",
+                    "主线",
+                    "成就"
+                ]
             }
         },
         "action": {
@@ -148,6 +182,7 @@
             "type": "DoNothing"
         },
         "next": [
+            "Daily_Tasks_DailyAlreadyOn",
             "Daily_Tasks_SelectDaily",
             "Daily_Tasks_StepMain"
         ]
@@ -156,14 +191,21 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [0, 120, 95, 80],
-                "expected": ["日常"]
+                "roi": [
+                    0,
+                    120,
+                    95,
+                    80
+                ],
+                "expected": [
+                    "日常"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 800,
+        "post_delay": 400,
         "next": [
             "Daily_Tasks_ClaimAll_Daily",
             "Daily_Tasks_StepMain"
@@ -173,14 +215,21 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [850, 0, 420, 90],
-                "expected": ["一键领取"]
+                "roi": [
+                    850,
+                    0,
+                    420,
+                    90
+                ],
+                "expected": [
+                    "一键领取"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 800,
+        "post_delay": 250,
         "next": [
             "[JumpBack]Common_ClickBlankClose",
             "Daily_Tasks_StepMain"
@@ -202,14 +251,21 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [0, 240, 95, 80],
-                "expected": ["主线"]
+                "roi": [
+                    0,
+                    240,
+                    95,
+                    80
+                ],
+                "expected": [
+                    "主线"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 800,
+        "post_delay": 400,
         "next": [
             "Daily_Tasks_ClaimAll_Main",
             "Daily_Tasks_StepAchievement"
@@ -219,14 +275,21 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [850, 0, 420, 90],
-                "expected": ["一键领取"]
+                "roi": [
+                    850,
+                    0,
+                    420,
+                    90
+                ],
+                "expected": [
+                    "一键领取"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 800,
+        "post_delay": 250,
         "next": [
             "[JumpBack]Common_ClickBlankClose",
             "Daily_Tasks_StepAchievement"
@@ -241,39 +304,53 @@
         },
         "next": [
             "Daily_Tasks_SelectAchievement",
-            "Common_BackHome"
+            "Daily_Rewards_StepBook"
         ]
     },
     "Daily_Tasks_SelectAchievement": {
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [0, 355, 95, 80],
-                "expected": ["成就"]
+                "roi": [
+                    0,
+                    355,
+                    95,
+                    80
+                ],
+                "expected": [
+                    "成就"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 800,
+        "post_delay": 400,
         "next": [
             "Daily_Tasks_ClaimAll_AchGrowth",
             "Daily_Tasks_Ach_SelectCollect",
-            "Common_BackHome"
+            "Daily_Rewards_StepBook"
         ]
     },
     "Daily_Tasks_ClaimAll_AchGrowth": {
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [850, 0, 420, 90],
-                "expected": ["一键领取"]
+                "roi": [
+                    850,
+                    0,
+                    420,
+                    90
+                ],
+                "expected": [
+                    "一键领取"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 700,
+        "post_delay": 250,
         "next": [
             "[JumpBack]Common_ClickBlankClose",
             "Daily_Tasks_Ach_SelectCollect"
@@ -283,14 +360,21 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [290, 65, 140, 65],
-                "expected": ["收集"]
+                "roi": [
+                    290,
+                    65,
+                    140,
+                    65
+                ],
+                "expected": [
+                    "收集"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 600,
+        "post_delay": 350,
         "next": [
             "Daily_Tasks_ClaimAll_AchCollect",
             "Daily_Tasks_Ach_SelectChallenge"
@@ -300,14 +384,21 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [850, 0, 420, 90],
-                "expected": ["一键领取"]
+                "roi": [
+                    850,
+                    0,
+                    420,
+                    90
+                ],
+                "expected": [
+                    "一键领取"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 700,
+        "post_delay": 250,
         "next": [
             "[JumpBack]Common_ClickBlankClose",
             "Daily_Tasks_Ach_SelectChallenge"
@@ -317,31 +408,607 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [430, 65, 140, 65],
-                "expected": ["挑战"]
+                "roi": [
+                    430,
+                    65,
+                    140,
+                    65
+                ],
+                "expected": [
+                    "挑战"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 600,
+        "post_delay": 350,
         "next": [
             "Daily_Tasks_ClaimAll_AchChallenge",
-            "Common_BackHome"
+            "Daily_Rewards_StepBook"
         ]
     },
     "Daily_Tasks_ClaimAll_AchChallenge": {
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [850, 0, 420, 90],
-                "expected": ["一键领取"]
+                "roi": [
+                    850,
+                    0,
+                    420,
+                    90
+                ],
+                "expected": [
+                    "一键领取"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 700,
+        "post_delay": 250,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_Rewards_StepBook"
+        ]
+    },
+    "Daily_Rewards_StepBook": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Book_Ready",
+            "Daily_Book_Enter",
+            "[JumpBack]Common_BackHome"
+        ]
+    },
+    "Daily_Book_Enter": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    0,
+                    280,
+                    115,
+                    130
+                ],
+                "expected": [
+                    "探求者之书"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_Book_Ready",
+            "Daily_Book_Enter"
+        ]
+    },
+    "Daily_Book_Ready": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    20,
+                    150,
+                    165,
+                    200
+                ],
+                "expected": [
+                    "探求者之书",
+                    "器灵讨伐书"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Book_StepMain"
+        ]
+    },
+    "Daily_Book_StepMain": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Book_Main_TabTask",
+            "Daily_Book_Main_Select",
+            "Daily_Book_StepSpirit"
+        ]
+    },
+    "Daily_Book_Main_Select": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    20,
+                    150,
+                    165,
+                    95
+                ],
+                "expected": [
+                    "探求者之书"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 350,
+        "next": [
+            "Daily_Book_Main_TabTask",
+            "Daily_Book_Main_TabReward",
+            "Daily_Book_StepSpirit"
+        ]
+    },
+    "Daily_Book_Main_TabTask": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1110,
+                    655,
+                    140,
+                    65
+                ],
+                "expected": [
+                    "任务"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 400,
+        "next": [
+            "Daily_Book_Main_ClaimDaily",
+            "Daily_Book_Main_TaskWeekly",
+            "Daily_Book_Main_TabReward"
+        ]
+    },
+    "Daily_Book_Main_TaskDaily": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    860,
+                    115,
+                    135,
+                    65
+                ],
+                "expected": [
+                    "日常任务"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 300,
+        "next": [
+            "Daily_Book_Main_ClaimDaily",
+            "Daily_Book_Main_TaskWeekly"
+        ]
+    },
+    "Daily_Book_Main_ClaimDaily": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1080,
+                    15,
+                    190,
+                    75
+                ],
+                "expected": [
+                    "一键领取"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 250,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_Book_Main_TaskWeekly"
+        ]
+    },
+    "Daily_Book_Main_TaskWeekly": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1000,
+                    115,
+                    145,
+                    65
+                ],
+                "expected": [
+                    "本周任务",
+                    "每周任务"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 300,
+        "next": [
+            "Daily_Book_Main_ClaimWeekly",
+            "Daily_Book_Main_TabReward"
+        ]
+    },
+    "Daily_Book_Main_ClaimWeekly": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1080,
+                    15,
+                    190,
+                    75
+                ],
+                "expected": [
+                    "一键领取"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 250,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_Book_Main_TabReward"
+        ]
+    },
+    "Daily_Book_Main_TabReward": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    900,
+                    655,
+                    140,
+                    65
+                ],
+                "expected": [
+                    "奖励"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 400,
+        "next": [
+            "Daily_Book_Main_ClaimReward",
+            "Daily_Book_StepSpirit"
+        ]
+    },
+    "Daily_Book_Main_ClaimReward": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1080,
+                    15,
+                    190,
+                    75
+                ],
+                "expected": [
+                    "一键领取"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 250,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_Book_StepSpirit"
+        ]
+    },
+    "Daily_Book_StepSpirit": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Book_Spirit_Select",
+            "Daily_Rewards_StepHandbook"
+        ]
+    },
+    "Daily_Book_Spirit_Select": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    20,
+                    250,
+                    165,
+                    95
+                ],
+                "expected": [
+                    "器灵讨伐书"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 400,
+        "next": [
+            "Daily_Book_Spirit_TabTask",
+            "Daily_Book_Spirit_TabReward",
+            "Daily_Rewards_StepHandbook"
+        ]
+    },
+    "Daily_Book_Spirit_TabTask": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1110,
+                    655,
+                    140,
+                    65
+                ],
+                "expected": [
+                    "任务"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 400,
+        "next": [
+            "Daily_Book_Spirit_ClaimDaily",
+            "Daily_Book_Spirit_TaskWeekly",
+            "Daily_Book_Spirit_TabReward"
+        ]
+    },
+    "Daily_Book_Spirit_TaskDaily": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    860,
+                    115,
+                    135,
+                    65
+                ],
+                "expected": [
+                    "日常任务"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 300,
+        "next": [
+            "Daily_Book_Spirit_ClaimDaily",
+            "Daily_Book_Spirit_TaskWeekly"
+        ]
+    },
+    "Daily_Book_Spirit_ClaimDaily": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1080,
+                    15,
+                    190,
+                    75
+                ],
+                "expected": [
+                    "一键领取"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 250,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_Book_Spirit_TaskWeekly"
+        ]
+    },
+    "Daily_Book_Spirit_TaskWeekly": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1000,
+                    115,
+                    145,
+                    65
+                ],
+                "expected": [
+                    "本周任务",
+                    "每周任务"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 300,
+        "next": [
+            "Daily_Book_Spirit_ClaimWeekly",
+            "Daily_Book_Spirit_TabReward"
+        ]
+    },
+    "Daily_Book_Spirit_ClaimWeekly": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1080,
+                    15,
+                    190,
+                    75
+                ],
+                "expected": [
+                    "一键领取"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 250,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_Book_Spirit_TabReward"
+        ]
+    },
+    "Daily_Book_Spirit_TabReward": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    900,
+                    655,
+                    140,
+                    65
+                ],
+                "expected": [
+                    "奖励"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 400,
+        "next": [
+            "Daily_Book_Spirit_ClaimReward",
+            "Daily_Rewards_StepHandbook"
+        ]
+    },
+    "Daily_Book_Spirit_ClaimReward": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1080,
+                    15,
+                    190,
+                    75
+                ],
+                "expected": [
+                    "一键领取"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 250,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_Rewards_StepHandbook"
+        ]
+    },
+    "Daily_Rewards_StepHandbook": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Handbook_Ready",
+            "Daily_Handbook_Enter",
+            "[JumpBack]Common_BackHome"
+        ]
+    },
+    "Daily_Handbook_Enter": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1060,
+                    350,
+                    210,
+                    100
+                ],
+                "expected": [
+                    "探求者手记",
+                    "探求手记"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_Handbook_Ready",
+            "Daily_Handbook_Enter"
+        ]
+    },
+    "Daily_Handbook_Ready": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    200,
+                    0,
+                    400,
+                    90
+                ],
+                "expected": [
+                    "探求手记",
+                    "探求者手记"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Handbook_ClaimAll",
+            "Common_BackHome"
+        ]
+    },
+    "Daily_Handbook_ClaimAll": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1080,
+                    35,
+                    190,
+                    75
+                ],
+                "expected": [
+                    "一键领取",
+                    "键领取"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 250,
         "next": [
             "[JumpBack]Common_ClickBlankClose",
             "Common_BackHome"
@@ -351,14 +1018,21 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1060, 80, 220, 400],
-                "expected": ["^活动$"]
+                "roi": [
+                    1060,
+                    80,
+                    220,
+                    400
+                ],
+                "expected": [
+                    "^活动$"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 1000,
+        "post_delay": 700,
         "next": [
             "Daily_Welfare_Ready",
             "[JumpBack]Daily_Supply_SelectWelfareCategory",
@@ -369,8 +1043,17 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [100, 40, 190, 580],
-                "expected": ["福利放送", "每日物资", "在线奖励"]
+                "roi": [
+                    100,
+                    40,
+                    190,
+                    580
+                ],
+                "expected": [
+                    "福利放送",
+                    "每日物资",
+                    "在线奖励"
+                ]
             }
         },
         "action": {
@@ -385,18 +1068,14 @@
     "Daily_Welfare_StepSupply": {
         "enabled": true,
         "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": [100, 90, 185, 530],
-                "expected": ["每日物资"]
-            }
+            "type": "DirectHit"
         },
         "action": {
-            "type": "Click"
+            "type": "DoNothing"
         },
-        "post_delay": 800,
         "next": [
             "Daily_Supply_VerifyPage",
+            "Daily_Welfare_SelectSupply",
             "Daily_Welfare_StepOnline",
             "Common_BackHome"
         ]
@@ -406,14 +1085,21 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [100, 90, 185, 530],
-                "expected": ["在线奖励"]
+                "roi": [
+                    100,
+                    90,
+                    185,
+                    530
+                ],
+                "expected": [
+                    "在线奖励"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 800,
+        "post_delay": 400,
         "next": [
             "Daily_Online_Main",
             "Common_BackHome"
@@ -438,8 +1124,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1060, 80, 220, 400],
-                "expected": ["^活动$"]
+                "roi": [
+                    1060,
+                    80,
+                    220,
+                    400
+                ],
+                "expected": [
+                    "^活动$"
+                ]
             }
         },
         "action": {
@@ -456,7 +1149,12 @@
         "recognition": {
             "type": "TemplateMatch",
             "param": {
-                "roi": [100, 10, 65, 50],
+                "roi": [
+                    100,
+                    10,
+                    65,
+                    50
+                ],
                 "template": "common/home_icon.png",
                 "threshold": 0.75
             }
@@ -464,7 +1162,12 @@
         "action": {
             "type": "Click",
             "param": {
-                "target": [18, 264, 36, 40]
+                "target": [
+                    18,
+                    264,
+                    36,
+                    40
+                ]
             }
         },
         "max_hit": 3,
@@ -474,8 +1177,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [100, 90, 185, 420],
-                "expected": ["每日物资"]
+                "roi": [
+                    100,
+                    90,
+                    185,
+                    420
+                ],
+                "expected": [
+                    "每日物资"
+                ]
             }
         },
         "action": {
@@ -491,8 +1201,17 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [480, 70, 620, 300],
-                "expected": ["每日12", "每日18", "MATERIALS"]
+                "roi": [
+                    480,
+                    70,
+                    620,
+                    300
+                ],
+                "expected": [
+                    "每日12",
+                    "每日18",
+                    "MATERIALS"
+                ]
             }
         },
         "action": {
@@ -509,7 +1228,12 @@
         "recognition": {
             "type": "TemplateMatch",
             "param": {
-                "roi": [510, 520, 180, 90],
+                "roi": [
+                    510,
+                    520,
+                    180,
+                    90
+                ],
                 "template": "daily/supply_claim_active.png",
                 "threshold": 0.85
             }
@@ -529,7 +1253,12 @@
         "recognition": {
             "type": "TemplateMatch",
             "param": {
-                "roi": [900, 520, 180, 90],
+                "roi": [
+                    900,
+                    520,
+                    180,
+                    90
+                ],
                 "template": "daily/supply_claim_active.png",
                 "threshold": 0.85
             }
@@ -564,7 +1293,12 @@
         "recognition": {
             "type": "TemplateMatch",
             "param": {
-                "roi": [1190, 0, 90, 90],
+                "roi": [
+                    1190,
+                    0,
+                    90,
+                    90
+                ],
                 "template": "home/menu_icon.png",
                 "threshold": 0.75
             }
@@ -572,7 +1306,7 @@
         "action": {
             "type": "Click"
         },
-        "post_delay": 800,
+        "post_delay": 450,
         "next": [
             "Daily_Guild_Enter",
             "Daily_Guild_OpenMenu"
@@ -582,14 +1316,22 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1040, 260, 120, 90],
-                "expected": ["^行会$", "^工会$"]
+                "roi": [
+                    1040,
+                    260,
+                    120,
+                    90
+                ],
+                "expected": [
+                    "^行会$",
+                    "^工会$"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 1500,
+        "post_delay": 900,
         "next": [
             "Daily_Guild_MainReady",
             "Daily_Guild_Enter"
@@ -599,8 +1341,17 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [30, 580, 260, 80],
-                "expected": ["签到", "捐赠", "捐献"]
+                "roi": [
+                    30,
+                    580,
+                    260,
+                    80
+                ],
+                "expected": [
+                    "签到",
+                    "捐赠",
+                    "捐献"
+                ]
             }
         },
         "action": {
@@ -626,20 +1377,42 @@
         "recognition": {
             "type": "ColorMatch",
             "param": {
-                "roi": [45, 602, 95, 40],
+                "roi": [
+                    45,
+                    602,
+                    95,
+                    40
+                ],
                 "method": 4,
-                "lower": [[185, 185, 185]],
-                "upper": [[255, 255, 255]],
+                "lower": [
+                    [
+                        185,
+                        185,
+                        185
+                    ]
+                ],
+                "upper": [
+                    [
+                        255,
+                        255,
+                        255
+                    ]
+                ],
                 "count": 1000
             }
         },
         "action": {
             "type": "Click",
             "param": {
-                "target": [45, 602, 95, 40]
+                "target": [
+                    45,
+                    602,
+                    95,
+                    40
+                ]
             }
         },
-        "post_delay": 1000,
+        "post_delay": 500,
         "next": [
             "[JumpBack]Common_ClickBlankClose",
             "Daily_Guild_StepDonate"
@@ -661,20 +1434,42 @@
         "recognition": {
             "type": "ColorMatch",
             "param": {
-                "roi": [168, 602, 92, 40],
+                "roi": [
+                    168,
+                    602,
+                    92,
+                    40
+                ],
                 "method": 4,
-                "lower": [[185, 185, 185]],
-                "upper": [[255, 255, 255]],
+                "lower": [
+                    [
+                        185,
+                        185,
+                        185
+                    ]
+                ],
+                "upper": [
+                    [
+                        255,
+                        255,
+                        255
+                    ]
+                ],
                 "count": 1000
             }
         },
         "action": {
             "type": "Click",
             "param": {
-                "target": [168, 602, 92, 40]
+                "target": [
+                    168,
+                    602,
+                    92,
+                    40
+                ]
             }
         },
-        "post_delay": 1000,
+        "post_delay": 600,
         "next": [
             "Daily_Guild_DonateCheck"
         ]
@@ -696,8 +1491,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [40, 570, 240, 60],
-                "expected": ["今日剩余.*0"]
+                "roi": [
+                    40,
+                    570,
+                    240,
+                    60
+                ],
+                "expected": [
+                    "今日剩余.*0"
+                ]
             }
         },
         "action": {
@@ -711,17 +1513,29 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [40, 570, 240, 60],
-                "expected": ["今日剩余.*3"]
+                "roi": [
+                    40,
+                    570,
+                    240,
+                    60
+                ],
+                "expected": [
+                    "今日剩余.*3"
+                ]
             }
         },
         "action": {
             "type": "Click",
             "param": {
-                "target": [573, 524, 118, 46]
+                "target": [
+                    573,
+                    524,
+                    118,
+                    46
+                ]
             }
         },
-        "post_delay": 800,
+        "post_delay": 500,
         "next": [
             "Daily_Guild_ConfirmDonate",
             "Daily_Guild_ExitDonate"
@@ -731,17 +1545,29 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [40, 570, 240, 60],
-                "expected": ["今日剩余.*3"]
+                "roi": [
+                    40,
+                    570,
+                    240,
+                    60
+                ],
+                "expected": [
+                    "今日剩余.*3"
+                ]
             }
         },
         "action": {
             "type": "Click",
             "param": {
-                "target": [573, 524, 118, 46]
+                "target": [
+                    573,
+                    524,
+                    118,
+                    46
+                ]
             }
         },
-        "post_delay": 800,
+        "post_delay": 500,
         "next": [
             "Daily_Guild_AddDonate2",
             "Daily_Guild_ExitDonate"
@@ -751,17 +1577,29 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [40, 570, 240, 60],
-                "expected": ["今日剩余.*2"]
+                "roi": [
+                    40,
+                    570,
+                    240,
+                    60
+                ],
+                "expected": [
+                    "今日剩余.*2"
+                ]
             }
         },
         "action": {
             "type": "Click",
             "param": {
-                "target": [573, 524, 118, 46]
+                "target": [
+                    573,
+                    524,
+                    118,
+                    46
+                ]
             }
         },
-        "post_delay": 800,
+        "post_delay": 500,
         "next": [
             "Daily_Guild_ConfirmDonate",
             "Daily_Guild_ExitDonate"
@@ -771,17 +1609,29 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [40, 570, 240, 60],
-                "expected": ["今日剩余.*[1-9]"]
+                "roi": [
+                    40,
+                    570,
+                    240,
+                    60
+                ],
+                "expected": [
+                    "今日剩余.*[1-9]"
+                ]
             }
         },
         "action": {
             "type": "Click",
             "param": {
-                "target": [573, 524, 118, 46]
+                "target": [
+                    573,
+                    524,
+                    118,
+                    46
+                ]
             }
         },
-        "post_delay": 800,
+        "post_delay": 500,
         "next": [
             "Daily_Guild_AddDonate1",
             "Daily_Guild_ExitDonate"
@@ -791,17 +1641,29 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [520, 460, 240, 60],
-                "expected": ["今日剩余"]
+                "roi": [
+                    520,
+                    460,
+                    240,
+                    60
+                ],
+                "expected": [
+                    "今日剩余"
+                ]
             }
         },
         "action": {
             "type": "Click",
             "param": {
-                "target": [704, 426, 36, 36]
+                "target": [
+                    704,
+                    426,
+                    36,
+                    36
+                ]
             }
         },
-        "post_delay": 250,
+        "post_delay": 150,
         "next": [
             "Daily_Guild_AddDonate2"
         ]
@@ -810,17 +1672,29 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [520, 460, 240, 60],
-                "expected": ["今日剩余"]
+                "roi": [
+                    520,
+                    460,
+                    240,
+                    60
+                ],
+                "expected": [
+                    "今日剩余"
+                ]
             }
         },
         "action": {
             "type": "Click",
             "param": {
-                "target": [704, 426, 36, 36]
+                "target": [
+                    704,
+                    426,
+                    36,
+                    36
+                ]
             }
         },
-        "post_delay": 250,
+        "post_delay": 150,
         "next": [
             "Daily_Guild_ConfirmDonate"
         ]
@@ -829,14 +1703,21 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [730, 540, 180, 80],
-                "expected": ["确定"]
+                "roi": [
+                    730,
+                    540,
+                    180,
+                    80
+                ],
+                "expected": [
+                    "确定"
+                ]
             }
         },
         "action": {
             "type": "Click"
         },
-        "post_delay": 1000,
+        "post_delay": 500,
         "next": [
             "[JumpBack]Common_ClickBlankClose",
             "Daily_Guild_ExitDonate",
@@ -847,17 +1728,29 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [40, 570, 240, 60],
-                "expected": ["今日剩余"]
+                "roi": [
+                    40,
+                    570,
+                    240,
+                    60
+                ],
+                "expected": [
+                    "今日剩余"
+                ]
             }
         },
         "action": {
             "type": "Click",
             "param": {
-                "target": [32, 30, 32, 24]
+                "target": [
+                    32,
+                    30,
+                    32,
+                    24
+                ]
             }
         },
-        "post_delay": 1000,
+        "post_delay": 600,
         "next": [
             "Common_BackHome"
         ]
@@ -881,8 +1774,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1060, 80, 220, 400],
-                "expected": ["出击"]
+                "roi": [
+                    1060,
+                    80,
+                    220,
+                    400
+                ],
+                "expected": [
+                    "出击"
+                ]
             }
         },
         "action": {
@@ -897,8 +1797,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [301, 73, 120, 84],
-                "expected": ["素材"]
+                "roi": [
+                    301,
+                    73,
+                    120,
+                    84
+                ],
+                "expected": [
+                    "素材"
+                ]
             }
         },
         "action": {
@@ -913,8 +1820,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [56, 178, 300, 394],
-                "expected": ["经验", "束身"]
+                "roi": [
+                    56,
+                    178,
+                    300,
+                    394
+                ],
+                "expected": [
+                    "经验",
+                    "束身"
+                ]
             }
         },
         "action": {
@@ -929,8 +1844,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [0, 180, 1279, 385],
-                "expected": ["特级"]
+                "roi": [
+                    0,
+                    180,
+                    1279,
+                    385
+                ],
+                "expected": [
+                    "特级"
+                ]
             }
         },
         "action": {
@@ -974,8 +1896,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1060, 80, 220, 400],
-                "expected": ["出击"]
+                "roi": [
+                    1060,
+                    80,
+                    220,
+                    400
+                ],
+                "expected": [
+                    "出击"
+                ]
             }
         },
         "action": {
@@ -990,8 +1919,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [12, 85, 1262, 59],
-                "expected": ["主线"]
+                "roi": [
+                    12,
+                    85,
+                    1262,
+                    59
+                ],
+                "expected": [
+                    "主线"
+                ]
             }
         },
         "action": {
@@ -1007,8 +1943,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [56, 152, 97, 37],
-                "expected": ["第一"]
+                "roi": [
+                    56,
+                    152,
+                    97,
+                    37
+                ],
+                "expected": [
+                    "第一"
+                ]
             }
         },
         "action": {
@@ -1023,8 +1966,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [20, 620, 260, 55],
-                "expected": ["困难"]
+                "roi": [
+                    20,
+                    620,
+                    260,
+                    55
+                ],
+                "expected": [
+                    "困难"
+                ]
             }
         },
         "action": {
@@ -1040,8 +1990,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [20, 620, 260, 55],
-                "expected": ["困难"]
+                "roi": [
+                    20,
+                    620,
+                    260,
+                    55
+                ],
+                "expected": [
+                    "困难"
+                ]
             }
         },
         "action": {
@@ -1057,8 +2014,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [865, 600, 150, 96],
-                "expected": ["扫荡"]
+                "roi": [
+                    865,
+                    600,
+                    150,
+                    96
+                ],
+                "expected": [
+                    "扫荡"
+                ]
             }
         },
         "action": {
@@ -1078,8 +2042,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [765, 310, 95, 55],
-                "expected": ["MAX", "M"]
+                "roi": [
+                    765,
+                    310,
+                    95,
+                    55
+                ],
+                "expected": [
+                    "MAX",
+                    "M"
+                ]
             }
         },
         "action": {
@@ -1094,8 +2066,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [495, 397, 287, 150],
-                "expected": ["确定"]
+                "roi": [
+                    495,
+                    397,
+                    287,
+                    150
+                ],
+                "expected": [
+                    "确定"
+                ]
             }
         },
         "action": {
@@ -1114,8 +2093,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [744, 591, 524, 118],
-                "expected": ["确认"]
+                "roi": [
+                    744,
+                    591,
+                    524,
+                    118
+                ],
+                "expected": [
+                    "确认"
+                ]
             }
         },
         "action": {
@@ -1130,8 +2116,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [20, 620, 260, 55],
-                "expected": ["极难"]
+                "roi": [
+                    20,
+                    620,
+                    260,
+                    55
+                ],
+                "expected": [
+                    "极难"
+                ]
             }
         },
         "action": {
@@ -1162,8 +2155,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1060, 80, 220, 400],
-                "expected": ["探求者手记", "手记"]
+                "roi": [
+                    1060,
+                    80,
+                    220,
+                    400
+                ],
+                "expected": [
+                    "探求者手记",
+                    "手记"
+                ]
             }
         },
         "action": {
@@ -1179,8 +2180,17 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [404, 42, 798, 81],
-                "expected": ["探求", "手记", "一键领取"]
+                "roi": [
+                    404,
+                    42,
+                    798,
+                    81
+                ],
+                "expected": [
+                    "探求",
+                    "手记",
+                    "一键领取"
+                ]
             }
         },
         "action": {
@@ -1196,8 +2206,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [925, 21, 305, 108],
-                "expected": ["一键", "领取"]
+                "roi": [
+                    925,
+                    21,
+                    305,
+                    108
+                ],
+                "expected": [
+                    "一键",
+                    "领取"
+                ]
             }
         },
         "action": {
@@ -1209,8 +2227,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [468, 309, 373, 99],
-                "expected": ["暂无", "可领取"]
+                "roi": [
+                    468,
+                    309,
+                    373,
+                    99
+                ],
+                "expected": [
+                    "暂无",
+                    "可领取"
+                ]
             }
         },
         "action": {
@@ -1240,7 +2266,12 @@
         "recognition": {
             "type": "TemplateMatch",
             "param": {
-                "roi": [1120, 10, 95, 80],
+                "roi": [
+                    1120,
+                    10,
+                    95,
+                    80
+                ],
                 "template": "daily/mail_icon.png",
                 "threshold": 0.75
             }
@@ -1258,8 +2289,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1081, 0, 198, 81],
-                "expected": ["一键领取", "一键"]
+                "roi": [
+                    1081,
+                    0,
+                    198,
+                    81
+                ],
+                "expected": [
+                    "一键领取",
+                    "一键"
+                ]
             }
         },
         "action": {
@@ -1276,8 +2315,17 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [360, 260, 560, 180],
-                "expected": ["暂无可收取", "暂无可领取", "没有可领取"]
+                "roi": [
+                    360,
+                    260,
+                    560,
+                    180
+                ],
+                "expected": [
+                    "暂无可收取",
+                    "暂无可领取",
+                    "没有可领取"
+                ]
             }
         },
         "action": {
@@ -1306,8 +2354,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [1060, 80, 220, 400],
-                "expected": ["^活动$"]
+                "roi": [
+                    1060,
+                    80,
+                    220,
+                    400
+                ],
+                "expected": [
+                    "^活动$"
+                ]
             }
         },
         "action": {
@@ -1324,8 +2379,15 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [100, 90, 185, 530],
-                "expected": ["在线奖励"]
+                "roi": [
+                    100,
+                    90,
+                    185,
+                    530
+                ],
+                "expected": [
+                    "在线奖励"
+                ]
             }
         },
         "action": {
@@ -1341,8 +2403,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [330, 185, 250, 50],
-                "expected": ["每日累积在线时长奖励", "在线时长"]
+                "roi": [
+                    330,
+                    185,
+                    250,
+                    50
+                ],
+                "expected": [
+                    "每日累积在线时长奖励",
+                    "在线时长"
+                ]
             }
         },
         "action": {
@@ -1359,8 +2429,16 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [380, 290, 520, 140],
-                "expected": ["暂无可领取", "暂无"]
+                "roi": [
+                    380,
+                    290,
+                    520,
+                    140
+                ],
+                "expected": [
+                    "暂无可领取",
+                    "暂无"
+                ]
             }
         },
         "action": {
@@ -1374,7 +2452,12 @@
         "recognition": {
             "type": "TemplateMatch",
             "param": {
-                "roi": [430, 250, 840, 300],
+                "roi": [
+                    430,
+                    250,
+                    840,
+                    300
+                ],
                 "template": "daily/online_claim_ribbon.png",
                 "threshold": 0.85
             }
@@ -1382,10 +2465,63 @@
         "action": {
             "type": "Click",
             "param": {
-                "target_offset": [16, 20, 0, 0]
+                "target_offset": [
+                    16,
+                    20,
+                    0,
+                    0
+                ]
             }
         },
         "max_hit": 10,
         "post_delay": 400
+    },
+    "Daily_Tasks_DailyAlreadyOn": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    140,
+                    595,
+                    160,
+                    70
+                ],
+                "expected": [
+                    "每日活跃"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_Tasks_ClaimAll_Daily",
+            "Daily_Tasks_StepMain"
+        ]
+    },
+    "Daily_Welfare_SelectSupply": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    100,
+                    90,
+                    185,
+                    530
+                ],
+                "expected": [
+                    "每日物资"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 400,
+        "next": [
+            "Daily_Supply_VerifyPage",
+            "Daily_Welfare_StepOnline",
+            "Common_BackHome"
+        ]
     }
 }
