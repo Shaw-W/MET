@@ -352,11 +352,19 @@ func runRestartCoopPC() int {
 	}
 
 	time.Sleep(1 * time.Second)
-	tasksPayload, _ := json.Marshal([]map[string]string{
-		{"entry": "Startup_Launch", "pipeline_override": "{}"},
-		{"entry": "Battle_Coop_Auto_Start", "pipeline_override": "{}"},
+	tasksPayload, _ := json.Marshal(map[string]any{
+		"tasks": []map[string]string{
+			{"entry": "Startup_Launch", "pipeline_override": "{}"},
+			{"entry": "Battle_Coop_Auto_Start", "pipeline_override": "{}"},
+		},
+		"agent_configs": []map[string]any{
+			{
+				"child_exec": "agent/met-service.exe",
+				"child_args": []string{"--agent"},
+			},
+		},
 	})
-	resp2, err := client.Post(fmt.Sprintf("%s/api/maa/instances/%s/tasks/run", baseURL, instanceID), "application/json", bytes.NewReader(tasksPayload))
+	resp2, err := client.Post(fmt.Sprintf("%s/api/maa/instances/%s/tasks/start", baseURL, instanceID), "application/json", bytes.NewReader(tasksPayload))
 	if err != nil {
 		logf("派发续刷任务失败: %v", err)
 		return 1
