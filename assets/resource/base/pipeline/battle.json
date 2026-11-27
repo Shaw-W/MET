@@ -243,27 +243,83 @@
         "recognition": {
             "type": "DirectHit"
         },
-        "pre_wait_freezes": {
-            "time": 300000,
-            "target": [
-                0,
-                0,
-                1280,
-                720
-            ],
-            "timeout": 43200000,
-            "threshold": 0.999,
-            "rate_limit": 5000
-        },
         "action": {
-            "type": "DoNothing"
+            "type": "Custom",
+            "param": {
+                "custom_action": "CoopAutoMonitor",
+                "custom_action_param": {
+                    "freeze_timeout_ms": 300000,
+                    "poll_interval_ms": 2000,
+                    "max_duration_ms": 43200000
+                }
+            }
         },
         "next": [
             "Battle_Coop_Auto_FinishedDialog",
             "Battle_Coop_Auto_FinishedLobby",
             "Battle_Coop_Auto_NetworkDisconnect",
-            "Battle_Coop_Auto_FreezeRecover"
+            "Battle_Coop_Auto_FreezeRecover",
+            "Common_Stop"
         ]
+    },
+    "Battle_Coop_Auto_Settlement": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    40,
+                    5,
+                    200,
+                    55
+                ],
+                "expected": [
+                    "战斗结算"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        }
+    },
+    "Battle_Coop_Auto_StageName": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    40,
+                    56,
+                    480,
+                    46
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        }
+    },
+    "Battle_Coop_Auto_BattleHud": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    0,
+                    10,
+                    260,
+                    65
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        }
+    },
+    "Battle_Coop_Auto_Notify": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        }
     },
     "Battle_Coop_Auto_FinishedLobby": {
         "recognition": {

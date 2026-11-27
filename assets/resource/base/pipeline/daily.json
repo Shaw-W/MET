@@ -1,4 +1,123 @@
 {
+    "Daily_MonthlyCardSweep": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_MonthlyCard_CheckEmpty",
+            "Daily_MonthlyCard_ClickSweepAll",
+            "Daily_MonthlyCard_SelectSpecialTab",
+            "Daily_MonthlyCard_Enter",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Daily_MonthlyCard_Enter": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    0,
+                    180,
+                    120,
+                    350
+                ],
+                "expected": [
+                    "月卡"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_MonthlyCard_CheckEmpty",
+            "Daily_MonthlyCard_ClickSweepAll",
+            "Daily_MonthlyCard_SelectSpecialTab",
+            "Daily_MonthlyCard_Enter"
+        ]
+    },
+    "Daily_MonthlyCard_SelectSpecialTab": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    10,
+                    165,
+                    160,
+                    80
+                ],
+                "expected": [
+                    "特许关卡",
+                    "特许"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Daily_MonthlyCard_CheckEmpty",
+            "Daily_MonthlyCard_ClickSweepAll",
+            "Daily_MonthlyCard_SelectSpecialTab"
+        ]
+    },
+    "Daily_MonthlyCard_CheckEmpty": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    240,
+                    560,
+                    330,
+                    45
+                ],
+                "expected": [
+                    "0关/0次",
+                    "0关"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Common_BackHome"
+        ]
+    },
+    "Daily_MonthlyCard_ClickSweepAll": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    980,
+                    555,
+                    200,
+                    70
+                ],
+                "expected": [
+                    "一键扫荡"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 700,
+        "next": [
+            "[JumpBack]Common_ClickConfirm",
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_MonthlyCard_CheckEmpty",
+            "Common_BackHome"
+        ]
+    },
     "Daily_StaminaSupply": {
         "recognition": {
             "type": "DirectHit"

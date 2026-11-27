@@ -382,6 +382,12 @@ func main() {
 	if len(args) >= 1 && args[0] == "--restart-coop" {
 		os.Exit(runRestartCoopPC())
 	}
-	fmt.Fprintln(os.Stderr, "Usage: met-service --pretask LaunchGamePC [optionsJSON] | --restart-coop")
+	if len(args) >= 2 && args[0] == "--agent" {
+		os.Exit(runAgentServer(args[len(args)-1]))
+	}
+	if len(args) == 1 && !strings.HasPrefix(args[0], "-") {
+		os.Exit(runAgentServer(args[0]))
+	}
+	fmt.Fprintln(os.Stderr, "Usage: met-service --pretask LaunchGamePC [optionsJSON] | --restart-coop | --agent <identifier>")
 	os.Exit(2)
 }
