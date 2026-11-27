@@ -187,6 +187,9 @@ func findGameExeAuto(root string) string {
 func launchExe(exePath string) error {
 	cmd := exec.Command(exePath)
 	cmd.Dir = filepath.Dir(exePath)
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		CreationFlags: 0x00000200, // CREATE_NEW_PROCESS_GROUP
+	}
 	return cmd.Start()
 }
 
