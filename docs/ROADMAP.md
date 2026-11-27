@@ -49,8 +49,8 @@
 
 ### Phase 2：核心通用能力与每日日常
 - [x] 通用基础节点（`common.json`）：主页判定、返回主页、弹窗关闭、掉线重连、卡死重启、跨夜检测、通用扫荡与自动补体
-- [x] 启动游戏（`startup.json` + `bilibili/pipeline/startup.json`）：官服与 B服启动、包名差异覆盖与弹窗清理
-- [x] 每日物资领取（`Daily_ClaimSupply`）
+- [x] 启动游戏（`startup.json` + `bilibili/pipeline/startup.json` + `win32/pipeline/startup.json` + `scripts/launch_game_pc.ps1`）：官服/B服 ADB 启动、Win32 PC 前置进程检测与自动拉起、弹窗清理
+- [x] 福利放送领取奖励（`Daily_ClaimRewards`：合并每日物资与在线奖励同页连续领取，已适配 4.0 界面与 PC 1080p）
 - [x] 行会签到与捐赠（`Daily_GuildSignIn`）
 - [x] 每日素材关卡扫荡一次（`Daily_MaterialSweep`）
 - [x] 困难与极难主线自动扫荡（`Daily_MainStorySweep` + `MainStoryDifficulty` 选项）

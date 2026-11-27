@@ -13,6 +13,7 @@ ASSETS_DIR = ROOT_DIR / "assets"
 INTERFACE_PATH = ASSETS_DIR / "interface.json"
 BASE_PIPELINE_DIR = ASSETS_DIR / "resource" / "base" / "pipeline"
 BILIBILI_PIPELINE_DIR = ASSETS_DIR / "resource" / "bilibili" / "pipeline"
+WIN32_PIPELINE_DIR = ASSETS_DIR / "resource" / "win32" / "pipeline"
 
 FORBIDDEN_TOP_KEYS = {
     "mirrorchyan_rid",
@@ -144,12 +145,18 @@ def main() -> int:
         if BILIBILI_PIPELINE_DIR.exists()
         else {}
     )
+    win32_nodes = (
+        collect_pipelines(WIN32_PIPELINE_DIR, errors)
+        if WIN32_PIPELINE_DIR.exists()
+        else {}
+    )
 
     all_base_names = set(base_nodes.keys())
-    all_known_names = all_base_names | set(bili_nodes.keys())
+    all_known_names = all_base_names | set(bili_nodes.keys()) | set(win32_nodes.keys())
 
     validate_node_references(BASE_PIPELINE_DIR, all_base_names, errors)
     validate_node_references(BILIBILI_PIPELINE_DIR, all_known_names, errors)
+    validate_node_references(WIN32_PIPELINE_DIR, all_known_names, errors)
 
     if interface is not None:
         if interface.get("interface_version") != 2:
@@ -174,7 +181,28 @@ def main() -> int:
                         f"assets/interface.json: resource path '{p}' must be relative to project root (do not use PI V1 '{{PROJECT_DIR}}')"
                     )
 
+        for ctrl in interface.get("controller") or []:
+            if not isinstance(ctrl, dict):
+                continue
+            for p in ctrl.get("attach_resource_path") or []:
+                if isinstance(p, str) and "{PROJECT_DIR}" in p:
+                    errors.append(
+                        f"assets/interface.json: controller attach_resource_path '{p}' must be relative to project root"
+                    )
+
         defined_options = set((interface.get("option") or {}).keys())
+        pretasks = interface.get("pretask") or []
+        if isinstance(pretasks, dict):
+            pretasks = [pretasks]
+        for pt in pretasks:
+            if not isinstance(pt, dict):
+                continue
+            pt_name = pt.get("name", "<unnamed>")
+            for opt in pt.get("option") or []:
+                if opt not in defined_options:
+                    errors.append(
+                        f"assets/interface.json: pretask '{pt_name}' references undefined option '{opt}'"
+                    )
         for task in interface.get("task") or []:
             if not isinstance(task, dict):
                 continue
@@ -217,7 +245,8 @@ def main() -> int:
 
     print(
         f"Validation PASSED: interface.json (PI V2), "
-        f"{len(base_nodes)} base nodes, {len(bili_nodes)} bilibili override nodes."
+        f"{len(base_nodes)} base nodes, {len(bili_nodes)} bilibili override nodes, "
+        f"{len(win32_nodes)} win32 override nodes."
     )
     return 0
 
