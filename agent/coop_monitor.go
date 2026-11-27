@@ -5,6 +5,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"image"
+	"image/png"
 	"os"
 	"path/filepath"
 	"strings"
@@ -28,6 +30,28 @@ type ocrDetailJSON struct {
 
 type CoopAutoMonitorAction struct {
 	root string
+}
+
+func (a *CoopAutoMonitorAction) saveDebugScreenshot(img image.Image, tag string) string {
+	if img == nil {
+		return ""
+	}
+	dir := filepath.Join(a.root, "debug", "coop_freeze")
+	_ = os.MkdirAll(dir, 0o755)
+	name := fmt.Sprintf("%s_%s.png", time.Now().Format("2006-01-02_15-04-05"), tag)
+	fullPath := filepath.Join(dir, name)
+	f, err := os.Create(fullPath)
+	if err != nil {
+		a.logf("保存异常截图失败 (%s): %v", fullPath, err)
+		return ""
+	}
+	defer f.Close()
+	if err := png.Encode(f, img); err != nil {
+		a.logf("编码异常截图失败 (%s): %v", fullPath, err)
+		return ""
+	}
+	a.logf("已保存异常现场截图: %s", fullPath)
+	return fullPath
 }
 
 func (a *CoopAutoMonitorAction) logf(format string, args ...any) {
@@ -180,6 +204,7 @@ func (a *CoopAutoMonitorAction) Run(ctx *maa.Context, arg *maa.CustomActionArg) 
 
 		// 3. Check network disconnect.
 		if rec, err := ctx.RunRecognition("Battle_Coop_Auto_NetworkDisconnect", img); err == nil && rec != nil && rec.Hit {
+			a.saveDebugScreenshot(img, "network_disconnect")
 			msg := fmt.Sprintf("⚠️ 检测到网络连接断开（本次已完成 %d 场），正在尝试重连续刷...", completed)
 			a.logf("%s", msg)
 			notifyMXU(ctx, msg)
@@ -248,13 +273,14 @@ func (a *CoopAutoMonitorAction) Run(ctx *maa.Context, arg *maa.CustomActionArg) 
 		}
 
 		if freezeTimeout > 0 && stalled >= freezeTimeout {
+			shot := a.saveDebugScreenshot(img, "freeze")
 			var msg string
 			if hudText == "" {
 				msg = fmt.Sprintf("⚠️ 连续 %.0f 分钟未检测到战斗 HUD / 进度推进（疑似无UI软卡死或加载卡住），触发自动强杀重启续刷（本次已完成 %d 场）", freezeTimeout.Minutes(), completed)
 			} else {
 				msg = fmt.Sprintf("⚠️ 战斗计时连续 %.0f 分钟无变化（%s），触发自动强杀重启续刷（本次已完成 %d 场）", freezeTimeout.Minutes(), hudText, completed)
 			}
-			a.logf("%s", msg)
+			a.logf("%s [hud=%q raw=%q shot=%s]", msg, hudText, rawHudText, shot)
 			notifyMXU(ctx, msg)
 			_ = ctx.OverrideNext(arg.CurrentTaskName, []maa.NextItem{{Name: "Battle_Coop_Auto_FreezeRecover"}})
 			return true
