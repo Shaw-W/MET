@@ -360,6 +360,57 @@
             "type": "DoNothing"
         }
     },
+    "Battle_Coop_Auto_AllWiped": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    520,
+                    90,
+                    240,
+                    60
+                ],
+                "expected": [
+                    "全员重伤"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    780,
+                    380,
+                    90,
+                    40
+                ]
+            }
+        },
+        "post_delay": 400,
+        "next": [
+            "Battle_Coop_Auto_AllWipedConfirm"
+        ]
+    },
+    "Battle_Coop_Auto_AllWipedConfirm": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    720,
+                    530,
+                    210,
+                    70
+                ],
+                "expected": [
+                    "确定"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1500
+    },
     "Battle_Coop_Auto_Notify": {
         "recognition": {
             "type": "DirectHit"

@@ -212,6 +212,20 @@ func (a *CoopAutoMonitorAction) Run(ctx *maa.Context, arg *maa.CustomActionArg) 
 			return true
 		}
 
+		// 3.5 Check "全员重伤" (all party wiped): always select right card "无力战斗，全员撤退" and confirm (never spend revive items).
+		if rec, err := ctx.RunRecognition("Battle_Coop_Auto_AllWiped", img); err == nil && rec != nil && rec.Hit {
+			a.saveDebugScreenshot(img, "all_wiped")
+			msg := fmt.Sprintf("⚠️ 检测到「全员重伤」，自动选择「全员撤退」并继续看护（本次已完成 %d 场）", completed)
+			a.logf("%s", msg)
+			notifyMXU(ctx, msg)
+			_, _ = ctx.RunTask("Battle_Coop_Auto_AllWiped")
+			lastProgressTime = time.Now()
+			if !sleepInterruptible(tasker, 3*time.Second) {
+				return true
+			}
+			continue
+		}
+
 		// 4. Rising-edge detection on "战斗结算" screen ([40, 5, 200, 55]).
 		if rec, err := ctx.RunRecognition("Battle_Coop_Auto_Settlement", img); err == nil && rec != nil && rec.Hit {
 			if !inSettlement {
