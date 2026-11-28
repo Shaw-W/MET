@@ -197,13 +197,79 @@ func launchExe(exePath string) error {
 	return cmd.Start()
 }
 
+func waitForStableGameWindow(timeout time.Duration) uintptr {
+	var stableHwnd uintptr
+	var stableSince time.Time
+	deadline := time.Now().Add(timeout)
+	for time.Now().Before(deadline) {
+		hwnd := findGameWindow()
+		if hwnd != 0 {
+			if hwnd != stableHwnd {
+				stableHwnd = hwnd
+				stableSince = time.Now()
+			} else if time.Since(stableSince) >= 3*time.Second {
+				restoreIfMinimized(hwnd)
+				return hwnd
+			}
+		} else {
+			stableHwnd = 0
+		}
+		time.Sleep(500 * time.Millisecond)
+	}
+	return 0
+}
+
+func connectMXUWin32(root string, hwnd uintptr) {
+	if hwnd == 0 {
+		return
+	}
+	cfg := loadMXUConfig(root)
+	if cfg == nil {
+		return
+	}
+	port := 12701
+	if cfg.Settings.WebServerPort > 0 {
+		port = cfg.Settings.WebServerPort
+	}
+	if cfg.Settings.WebServerEnabled != nil && !*cfg.Settings.WebServerEnabled {
+		return
+	}
+	instanceID := cfg.LastActiveInstanceID
+	if instanceID == "" && len(cfg.Instances) > 0 {
+		instanceID = cfg.Instances[0].ID
+	}
+	if instanceID == "" {
+		return
+	}
+	client := &http.Client{Timeout: 5 * time.Second}
+	connectPayload, _ := json.Marshal(map[string]any{
+		"type":               "Win32",
+		"handle":             uint64(hwnd),
+		"screencap_method":   2, // FramePool
+		"mouse_method":       1, // Seize
+		"keyboard_method":    1, // Seize
+		"display_short_side": 720,
+	})
+	resp, err := client.Post(
+		fmt.Sprintf("http://127.0.0.1:%d/api/maa/instances/%s/connect", port, instanceID),
+		"application/json",
+		bytes.NewReader(connectPayload),
+	)
+	if err == nil {
+		_, _ = io.ReadAll(resp.Body)
+		_ = resp.Body.Close()
+		time.Sleep(1500 * time.Millisecond)
+	}
+}
+
 func runPretaskLaunchPC(optJSON string) int {
 	root := rootDir()
 
-	// 1. If eternaltree.exe is already running, restore if minimized and exit 0 immediately.
+	// 1. If eternaltree.exe is already running, restore if minimized, ensure MXU Win32 is connected, and exit 0.
 	if pids := findProcessPIDs("eternaltree.exe"); len(pids) > 0 {
 		hwnd := findGameWindow()
 		restoreIfMinimized(hwnd)
+		connectMXUWin32(root, hwnd)
 		fmt.Printf("[MET] 检测到 eternaltree.exe 已在运行 (PID=%d)，跳过启动。\n", pids[0])
 		return 0
 	}
@@ -244,18 +310,14 @@ func runPretaskLaunchPC(optJSON string) int {
 		return 1
 	}
 
-	deadline := time.Now().Add(60 * time.Second)
-	for time.Now().Before(deadline) {
-		if hwnd := findGameWindow(); hwnd != 0 {
-			restoreIfMinimized(hwnd)
-			time.Sleep(2 * time.Second)
-			fmt.Printf("[MET] 游戏窗口已就绪 (hwnd=%d)。\n", hwnd)
-			return 0
-		}
-		time.Sleep(500 * time.Millisecond)
+	hwnd := waitForStableGameWindow(60 * time.Second)
+	if hwnd != 0 {
+		connectMXUWin32(root, hwnd)
+		fmt.Printf("[MET] 游戏窗口已稳定就绪并连接 (hwnd=%d)。\n", hwnd)
+		return 0
 	}
 
-	fmt.Fprintln(os.Stderr, "[MET] 启动游戏超时（60秒内未检测到 eternaltree 主窗口）。")
+	fmt.Fprintln(os.Stderr, "[MET] 启动游戏超时（60秒内未检测到稳定的 eternaltree 可见主窗口）。")
 	return 1
 }
 
