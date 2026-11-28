@@ -78,6 +78,7 @@
             "[JumpBack]Common_SweepEndConfirm",
             "[JumpBack]Common_BattleEndReturn",
             "[JumpBack]Common_ClickCancel",
+            "[JumpBack]Common_ClickTopHomeIcon",
             "[JumpBack]Common_TapHomeIcon"
         ],
         "on_error": [
@@ -121,7 +122,7 @@
         "action": {
             "type": "Click"
         },
-        "post_delay": 300
+        "post_delay": 500
     },
     "Common_ToastNoReward": {
         "recognition": {
