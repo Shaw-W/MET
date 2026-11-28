@@ -411,6 +411,15 @@
         },
         "post_delay": 1500
     },
+    "Battle_Coop_Auto_WipedConfig": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "timeout": 600000
+    },
     "Battle_Coop_Auto_Notify": {
         "recognition": {
             "type": "DirectHit"

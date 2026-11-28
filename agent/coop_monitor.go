@@ -98,6 +98,34 @@ func isBattleHudText(text string) bool {
 	return strings.Contains(text, "回合") || strings.Contains(text, "时间") || strings.Contains(text, ":")
 }
 
+type wipedConfigNode struct {
+	Enabled *bool `json:"enabled"`
+	Timeout *int  `json:"timeout"`
+}
+
+func readWipedWaitConfig(ctx *maa.Context) (enabled bool, wait time.Duration) {
+	enabled = true
+	wait = 10 * time.Minute
+	raw, err := ctx.GetNodeJSON("Battle_Coop_Auto_WipedConfig")
+	if err != nil || strings.TrimSpace(raw) == "" {
+		return enabled, wait
+	}
+	var cfg wipedConfigNode
+	if err := json.Unmarshal([]byte(raw), &cfg); err != nil {
+		return enabled, wait
+	}
+	if cfg.Enabled != nil && !*cfg.Enabled {
+		return false, 0
+	}
+	if cfg.Timeout != nil {
+		if *cfg.Timeout < 0 {
+			return false, 0
+		}
+		wait = time.Duration(*cfg.Timeout) * time.Millisecond
+	}
+	return enabled, wait
+}
+
 func sleepInterruptible(tasker *maa.Tasker, d time.Duration) bool {
 	deadline := time.Now().Add(d)
 	for time.Now().Before(deadline) {
@@ -140,9 +168,11 @@ func (a *CoopAutoMonitorAction) Run(ctx *maa.Context, arg *maa.CustomActionArg) 
 	completed := 0
 	inSettlement := false
 	lobbyStreak := 0
+	var wipedSince time.Time
+	wipedAutoRetreat, wipedWait := readWipedWaitConfig(ctx)
 
 	startMsg := "⚔️ 联机自动战斗开始看护（按「战斗结算」从 0 实时计数 + 软卡死监控）"
-	a.logf("%s", startMsg)
+	a.logf("%s [wipedAutoRetreat=%v wipedWait=%v]", startMsg, wipedAutoRetreat, wipedWait)
 	notifyMXU(ctx, startMsg)
 
 	startTime := time.Now()
@@ -218,18 +248,39 @@ func (a *CoopAutoMonitorAction) Run(ctx *maa.Context, arg *maa.CustomActionArg) 
 			return true
 		}
 
-		// 3.5 Check "全员重伤" (all party wiped): always select right card "无力战斗，全员撤退" and confirm (never spend revive items).
+		// 3.5 Check "全员重伤" (all party wiped):
+		// Wait for teammates to finish the boss (default 10 min, configurable via CoopWipedWaitTimeout).
+		// Only after waiting wipedWait do we select right card "无力战斗，全员撤退" and confirm (never spend revive items).
 		if rec, err := ctx.RunRecognition("Battle_Coop_Auto_AllWiped", img); err == nil && rec != nil && rec.Hit {
-			a.saveDebugScreenshot(img, "all_wiped")
-			msg := fmt.Sprintf("⚠️ 检测到「全员重伤」，自动选择「全员撤退」并继续看护（本次已完成 %d 场）", completed)
-			a.logf("%s", msg)
-			notifyMXU(ctx, msg)
-			_, _ = ctx.RunTask("Battle_Coop_Auto_AllWiped")
 			lastProgressTime = time.Now()
-			if !sleepInterruptible(tasker, 3*time.Second) {
-				return true
+			if wipedSince.IsZero() {
+				wipedSince = time.Now()
+				a.saveDebugScreenshot(img, "all_wiped")
+				if !wipedAutoRetreat {
+					msg := fmt.Sprintf("⚠️ 检测到「全员重伤」（已设为不自动撤退，等待队友或倒计时结束，本次已完成 %d 场）", completed)
+					a.logf("%s", msg)
+					notifyMXU(ctx, msg)
+				} else if wipedWait > 0 {
+					msg := fmt.Sprintf("⚠️ 检测到「全员重伤」，等待队友输出 %.0f 分钟后再撤退（本次已完成 %d 场）", wipedWait.Minutes(), completed)
+					a.logf("%s", msg)
+					notifyMXU(ctx, msg)
+				}
 			}
-			continue
+			if wipedAutoRetreat && time.Since(wipedSince) >= wipedWait {
+				msg := fmt.Sprintf("⚠️ 「全员重伤」已等待 %.0f 分钟，自动选择「全员撤退」并继续看护（本次已完成 %d 场）", time.Since(wipedSince).Minutes(), completed)
+				a.logf("%s", msg)
+				notifyMXU(ctx, msg)
+				_, _ = ctx.RunTask("Battle_Coop_Auto_AllWiped")
+				wipedSince = time.Time{}
+				lastProgressTime = time.Now()
+				if !sleepInterruptible(tasker, 3*time.Second) {
+					return true
+				}
+				continue
+			}
+		} else if !wipedSince.IsZero() {
+			a.logf("[Scan] 「全员重伤」弹窗已消失（队友已击杀或已结算），取消撤退计时")
+			wipedSince = time.Time{}
 		}
 
 		// 4. Rising-edge detection on "战斗结算" screen ([40, 5, 200, 55]).

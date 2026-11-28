@@ -151,6 +151,7 @@
             "entry": "Battle_Coop_Auto_Start",
             "option": [
                 "CoopFreezeTimeout",
+                "CoopWipedWaitTimeout",
                 "CoopApplySettings"
             ]
         },
@@ -943,6 +944,63 @@
                             "next": [
                                 "Common_Stop"
                             ]
+                        }
+                    }
+                }
+            ]
+        },
+        "CoopWipedWaitTimeout": {
+            "type": "select",
+            "label": "全员重伤等待队友时间",
+            "description": "出现「全员重伤」弹窗时，等待队友输出该时长后再自动选择「全员撤退」（绝不消耗复活道具）",
+            "default_case": "Min10",
+            "cases": [
+                {
+                    "name": "Min10",
+                    "label": "10 分钟（默认）",
+                    "pipeline_override": {
+                        "Battle_Coop_Auto_WipedConfig": {
+                            "enabled": true,
+                            "timeout": 600000
+                        }
+                    }
+                },
+                {
+                    "name": "Min5",
+                    "label": "5 分钟",
+                    "pipeline_override": {
+                        "Battle_Coop_Auto_WipedConfig": {
+                            "enabled": true,
+                            "timeout": 300000
+                        }
+                    }
+                },
+                {
+                    "name": "Min15",
+                    "label": "15 分钟",
+                    "pipeline_override": {
+                        "Battle_Coop_Auto_WipedConfig": {
+                            "enabled": true,
+                            "timeout": 900000
+                        }
+                    }
+                },
+                {
+                    "name": "Immediate",
+                    "label": "立即撤退",
+                    "pipeline_override": {
+                        "Battle_Coop_Auto_WipedConfig": {
+                            "enabled": true,
+                            "timeout": 0
+                        }
+                    }
+                },
+                {
+                    "name": "Disabled",
+                    "label": "不自动撤退（一直等待）",
+                    "pipeline_override": {
+                        "Battle_Coop_Auto_WipedConfig": {
+                            "enabled": false
                         }
                     }
                 }
