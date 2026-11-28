@@ -1426,7 +1426,7 @@
                     90
                 ],
                 "template": "daily/supply_claim_active.png",
-                "threshold": 0.72
+                "threshold": 0.8
             }
         },
         "action": {
@@ -1451,7 +1451,7 @@
                     90
                 ],
                 "template": "daily/supply_claim_active.png",
-                "threshold": 0.72
+                "threshold": 0.8
             }
         },
         "action": {

@@ -122,7 +122,7 @@
         "action": {
             "type": "Click"
         },
-        "post_delay": 300
+        "post_delay": 500
     },
     "Common_ToastNoReward": {
         "recognition": {
