@@ -363,6 +363,45 @@ func (a *CoopAutoMonitorAction) Run(ctx *maa.Context, arg *maa.CustomActionArg) 
 	}
 }
 
+type SaveRewardSnapshotAction struct {
+	root string
+}
+
+type snapshotParam struct {
+	Tag string `json:"tag"`
+}
+
+func (a *SaveRewardSnapshotAction) Run(ctx *maa.Context, arg *maa.CustomActionArg) bool {
+	tag := "reward"
+	if strings.TrimSpace(arg.CustomActionParam) != "" {
+		var p snapshotParam
+		if err := json.Unmarshal([]byte(arg.CustomActionParam), &p); err == nil && strings.TrimSpace(p.Tag) != "" {
+			tag = strings.TrimSpace(p.Tag)
+		}
+	}
+	ctrl := ctx.GetTasker().GetController()
+	if ctrl == nil {
+		return true
+	}
+	if job, err := ctrl.PostScreencap(); err == nil && job != nil {
+		job.Wait()
+	}
+	img, err := ctrl.CacheImage()
+	if err != nil || img == nil {
+		return true
+	}
+	dir := filepath.Join(a.root, "debug", "rewards")
+	_ = os.MkdirAll(dir, 0o755)
+	name := fmt.Sprintf("%s_%s.png", time.Now().Format("2006-01-02_15-04-05"), tag)
+	fullPath := filepath.Join(dir, name)
+	if f, err := os.Create(fullPath); err == nil {
+		_ = png.Encode(f, img)
+		_ = f.Close()
+		notifyMXU(ctx, fmt.Sprintf("📸 已留档扫荡产物截图：%s", name))
+	}
+	return true
+}
+
 func runAgentServer(identifier string) int {
 	root := rootDir()
 	libDir := filepath.Join(root, "maafw")
@@ -374,6 +413,10 @@ func runAgentServer(identifier string) int {
 
 	if err := maa.AgentServerRegisterCustomAction("CoopAutoMonitor", &CoopAutoMonitorAction{root: root}); err != nil {
 		fmt.Fprintf(os.Stderr, "[MET] register CoopAutoMonitor failed: %v\n", err)
+		return 1
+	}
+	if err := maa.AgentServerRegisterCustomAction("SaveRewardSnapshot", &SaveRewardSnapshotAction{root: root}); err != nil {
+		fmt.Fprintf(os.Stderr, "[MET] register SaveRewardSnapshot failed: %v\n", err)
 		return 1
 	}
 

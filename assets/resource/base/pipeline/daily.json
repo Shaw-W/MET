@@ -7,6 +7,7 @@
             "type": "DoNothing"
         },
         "next": [
+            "Daily_MonthlyCard_SaveResult",
             "Daily_MonthlyCard_CheckEmpty",
             "Daily_MonthlyCard_ClickSweepAll",
             "Daily_MonthlyCard_SelectSpecialTab",
@@ -112,7 +113,78 @@
         },
         "post_delay": 700,
         "next": [
+            "Daily_MonthlyCard_WaitResult",
+            "Daily_MonthlyCard_CheckEmpty",
+            "Common_BackHome"
+        ]
+    },
+    "Daily_MonthlyCard_WaitResult": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 1000,
+        "timeout": 90000,
+        "next": [
+            "Daily_MonthlyCard_SaveResult",
+            "Daily_MonthlyCard_ConfirmResult",
             "[JumpBack]Common_ClickConfirm",
+            "Daily_MonthlyCard_CheckEmpty"
+        ]
+    },
+    "Daily_MonthlyCard_SaveResult": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    780,
+                    635,
+                    230,
+                    75
+                ],
+                "expected": [
+                    "确认"
+                ]
+            }
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "SaveRewardSnapshot",
+                "custom_action_param": {
+                    "tag": "monthly_card_sweep"
+                }
+            }
+        },
+        "next": [
+            "Daily_MonthlyCard_ConfirmResult"
+        ],
+        "on_error": [
+            "Daily_MonthlyCard_ConfirmResult"
+        ]
+    },
+    "Daily_MonthlyCard_ConfirmResult": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    780,
+                    635,
+                    230,
+                    75
+                ],
+                "expected": [
+                    "确认"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 700,
+        "next": [
             "[JumpBack]Common_ClickBlankClose",
             "Daily_MonthlyCard_CheckEmpty",
             "Common_BackHome"
