@@ -139,6 +139,7 @@ func (a *CoopAutoMonitorAction) Run(ctx *maa.Context, arg *maa.CustomActionArg) 
 	// Always start fresh from 0 on each run; count each completed battle on "战斗结算" rising edge.
 	completed := 0
 	inSettlement := false
+	lobbyStreak := 0
 
 	startMsg := "⚔️ 联机自动战斗开始看护（按「战斗结算」从 0 实时计数 + 软卡死监控）"
 	a.logf("%s", startMsg)
@@ -193,13 +194,18 @@ func (a *CoopAutoMonitorAction) Run(ctx *maa.Context, arg *maa.CustomActionArg) 
 			return true
 		}
 
-		// 2. Check dropped back to coop lobby.
+		// 2. Check dropped back to coop lobby (require 3 consecutive hits ~6s to ignore brief 1-2s inter-battle lobby flashes).
 		if rec, err := ctx.RunRecognition("Battle_Coop_Auto_FinishedLobby", img); err == nil && rec != nil && rec.Hit {
-			msg := fmt.Sprintf("🔄 检测到已退回联机大厅（本次已完成 %d 场），准备沿用当前配置续刷", completed)
-			a.logf("%s", msg)
-			notifyMXU(ctx, msg)
-			_ = ctx.OverrideNext(arg.CurrentTaskName, []maa.NextItem{{Name: "Battle_Coop_Auto_FinishedLobby"}})
-			return true
+			lobbyStreak++
+			if lobbyStreak >= 3 {
+				msg := fmt.Sprintf("🔄 检测到持续停留在联机大厅（本次已完成 %d 场），准备沿用当前配置续刷", completed)
+				a.logf("%s", msg)
+				notifyMXU(ctx, msg)
+				_ = ctx.OverrideNext(arg.CurrentTaskName, []maa.NextItem{{Name: "Battle_Coop_Auto_FinishedLobby"}})
+				return true
+			}
+		} else {
+			lobbyStreak = 0
 		}
 
 		// 3. Check network disconnect.
