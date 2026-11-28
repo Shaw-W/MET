@@ -24,7 +24,7 @@
 
 基于 **[MaaFramework](https://github.com/MaaXYZ/MaaFramework)** Pipeline JSON + 轻量 **Go** 服务与 **[MXU](https://github.com/MaaXYZ/MXU)** 前端构建，零外部运行时依赖，解压即用，解放双手！
 
-[使用手册](docs/USAGE.md) · [架构规范](docs/SPEC.md) · [开发进度](docs/ROADMAP.md) · [AI 开发约定](AGENTS.md) · [下载发布包](https://github.com/Shaw-W/MET/releases)
+[连接教程](docs/CONNECT.md) · [任务说明](docs/TASKS.md) · [常见问题](docs/FAQ.md) · [开发进度](docs/ROADMAP.md) · [下载发布包](https://github.com/Shaw-W/MET/releases)
 
 </div>
 
@@ -34,7 +34,7 @@
 
 本仓库仅保留**配置、Pipeline 源码、Go 辅助服务源码与模板素材**，运行时二进制（`MET.exe`、`agent/met-service.exe`、`maafw/` 与 OCR 模型）均由 GitHub Actions 自动编译拉取并打包。
 
-- **普通用户**：前往 [Releases](https://github.com/Shaw-W/MET/releases) 下载最新 `MET-win-x86_64-*.zip`，解压后直接双击 `MET.exe` 即可运行，无需安装 Python 或其他运行环境。首次使用请参考 **[连接配置教程（PC Win32 / ADB 模拟器）](docs/USAGE.md#2-连接配置教程)**。
+- **普通用户**：前往 [Releases](https://github.com/Shaw-W/MET/releases) 下载最新 `MET-win-x86_64-*.zip`，解压后直接双击 `MET.exe` 即可运行，无需安装 Python 或其他运行环境。首次使用请参考 **[连接配置教程](docs/CONNECT.md)**、**[功能与任务说明](docs/TASKS.md)** 与 **[常见问题](docs/FAQ.md)**。
 - **支持环境**：Windows (`x86_64`)，支持 **官服 + B服**，支持 **ADB（安卓模拟器，推荐 `1280×720`）** 与 **Win32（PC 桌面端）**。
 
 ---
