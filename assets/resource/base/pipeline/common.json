@@ -78,6 +78,7 @@
             "[JumpBack]Common_SweepEndConfirm",
             "[JumpBack]Common_BattleEndReturn",
             "[JumpBack]Common_ClickCancel",
+            "[JumpBack]Common_ClickTopHomeIcon",
             "[JumpBack]Common_TapHomeIcon"
         ],
         "on_error": [

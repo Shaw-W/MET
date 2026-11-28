@@ -905,7 +905,7 @@
         "action": {
             "type": "Click"
         },
-        "post_delay": 250,
+        "post_delay": 550,
         "next": [
             "[JumpBack]Common_ClickBlankClose",
             "Daily_Book_StepSpirit"
@@ -1064,7 +1064,7 @@
         "action": {
             "type": "Click"
         },
-        "post_delay": 250,
+        "post_delay": 550,
         "next": [
             "[JumpBack]Common_ClickBlankClose",
             "Daily_Book_Spirit_TabReward"
@@ -1088,7 +1088,7 @@
         "action": {
             "type": "Click"
         },
-        "post_delay": 400,
+        "post_delay": 600,
         "next": [
             "Daily_Book_Spirit_ClaimReward",
             "Daily_Rewards_StepHandbook"
@@ -1112,7 +1112,7 @@
         "action": {
             "type": "Click"
         },
-        "post_delay": 250,
+        "post_delay": 600,
         "next": [
             "[JumpBack]Common_ClickBlankClose",
             "Daily_Rewards_StepHandbook"
@@ -1426,7 +1426,7 @@
                     90
                 ],
                 "template": "daily/supply_claim_active.png",
-                "threshold": 0.85
+                "threshold": 0.72
             }
         },
         "action": {
@@ -1451,7 +1451,7 @@
                     90
                 ],
                 "template": "daily/supply_claim_active.png",
-                "threshold": 0.85
+                "threshold": 0.72
             }
         },
         "action": {
