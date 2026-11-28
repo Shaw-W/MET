@@ -2613,6 +2613,8 @@
             "Daily_Online_NoneLeft",
             "[JumpBack]Common_ClickBlankClose",
             "[JumpBack]Daily_Online_Claim",
+            "[JumpBack]Daily_Online_ClaimBottom",
+            "[JumpBack]Daily_Online_ScrollRight",
             "Common_BackHome"
         ]
     },
@@ -2641,17 +2643,31 @@
     },
     "Daily_Online_Claim": {
         "recognition": {
-            "type": "TemplateMatch",
+            "type": "ColorMatch",
             "param": {
                 "roi": [
-                    430,
-                    250,
-                    840,
-                    300
+                    450,
+                    266,
+                    815,
+                    48
                 ],
-                "template": "daily/online_claim_ribbon.png",
-                "threshold": 0.72,
-                "green_mask": true
+                "method": 4,
+                "lower": [
+                    [
+                        210,
+                        180,
+                        95
+                    ]
+                ],
+                "upper": [
+                    [
+                        255,
+                        235,
+                        170
+                    ]
+                ],
+                "count": 220,
+                "connected": true
             }
         },
         "action": {
@@ -2659,14 +2675,82 @@
             "param": {
                 "target_offset": [
                     16,
-                    20,
+                    24,
+                    0,
+                    0
+                ]
+            }
+        },
+        "max_hit": 12,
+        "post_delay": 350
+    },
+    "Daily_Online_ClaimBottom": {
+        "recognition": {
+            "type": "ColorMatch",
+            "param": {
+                "roi": [
+                    440,
+                    446,
+                    780,
+                    48
+                ],
+                "method": 4,
+                "lower": [
+                    [
+                        210,
+                        180,
+                        95
+                    ]
+                ],
+                "upper": [
+                    [
+                        255,
+                        235,
+                        170
+                    ]
+                ],
+                "count": 220,
+                "connected": true
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    16,
+                    24,
                     0,
                     0
                 ]
             }
         },
         "max_hit": 10,
-        "post_delay": 400
+        "post_delay": 350
+    },
+    "Daily_Online_ScrollRight": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Swipe",
+            "param": {
+                "begin": [
+                    1120,
+                    315,
+                    1,
+                    1
+                ],
+                "end": [
+                    520,
+                    315,
+                    1,
+                    1
+                ],
+                "duration": 500
+            }
+        },
+        "max_hit": 1,
+        "post_delay": 500
     },
     "Daily_Tasks_DailyAlreadyOn": {
         "recognition": {
