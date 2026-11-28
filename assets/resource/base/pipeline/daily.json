@@ -2611,8 +2611,8 @@
         },
         "next": [
             "Daily_Online_NoneLeft",
-            "[JumpBack]Daily_Online_Claim",
             "[JumpBack]Common_ClickBlankClose",
+            "[JumpBack]Daily_Online_Claim",
             "Common_BackHome"
         ]
     },
@@ -2650,7 +2650,8 @@
                     300
                 ],
                 "template": "daily/online_claim_ribbon.png",
-                "threshold": 0.85
+                "threshold": 0.72,
+                "green_mask": true
             }
         },
         "action": {
