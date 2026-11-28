@@ -23,6 +23,7 @@ var (
 
 	procFindWindowW              = user32.NewProc("FindWindowW")
 	procIsIconic                 = user32.NewProc("IsIconic")
+	procIsWindowVisible          = user32.NewProc("IsWindowVisible")
 	procShowWindow               = user32.NewProc("ShowWindow")
 	procCreateToolhelp32Snapshot = kernel32.NewProc("CreateToolhelp32Snapshot")
 	procProcess32FirstW          = kernel32.NewProc("Process32FirstW")
@@ -118,7 +119,10 @@ func findGameWindow() uintptr {
 		t, _ := syscall.UTF16PtrFromString(title)
 		hwnd, _, _ := procFindWindowW.Call(uintptr(unsafe.Pointer(cls)), uintptr(unsafe.Pointer(t)))
 		if hwnd != 0 {
-			return hwnd
+			vis, _, _ := procIsWindowVisible.Call(hwnd)
+			if vis != 0 {
+				return hwnd
+			}
 		}
 	}
 	return 0
@@ -187,6 +191,9 @@ func findGameExeAuto(root string) string {
 func launchExe(exePath string) error {
 	cmd := exec.Command(exePath)
 	cmd.Dir = filepath.Dir(exePath)
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		CreationFlags: 0x00000200, // CREATE_NEW_PROCESS_GROUP
+	}
 	return cmd.Start()
 }
 
@@ -305,23 +312,31 @@ func runRestartCoopPC() int {
 		return 1
 	}
 
+	// Wait for Unity's visible main window to stabilize (Unity often destroys an initial splash hwnd).
 	var newHwnd uint64
+	var stableSince time.Time
 	deadline := time.Now().Add(60 * time.Second)
 	for time.Now().Before(deadline) {
-		if hwnd := findGameWindow(); hwnd != 0 {
-			restoreIfMinimized(hwnd)
-			newHwnd = uint64(hwnd)
-			break
+		hwnd := findGameWindow()
+		if hwnd != 0 {
+			if uint64(hwnd) != newHwnd {
+				newHwnd = uint64(hwnd)
+				stableSince = time.Now()
+			} else if time.Since(stableSince) >= 3*time.Second {
+				restoreIfMinimized(hwnd)
+				break
+			}
+		} else {
+			newHwnd = 0
 		}
 		time.Sleep(500 * time.Millisecond)
 	}
 	if newHwnd == 0 {
-		logf("错误: 60秒内未检测到新启动的 eternaltree 窗口。")
+		logf("错误: 60秒内未检测到稳定的 eternaltree 可见主窗口。")
 		return 1
 	}
 
-	logf("检测到新游戏窗口 hwnd=%d，等待 3 秒初始化...", newHwnd)
-	time.Sleep(3 * time.Second)
+	logf("检测到稳定游戏窗口 hwnd=%d，准备重连 MXU...", newHwnd)
 
 	if !webEnabled || instanceID == "" {
 		logf("提示: MXU 本地 Web 服务未启用或未找到实例 ID，已完成客户端重启。")
@@ -352,19 +367,48 @@ func runRestartCoopPC() int {
 	}
 
 	time.Sleep(1 * time.Second)
-	tasksPayload, _ := json.Marshal([]map[string]string{
-		{"entry": "Startup_Launch", "pipeline_override": "{}"},
-		{"entry": "Battle_Coop_Auto_Start", "pipeline_override": "{}"},
+	resPayload, _ := json.Marshal(map[string]any{
+		"paths": []string{
+			filepath.Join(root, "resource", "base"),
+			filepath.Join(root, "resource", "win32"),
+		},
 	})
-	resp2, err := client.Post(fmt.Sprintf("%s/api/maa/instances/%s/tasks/run", baseURL, instanceID), "application/json", bytes.NewReader(tasksPayload))
-	if err != nil {
-		logf("派发续刷任务失败: %v", err)
-		return 1
+	if resResp, resErr := client.Post(fmt.Sprintf("%s/api/maa/instances/%s/resource/load", baseURL, instanceID), "application/json", bytes.NewReader(resPayload)); resErr == nil {
+		resBody, _ := io.ReadAll(resResp.Body)
+		_ = resResp.Body.Close()
+		logf("重载资源响应 (%d): %s", resResp.StatusCode, strings.TrimSpace(string(resBody)))
 	}
-	body2, _ := io.ReadAll(resp2.Body)
-	_ = resp2.Body.Close()
-	logf("续刷响应 (%d): %s", resp2.StatusCode, strings.TrimSpace(string(body2)))
-	return 0
+	// Wait for async controller connect & resource load to finish, with retries on "Tasker not properly initialized".
+	time.Sleep(4 * time.Second)
+	tasksPayload, _ := json.Marshal(map[string]any{
+		"tasks": []map[string]string{
+			{"entry": "Startup_Launch", "pipeline_override": "{}"},
+			{"entry": "Battle_Coop_Auto_Start", "pipeline_override": "{}"},
+		},
+		"agent_configs": []map[string]any{
+			{
+				"child_exec": "agent/met-service.exe",
+				"child_args": []string{"--agent"},
+			},
+		},
+	})
+	for attempt := 1; attempt <= 6; attempt++ {
+		resp2, err := client.Post(fmt.Sprintf("%s/api/maa/instances/%s/tasks/start", baseURL, instanceID), "application/json", bytes.NewReader(tasksPayload))
+		if err != nil {
+			logf("派发续刷任务失败 (尝试 %d/6): %v", attempt, err)
+			time.Sleep(3 * time.Second)
+			continue
+		}
+		body2, _ := io.ReadAll(resp2.Body)
+		_ = resp2.Body.Close()
+		msg2 := strings.TrimSpace(string(body2))
+		logf("续刷响应 (尝试 %d/6, status=%d): %s", attempt, resp2.StatusCode, msg2)
+		if resp2.StatusCode < 300 {
+			return 0
+		}
+		time.Sleep(3 * time.Second)
+	}
+	return 1
 }
 
 func main() {
@@ -382,6 +426,12 @@ func main() {
 	if len(args) >= 1 && args[0] == "--restart-coop" {
 		os.Exit(runRestartCoopPC())
 	}
-	fmt.Fprintln(os.Stderr, "Usage: met-service --pretask LaunchGamePC [optionsJSON] | --restart-coop")
+	if len(args) >= 2 && args[0] == "--agent" {
+		os.Exit(runAgentServer(args[len(args)-1]))
+	}
+	if len(args) == 1 && !strings.HasPrefix(args[0], "-") {
+		os.Exit(runAgentServer(args[0]))
+	}
+	fmt.Fprintln(os.Stderr, "Usage: met-service --pretask LaunchGamePC [optionsJSON] | --restart-coop | --agent <identifier>")
 	os.Exit(2)
 }

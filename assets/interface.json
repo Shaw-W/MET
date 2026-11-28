@@ -7,12 +7,18 @@
     "version": "0.0.0-dev",
     "github": "https://github.com/Shaw-W/MET",
     "license": "LICENSE",
-    "description": "基于 MaaFramework 与 MXU 开发的《悠久之树》自动化助手（纯 Pipeline 架构，仅支持 Windows）。",
+    "description": "基于 MaaFramework Pipeline JSON + 轻量 Go 服务与 MXU 开发的《悠久之树》自动化助手（仅支持 Windows）。",
     "welcome": [
         "欢迎使用 MET（Maa Eternal Tree）！",
-        "当前已支持「启动游戏 / 体力补给 / 行会日常 / 领取奖励（邮件、任务、探求者之书、器灵讨伐书、探求者手记）」，推荐使用「核心日常（推荐）」预设一键运行。",
+        "当前已支持「启动游戏 / 体力补给 / 行会日常 / 领取奖励 / 联机自动战斗（实时场次统计 + 防卡死重启续刷）」，推荐使用「核心日常（推荐）」预设一键运行。",
         "其余扫荡、战斗与活动模块正在按 4.0 界面陆续校准中，欢迎在 GitHub 反馈问题或建议。"
     ],
+    "agent": {
+        "child_exec": "agent/met-service.exe",
+        "child_args": [
+            "--agent"
+        ]
+    },
     "controller": [
         {
             "name": "ADB",
@@ -75,6 +81,9 @@
                     "name": "StaminaSupply"
                 },
                 {
+                    "name": "MonthlyCardSweep"
+                },
+                {
                     "name": "DailyGuild"
                 },
                 {
@@ -120,6 +129,12 @@
             ]
         },
         {
+            "name": "MonthlyCardSweep",
+            "label": "月卡扫荡",
+            "description": "自动进入主页「月卡 → 特许关卡」一键扫荡全部剩余特许关卡（无剩余次数自动跳过）",
+            "entry": "Daily_MonthlyCardSweep"
+        },
+        {
             "name": "DailyGuild",
             "label": "行会日常",
             "description": "自动完成每日行会签到与捐赠（支持分别开关并设置每日捐赠次数上限）",
@@ -136,6 +151,7 @@
             "entry": "Battle_Coop_Auto_Start",
             "option": [
                 "CoopFreezeTimeout",
+                "CoopWipedWaitTimeout",
                 "CoopApplySettings"
             ]
         },
@@ -841,7 +857,7 @@
         "CoopFreezeTimeout": {
             "type": "select",
             "label": "卡死重启判定时间",
-            "description": "官方自动战斗期间画面完全静止超过该时长（且非正常结束）时，自动强杀重启客户端并续刷",
+            "description": "自动战斗看护期间实时识别并播报「连战次数」；画面完全静止超过该时长（且非正常结束）时，自动强杀重启客户端并续刷",
             "default_case": "Min5",
             "cases": [
                 {
@@ -849,17 +865,16 @@
                     "label": "2 分钟",
                     "pipeline_override": {
                         "Battle_Coop_Auto_Monitor": {
-                            "pre_wait_freezes": {
-                                "time": 120000,
-                                "target": [
-                                    0,
-                                    0,
-                                    1280,
-                                    720
-                                ],
-                                "timeout": 43200000,
-                                "threshold": 0.999,
-                                "rate_limit": 5000
+                            "action": {
+                                "type": "Custom",
+                                "param": {
+                                    "custom_action": "CoopAutoMonitor",
+                                    "custom_action_param": {
+                                        "freeze_timeout_ms": 120000,
+                                        "poll_interval_ms": 2000,
+                                        "max_duration_ms": 43200000
+                                    }
+                                }
                             }
                         }
                     }
@@ -869,17 +884,16 @@
                     "label": "3 分钟",
                     "pipeline_override": {
                         "Battle_Coop_Auto_Monitor": {
-                            "pre_wait_freezes": {
-                                "time": 180000,
-                                "target": [
-                                    0,
-                                    0,
-                                    1280,
-                                    720
-                                ],
-                                "timeout": 43200000,
-                                "threshold": 0.999,
-                                "rate_limit": 5000
+                            "action": {
+                                "type": "Custom",
+                                "param": {
+                                    "custom_action": "CoopAutoMonitor",
+                                    "custom_action_param": {
+                                        "freeze_timeout_ms": 180000,
+                                        "poll_interval_ms": 2000,
+                                        "max_duration_ms": 43200000
+                                    }
+                                }
                             }
                         }
                     }
@@ -889,29 +903,104 @@
                     "label": "5 分钟（推荐）",
                     "pipeline_override": {
                         "Battle_Coop_Auto_Monitor": {
-                            "pre_wait_freezes": {
-                                "time": 300000,
-                                "target": [
-                                    0,
-                                    0,
-                                    1280,
-                                    720
-                                ],
-                                "timeout": 43200000,
-                                "threshold": 0.999,
-                                "rate_limit": 5000
+                            "action": {
+                                "type": "Custom",
+                                "param": {
+                                    "custom_action": "CoopAutoMonitor",
+                                    "custom_action_param": {
+                                        "freeze_timeout_ms": 300000,
+                                        "poll_interval_ms": 2000,
+                                        "max_duration_ms": 43200000
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "OnlyCount",
+                    "label": "仅统计场次（不触发卡死重启）",
+                    "pipeline_override": {
+                        "Battle_Coop_Auto_Monitor": {
+                            "action": {
+                                "type": "Custom",
+                                "param": {
+                                    "custom_action": "CoopAutoMonitor",
+                                    "custom_action_param": {
+                                        "freeze_timeout_ms": 0,
+                                        "poll_interval_ms": 2000,
+                                        "max_duration_ms": 43200000
+                                    }
+                                }
                             }
                         }
                     }
                 },
                 {
                     "name": "Disabled",
-                    "label": "不检测卡死（点完开始即结束）",
+                    "label": "不看护（点完开始即结束）",
                     "pipeline_override": {
                         "Battle_Coop_Auto_ClickStart": {
                             "next": [
                                 "Common_Stop"
                             ]
+                        }
+                    }
+                }
+            ]
+        },
+        "CoopWipedWaitTimeout": {
+            "type": "select",
+            "label": "全员重伤等待队友时间",
+            "description": "出现「全员重伤」弹窗时，等待队友输出该时长后再自动选择「全员撤退」（绝不消耗复活道具）",
+            "default_case": "Min10",
+            "cases": [
+                {
+                    "name": "Min10",
+                    "label": "10 分钟（默认）",
+                    "pipeline_override": {
+                        "Battle_Coop_Auto_WipedConfig": {
+                            "enabled": true,
+                            "timeout": 600000
+                        }
+                    }
+                },
+                {
+                    "name": "Min5",
+                    "label": "5 分钟",
+                    "pipeline_override": {
+                        "Battle_Coop_Auto_WipedConfig": {
+                            "enabled": true,
+                            "timeout": 300000
+                        }
+                    }
+                },
+                {
+                    "name": "Min15",
+                    "label": "15 分钟",
+                    "pipeline_override": {
+                        "Battle_Coop_Auto_WipedConfig": {
+                            "enabled": true,
+                            "timeout": 900000
+                        }
+                    }
+                },
+                {
+                    "name": "Immediate",
+                    "label": "立即撤退",
+                    "pipeline_override": {
+                        "Battle_Coop_Auto_WipedConfig": {
+                            "enabled": true,
+                            "timeout": 0
+                        }
+                    }
+                },
+                {
+                    "name": "Disabled",
+                    "label": "不自动撤退（一直等待）",
+                    "pipeline_override": {
+                        "Battle_Coop_Auto_WipedConfig": {
+                            "enabled": false
                         }
                     }
                 }

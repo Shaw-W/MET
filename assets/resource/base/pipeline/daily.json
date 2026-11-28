@@ -1,4 +1,195 @@
 {
+    "Daily_MonthlyCardSweep": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Daily_MonthlyCard_SaveResult",
+            "Daily_MonthlyCard_CheckEmpty",
+            "Daily_MonthlyCard_ClickSweepAll",
+            "Daily_MonthlyCard_SelectSpecialTab",
+            "Daily_MonthlyCard_Enter",
+            "[JumpBack]Common_BackHome"
+        ],
+        "on_error": [
+            "Common_RestartApp"
+        ]
+    },
+    "Daily_MonthlyCard_Enter": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    0,
+                    180,
+                    120,
+                    350
+                ],
+                "expected": [
+                    "月卡"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800,
+        "next": [
+            "Daily_MonthlyCard_CheckEmpty",
+            "Daily_MonthlyCard_ClickSweepAll",
+            "Daily_MonthlyCard_SelectSpecialTab",
+            "Daily_MonthlyCard_Enter"
+        ]
+    },
+    "Daily_MonthlyCard_SelectSpecialTab": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    10,
+                    165,
+                    160,
+                    80
+                ],
+                "expected": [
+                    "特许关卡",
+                    "特许"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 600,
+        "next": [
+            "Daily_MonthlyCard_CheckEmpty",
+            "Daily_MonthlyCard_ClickSweepAll",
+            "Daily_MonthlyCard_SelectSpecialTab"
+        ]
+    },
+    "Daily_MonthlyCard_CheckEmpty": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    240,
+                    560,
+                    330,
+                    45
+                ],
+                "expected": [
+                    "0关/0次",
+                    "0关"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Common_BackHome"
+        ]
+    },
+    "Daily_MonthlyCard_ClickSweepAll": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    980,
+                    555,
+                    200,
+                    70
+                ],
+                "expected": [
+                    "一键扫荡"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 700,
+        "next": [
+            "Daily_MonthlyCard_WaitResult",
+            "Daily_MonthlyCard_CheckEmpty",
+            "Common_BackHome"
+        ]
+    },
+    "Daily_MonthlyCard_WaitResult": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "rate_limit": 1000,
+        "timeout": 90000,
+        "next": [
+            "Daily_MonthlyCard_SaveResult",
+            "Daily_MonthlyCard_ConfirmResult",
+            "[JumpBack]Common_ClickConfirm",
+            "Daily_MonthlyCard_CheckEmpty"
+        ]
+    },
+    "Daily_MonthlyCard_SaveResult": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    780,
+                    635,
+                    230,
+                    75
+                ],
+                "expected": [
+                    "确认"
+                ]
+            }
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "SaveRewardSnapshot",
+                "custom_action_param": {
+                    "tag": "monthly_card_sweep"
+                }
+            }
+        },
+        "next": [
+            "Daily_MonthlyCard_ConfirmResult"
+        ],
+        "on_error": [
+            "Daily_MonthlyCard_ConfirmResult"
+        ]
+    },
+    "Daily_MonthlyCard_ConfirmResult": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    780,
+                    635,
+                    230,
+                    75
+                ],
+                "expected": [
+                    "确认"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 700,
+        "next": [
+            "[JumpBack]Common_ClickBlankClose",
+            "Daily_MonthlyCard_CheckEmpty",
+            "Common_BackHome"
+        ]
+    },
     "Daily_StaminaSupply": {
         "recognition": {
             "type": "DirectHit"
@@ -2420,8 +2611,10 @@
         },
         "next": [
             "Daily_Online_NoneLeft",
-            "[JumpBack]Daily_Online_Claim",
             "[JumpBack]Common_ClickBlankClose",
+            "[JumpBack]Daily_Online_Claim",
+            "[JumpBack]Daily_Online_ClaimBottom",
+            "[JumpBack]Daily_Online_ScrollRight",
             "Common_BackHome"
         ]
     },
@@ -2450,16 +2643,60 @@
     },
     "Daily_Online_Claim": {
         "recognition": {
-            "type": "TemplateMatch",
+            "type": "And",
             "param": {
-                "roi": [
-                    430,
-                    250,
-                    840,
-                    300
+                "all_of": [
+                    {
+                        "sub_name": "gold_block",
+                        "recognition": {
+                            "type": "ColorMatch",
+                            "param": {
+                                "roi": [
+                                    450,
+                                    266,
+                                    815,
+                                    48
+                                ],
+                                "method": 4,
+                                "lower": [
+                                    [
+                                        210,
+                                        180,
+                                        95
+                                    ]
+                                ],
+                                "upper": [
+                                    [
+                                        255,
+                                        235,
+                                        170
+                                    ]
+                                ],
+                                "count": 220,
+                                "connected": true
+                            }
+                        }
+                    },
+                    {
+                        "sub_name": "ribbon_shape",
+                        "recognition": {
+                            "type": "TemplateMatch",
+                            "param": {
+                                "roi": "gold_block",
+                                "roi_offset": [
+                                    -6,
+                                    -6,
+                                    12,
+                                    12
+                                ],
+                                "template": "daily/online_claim_ribbon.png",
+                                "threshold": 0.68,
+                                "green_mask": true
+                            }
+                        }
+                    }
                 ],
-                "template": "daily/online_claim_ribbon.png",
-                "threshold": 0.85
+                "box_index": 1
             }
         },
         "action": {
@@ -2467,14 +2704,111 @@
             "param": {
                 "target_offset": [
                     16,
-                    20,
+                    24,
+                    0,
+                    0
+                ]
+            }
+        },
+        "max_hit": 12,
+        "post_delay": 350
+    },
+    "Daily_Online_ClaimBottom": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    {
+                        "sub_name": "gold_block",
+                        "recognition": {
+                            "type": "ColorMatch",
+                            "param": {
+                                "roi": [
+                                    440,
+                                    446,
+                                    780,
+                                    48
+                                ],
+                                "method": 4,
+                                "lower": [
+                                    [
+                                        210,
+                                        180,
+                                        95
+                                    ]
+                                ],
+                                "upper": [
+                                    [
+                                        255,
+                                        235,
+                                        170
+                                    ]
+                                ],
+                                "count": 220,
+                                "connected": true
+                            }
+                        }
+                    },
+                    {
+                        "sub_name": "ribbon_shape",
+                        "recognition": {
+                            "type": "TemplateMatch",
+                            "param": {
+                                "roi": "gold_block",
+                                "roi_offset": [
+                                    -6,
+                                    -6,
+                                    12,
+                                    12
+                                ],
+                                "template": "daily/online_claim_ribbon.png",
+                                "threshold": 0.68,
+                                "green_mask": true
+                            }
+                        }
+                    }
+                ],
+                "box_index": 1
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target_offset": [
+                    16,
+                    24,
                     0,
                     0
                 ]
             }
         },
         "max_hit": 10,
-        "post_delay": 400
+        "post_delay": 350
+    },
+    "Daily_Online_ScrollRight": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Swipe",
+            "param": {
+                "begin": [
+                    1120,
+                    315,
+                    1,
+                    1
+                ],
+                "end": [
+                    520,
+                    315,
+                    1,
+                    1
+                ],
+                "duration": 500
+            }
+        },
+        "max_hit": 1,
+        "post_delay": 500
     },
     "Daily_Tasks_DailyAlreadyOn": {
         "recognition": {

@@ -137,13 +137,15 @@
         },
         "next": [
             "Battle_Coop_Auto_AlreadyRunning",
+            "Battle_Coop_Auto_AlreadyInBattleHud",
+            "Battle_Coop_Auto_AlreadyInSettlement",
             "Battle_Coop_Cfg_Ready",
             "Battle_Coop_Auto_OpenSettings",
             "Battle_Coop_Auto_EnterCoop",
             "[JumpBack]Common_BackHome"
         ],
         "on_error": [
-            "Common_RestartApp"
+            "Battle_Coop_Auto_FreezeRecover"
         ]
     },
     "Battle_Coop_Auto_AlreadyRunning": {
@@ -158,6 +160,51 @@
                 ],
                 "expected": [
                     "连战次数"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Auto_Monitor"
+        ]
+    },
+    "Battle_Coop_Auto_AlreadyInBattleHud": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    0,
+                    10,
+                    260,
+                    65
+                ],
+                "expected": [
+                    "回合",
+                    "时间"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "Battle_Coop_Auto_Monitor"
+        ]
+    },
+    "Battle_Coop_Auto_AlreadyInSettlement": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    40,
+                    5,
+                    200,
+                    55
+                ],
+                "expected": [
+                    "战斗结算"
                 ]
             }
         },
@@ -243,27 +290,143 @@
         "recognition": {
             "type": "DirectHit"
         },
-        "pre_wait_freezes": {
-            "time": 300000,
-            "target": [
-                0,
-                0,
-                1280,
-                720
-            ],
-            "timeout": 43200000,
-            "threshold": 0.999,
-            "rate_limit": 5000
-        },
         "action": {
-            "type": "DoNothing"
+            "type": "Custom",
+            "param": {
+                "custom_action": "CoopAutoMonitor",
+                "custom_action_param": {
+                    "freeze_timeout_ms": 300000,
+                    "poll_interval_ms": 2000,
+                    "max_duration_ms": 43200000
+                }
+            }
         },
         "next": [
             "Battle_Coop_Auto_FinishedDialog",
             "Battle_Coop_Auto_FinishedLobby",
             "Battle_Coop_Auto_NetworkDisconnect",
-            "Battle_Coop_Auto_FreezeRecover"
+            "Battle_Coop_Auto_FreezeRecover",
+            "Common_Stop"
         ]
+    },
+    "Battle_Coop_Auto_Settlement": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    40,
+                    5,
+                    200,
+                    55
+                ],
+                "expected": [
+                    "战斗结算"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        }
+    },
+    "Battle_Coop_Auto_StageName": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    40,
+                    56,
+                    480,
+                    46
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        }
+    },
+    "Battle_Coop_Auto_BattleHud": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    0,
+                    10,
+                    260,
+                    65
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        }
+    },
+    "Battle_Coop_Auto_AllWiped": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    520,
+                    90,
+                    240,
+                    60
+                ],
+                "expected": [
+                    "全员重伤"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    780,
+                    380,
+                    90,
+                    40
+                ]
+            }
+        },
+        "post_delay": 400,
+        "next": [
+            "Battle_Coop_Auto_AllWipedConfirm"
+        ]
+    },
+    "Battle_Coop_Auto_AllWipedConfirm": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    720,
+                    530,
+                    210,
+                    70
+                ],
+                "expected": [
+                    "确定"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1500
+    },
+    "Battle_Coop_Auto_WipedConfig": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "timeout": 600000
+    },
+    "Battle_Coop_Auto_Notify": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "DoNothing"
+        }
     },
     "Battle_Coop_Auto_FinishedLobby": {
         "recognition": {
@@ -346,8 +509,38 @@
         "action": {
             "type": "DoNothing"
         },
+        "rate_limit": 1000,
+        "timeout": 45000,
         "next": [
-            "[JumpBack]Startup_WaitIntoHome",
+            "Battle_Coop_Auto_ReloginReady",
+            "[JumpBack]Startup_ClickStart",
+            "[JumpBack]Startup_CloseDailyAttendance",
+            "[JumpBack]Startup_ClosePopupIcon",
+            "[JumpBack]Common_ClickBlankClose"
+        ],
+        "on_error": [
+            "Battle_Coop_Auto_FreezeRecover"
+        ]
+    },
+    "Battle_Coop_Auto_ReloginReady": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1060,
+                    80,
+                    220,
+                    400
+                ],
+                "expected": [
+                    "出击"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
             "Battle_Coop_Auto_Start"
         ]
     },

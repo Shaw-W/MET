@@ -67,11 +67,13 @@
         },
         "timeout": 25000,
         "next": [
+            "[JumpBack]Startup_CloseGiftStar",
+            "[JumpBack]Startup_CloseGiftPopup",
+            "[JumpBack]Startup_CloseDailyAttendance",
+            "[JumpBack]Startup_ClosePopupIcon",
             "Common_HomeCheck",
             "Common_HomeCheck_Icon",
             "[JumpBack]Common_NetworkDisconnect",
-            "[JumpBack]Startup_ClosePopupIcon",
-            "[JumpBack]Startup_CloseGiftPopup",
             "[JumpBack]Common_ClickBlankClose",
             "[JumpBack]Common_SweepEndConfirm",
             "[JumpBack]Common_BattleEndReturn",
@@ -81,6 +83,20 @@
         "on_error": [
             "Common_RestartApp"
         ]
+    },
+    "Common_ClickTopHomeIcon": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [75, 0, 125, 80],
+                "template": "home/top_home_icon.png",
+                "threshold": 0.78
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800
     },
     "Common_TapHomeIcon": {
         "recognition": {
