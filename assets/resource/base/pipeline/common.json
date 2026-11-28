@@ -83,6 +83,20 @@
             "Common_RestartApp"
         ]
     },
+    "Common_ClickTopHomeIcon": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [75, 0, 125, 80],
+                "template": "home/top_home_icon.png",
+                "threshold": 0.78
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 800
+    },
     "Common_TapHomeIcon": {
         "recognition": {
             "type": "DirectHit"

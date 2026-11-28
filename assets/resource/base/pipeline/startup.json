@@ -53,7 +53,8 @@
             "[JumpBack]Startup_CloseGiftPopup",
             "[JumpBack]Startup_CloseAnnouncement",
             "[JumpBack]Common_BattleEndReturn",
-            "[JumpBack]Common_SweepEndConfirm"
+            "[JumpBack]Common_SweepEndConfirm",
+            "[JumpBack]Common_ClickTopHomeIcon"
         ],
         "on_error": [
             "Common_RestartApp"
